@@ -1,12 +1,16 @@
 import React from "react";
-import Header from "../components/Header";
+import { useState } from "react";
 import "../styles/global.css";
 import ParentComponent from "../components/ParentComponent";
 
 function MyApp({ Component, pageProps }) {
+  const [asideOpen, setAsideOpen] = useState(false);
+  const AsideClickOpen = () => {
+    setAsideOpen(!asideOpen);
+  };
   return (
     <>
-      <ParentComponent />
+      <ParentComponent appOpen={asideOpen} appAsideOpen={AsideClickOpen} />
       <Component {...pageProps} />;
     </>
   );
