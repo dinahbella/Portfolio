@@ -457,7 +457,19 @@ button {
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(108, 176, 221, 0.5); /* Soft, elevated shadow */
 }
-
+.addwebbtn {
+  background-color: rgba(57, 143, 235, 0.5);
+  border-radius: 15px;
+  border: none;
+  outline: none;
+  padding: 12px;
+  font-size: 17px;
+  color: #fff;
+}
+.addwebbtn:hover {
+  background-color: rgb(57, 143, 235);
+  color: #fff;
+}
 .blogpagination button.active {
   background-color: #669eea;
   color: #fff;
