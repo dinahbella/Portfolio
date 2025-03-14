@@ -279,7 +279,7 @@ button {
   cursor: pointer;
 }
 .asideleft {
-  width: 250px;
+  width: 200px;
   transform: translateX(-100%);
   height: calc(100vh - 60px); /* Adjust height to account for the header */
   background-color: #fff;
@@ -303,6 +303,40 @@ button {
 .asideleft ul .flex-left {
   align-items: flex-start !important;
 }
+.stack {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 5px;
+}
+.titledashboard {
+  color: #076fe5;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: row; /* Stack children vertically */
+  align-items: flex-start; /* Align items to the left */
+  gap: 10px;
+}
+.titledashboard h3 {
+  color: #076fe5;
+  font-size: 18px;
+  font-weight: 500;
+}
+.titledashboard h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+.titledashboard h2 span {
+  color: #000;
+}
+.titledashboard h3 {
+  font-size: 18px;
+  font-weight: normal;
+  margin: 0;
+  color: #076fe5; /* Example color for the "Admin Panel" text */
+}
 .navactives {
   background-color: #0000ff;
   color: #fff;
@@ -311,7 +345,7 @@ button {
   font-size: 22px;
 }
 .asideleft ul li span {
-  font-size: 20px;
+  font-size: 17px;
 }
 .asideleft ul li ul li:hover {
   background-color: #0000ff;
@@ -394,27 +428,36 @@ button {
 }
 .addWebsiteform input {
   width: 100%;
-  font-size: 1.4rem;
+  font-size: 1rem;
   padding: 0.75rem;
   border-radius: 10px;
   border: 1px solid #999;
 }
-.addWebsiteform input:focus {
+.addWebsiteform input:focus,
+.addWebsiteform select:focus {
   outline: none;
   box-shadow: 0 0 10px #158df7;
 }
 .addWebsiteform label {
-  font-size: 1.4rem;
-  padding-bottom: 10px;
-  font-weight: 700;
+  font-size: 1rem;
+  padding-bottom: 5px;
+  font-weight: 600;
 }
 .addWebsiteform select {
   width: 100%;
-  font-size: 1.4rem;
+  font-size: 0.95rem;
   padding: 0.5rem 1rem;
   border-radius: 10px;
+  font-weight: 700;
   border: 1px solid #999;
 }
+.addWebsiteform {
+  background-color: #a5c2eb;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(108, 176, 221, 0.5); /* Soft, elevated shadow */
+}
+
 .blogpagination button.active {
   background-color: #669eea;
   color: #fff;
@@ -422,6 +465,19 @@ button {
 .blogpagination button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+.breadcrumb {
+  display: flex;
+  justify-content: flex-end; /* Aligns the breadcrumb to the right */
+  align-items: center; /* Vertically centers the breadcrumb */
+  width: 100%; /* Ensure the container takes full width */
+  color: #076fe5;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+}
+.breadcrumb svg {
+  font-size: 18px;
 }
 .addblogspage {
   position: relative;
@@ -959,6 +1015,10 @@ button {
     margin: auto;
     margin: 0;
     transition: 0, 3s ease-in-out;
+  }
+  .container.active {
+    margin-left: 250px; /* Adjust this value based on the width of your sidebar */
+    transition: 0.3s ease-in-out; /* Smooth transition */
   }
   .leftprofile_details {
     flex-direction: column;

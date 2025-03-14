@@ -5,13 +5,19 @@ import ParentComponent from "../components/ParentComponent";
 
 function MyApp({ Component, pageProps }) {
   const [asideOpen, setAsideOpen] = useState(false);
-  const AsideClickOpen = () => {
+
+  const handleAsideClick = () => {
     setAsideOpen(!asideOpen);
   };
+
   return (
     <>
-      <ParentComponent appOpen={asideOpen} appAsideOpen={AsideClickOpen} />
-      <Component {...pageProps} />;
+      <ParentComponent appOpen={asideOpen} appAsideOpen={handleAsideClick} />
+      <main>
+        <div className={asideOpen ? "container" : "container active"}>
+          <Component {...pageProps} />
+        </div>
+      </main>
     </>
   );
 }
