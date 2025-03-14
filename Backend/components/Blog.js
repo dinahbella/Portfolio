@@ -3,10 +3,11 @@ import ReactMarkdown from "react-markdown";
 import MarkdownEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 import Spinner from "./Spinner";
-import useRouter from "next/navigation";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
-export default function Blog() {
+
+export default function Blog({ _id }) {
   const [redirect, setRedirect] = useState(false);
   const router = useRouter();
 
@@ -17,12 +18,16 @@ export default function Blog() {
   const [blogcategory, setBlogcategory] = useState("");
   const [tags, setTags] = useState("");
   const [status, setStatus] = useState("");
-  //  to upload images
   const [uploading, setUploading] = useState(false);
-  const uploageImageQue = [];
+  const uploadImageQueue = [];
 
   async function createBlog(ev) {
     ev.preventDefault();
+
+    if (uploading) {
+      await Promise.all(uploadImageQueue);
+    }
+
     const data = {
       title,
       slug,
@@ -32,22 +37,53 @@ export default function Blog() {
       tags,
       status,
     };
-    if (_id) {
-      await axios.put("/api/blogs", { ...data, _id });
-      toast.success("Data Updataed");
-    } else {
-      await axios.post("/api/blogs", data);
-      toast.success("Blog created successfully");
+
+    try {
+      if (_id) {
+        await axios.put("/api/blogs", { ...data, _id });
+        toast.success("Blog updated successfully");
+      } else {
+        await axios.post("/api/blogs", data);
+        toast.success("Blog created successfully");
+      }
+      setRedirect(true);
+    } catch (error) {
+      console.error("Error saving blog:", error);
+      toast.error("Failed to save blog");
     }
-    setRedirect(true);
   }
+
+  if (redirect) {
+    router.push("/blogs");
+    return null;
+  }
+
   const handleSlugChange = (ev) => {
     const inputValue = ev.target.value;
-    const newSlug = inputValue.replace(/\s+/g, "-");
+    const newSlug = inputValue.replace(/\s+/g, "-").toLowerCase();
     setSlug(newSlug);
   };
+
+  const handleImageUpload = async (ev) => {
+    const files = ev.target?.files;
+    if (files.length > 0) {
+      setUploading(true);
+
+      for (const file of files) {
+        const formData = new FormData();
+        formData.append("files", file);
+
+        uploadImageQueue.push(
+          axios.post("/api/upload", data).then((res) => {
+            setImages((oldImages) => [...oldImages, ...res.data.links]);
+          })
+        );
+      }
+    }
+  };
+
   return (
-    <form className="addWebsiteform">
+    <form className="addWebsiteform" onSubmit={createBlog}>
       {/* Blog Title */}
       <div className="w-100 flex flex-col flex-left mb-2">
         <label htmlFor="title">Title</label>
@@ -57,6 +93,7 @@ export default function Blog() {
           value={title}
           onChange={(ev) => setTitle(ev.target.value)}
           placeholder="Enter title"
+          required
         />
       </div>
 
@@ -69,6 +106,7 @@ export default function Blog() {
           placeholder="Enter slug URL"
           value={slug}
           onChange={handleSlugChange}
+          required
         />
       </div>
 
@@ -79,12 +117,10 @@ export default function Blog() {
           name="category"
           id="category"
           value={blogcategory}
-          onChange={(e) =>
-            setBlogcategory(
-              Array.from(e.target.selectedOptions, (option) => option.value)
-            )
-          }
+          onChange={(ev) => setBlogcategory(ev.target.value)}
+          required
         >
+          <option value="">Select a category</option>
           <option value="Writing Tips">Writing Tips</option>
           <option value="Book Reviews">Book Reviews</option>
           <option value="Publishing">Publishing</option>
@@ -104,15 +140,10 @@ export default function Blog() {
             className="mt-1"
             accept="image/*"
             multiple
-            value={images}
-            onChange={(ev) => setImages(ev.target.value)}
+            onChange={handleImageUpload}
           />
         </div>
-      </div>
-
-      {/* Spinner */}
-      <div className="w-100 flex flex-left mt-1">
-        <Spinner />
+        {uploading && <Spinner />}
       </div>
 
       {/* Blog Content */}
@@ -120,7 +151,7 @@ export default function Blog() {
         <label htmlFor="description">Blog Content</label>
         <MarkdownEditor
           value={description}
-          onChange={(ev) => setDescription(ev.text)}
+          onChange={({ text }) => setDescription(text)}
           style={{ width: "100%", height: "400px" }}
           renderHTML={(text) => (
             <ReactMarkdown
@@ -167,7 +198,8 @@ export default function Blog() {
           )}
         />
       </div>
-      {/* tags */}
+
+      {/* Tags */}
       <div className="w-100 flex flex-col flex-left mb-2">
         <label htmlFor="tags">Tags</label>
         <select
@@ -175,16 +207,20 @@ export default function Blog() {
           id="tags"
           value={tags}
           onChange={(ev) => setTags(ev.target.value)}
+          required
         >
-          <option value="Blog Writing ">Blog Writing</option>
+          <option value="">Select tags</option>
+          <option value="Blog Writing">Blog Writing</option>
           <option value="Screenwriting">Screenwriting</option>
-          <option value="Novel Writing"> Novel Writing</option>
+          <option value="Novel Writing">Novel Writing</option>
           <option value="Writing Techniques">Writing Techniques</option>
           <option value="Freelance Writing">Freelance Writing</option>
-          <option value="Ghostwriting">Ghostwriting </option>
+          <option value="Ghostwriting">Ghostwriting</option>
           <option value="Short Story Writing">Short Story Writing</option>
         </select>
       </div>
+
+      {/* Status */}
       <div className="w-100 flex flex-col flex-left mb-2">
         <label htmlFor="status">Status</label>
         <select
@@ -192,15 +228,18 @@ export default function Blog() {
           id="status"
           value={status}
           onChange={(ev) => setStatus(ev.target.value)}
+          required
         >
-          <option value=" ">No Select</option>
-          <option value="">Draft</option>
-          <option value="">Publish</option>
+          <option value="">Select status</option>
+          <option value="Draft">Draft</option>
+          <option value="Publish">Publish</option>
         </select>
       </div>
-      <div className="w-100 mb-2 ">
+
+      {/* Submit Button */}
+      <div className="w-100 mb-2">
         <button className="w-100 addwebbtn flex-center" type="submit">
-          SAVE BLOG{" "}
+          SAVE BLOG
         </button>
       </div>
     </form>
