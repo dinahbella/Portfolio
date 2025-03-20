@@ -90,7 +90,7 @@ export default function SideBar() {
                       onClick={() => setActiveItem("All blogs")}
                     >
                       <Link
-                        href="/blogs/allblogs"
+                        href="/blogs"
                         className="flex items-center space-x-2"
                       >
                         📱 All blogs
