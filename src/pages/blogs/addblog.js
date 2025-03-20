@@ -77,7 +77,7 @@ export default function AddBlog() {
 
   return (
     <div className="flex justify-center p-4 sm:p-6 md:p-8">
-      <Card className="w-full max-w-4xl rounded-2xl shadow-xl p-4 sm:p-6 bg-blue-600/10">
+      <Card className="w-full max-w-4xl rounded-2xl shadow-xl p-4 sm:p-6 bg-blue-600/15">
         <CardHeader>
           <CardTitle className="text-center text-2xl sm:text-3xl">
             Add Blog
@@ -169,7 +169,9 @@ export default function AddBlog() {
 
               {/* Category */}
               <div className="flex flex-col w-full space-y-1.5">
-                <Label htmlFor="category">Category</Label>
+                <Label htmlFor="category" className="font-bold text-md">
+                  Category
+                </Label>
                 <Select className="w-full">
                   <SelectTrigger id="category" className="w-full shadow-xl">
                     <SelectValue placeholder="Select Category" />
@@ -186,7 +188,9 @@ export default function AddBlog() {
               </div>
               {/* Tags */}
               <div className="flex flex-col w-full space-y-1.5">
-                <Label htmlFor="tags">Tags</Label>
+                <Label htmlFor="tags" className="font-bold text-md">
+                  Tags
+                </Label>
                 <Select className="w-full">
                   <SelectTrigger id="tags" className="w-full shadow-xl">
                     <SelectValue placeholder="Select Tags" />
@@ -201,7 +205,9 @@ export default function AddBlog() {
               </div>
               {/* Status */}
               <div className="flex flex-col w-full space-y-1.5">
-                <Label htmlFor="status">Status</Label>
+                <Label htmlFor="status" className="font-bold text-md">
+                  Status
+                </Label>
                 <Select className="w-full">
                   <SelectTrigger id="status" className="w-full shadow-xl">
                     <SelectValue placeholder="Select Status" />
