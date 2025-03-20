@@ -184,7 +184,21 @@ export default function AddBlog() {
                   </SelectContent>
                 </Select>
               </div>
-
+              {/* Tags */}
+              <div className="flex flex-col w-full space-y-1.5">
+                <Label htmlFor="tags">Tags</Label>
+                <Select className="w-full">
+                  <SelectTrigger id="tags" className="w-full shadow-xl">
+                    <SelectValue placeholder="Select Tags" />
+                  </SelectTrigger>
+                  <SelectContent position="popper">
+                    <SelectItem value="Writing Tips">ScriptWriting</SelectItem>
+                    <SelectItem value="Book Reviews">GhostWriting</SelectItem>
+                    <SelectItem value="Publishing">StoryWrihting</SelectItem>
+                    <SelectItem value="Writing Prompts">Writing</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
               {/* Status */}
               <div className="flex flex-col w-full space-y-1.5">
                 <Label htmlFor="status">Status</Label>

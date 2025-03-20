@@ -210,8 +210,26 @@ export default function addproject() {
                       </SelectItem>
                     </SelectContent>
                   </Select>
+                  {/* tags */}
                 </div>
-
+                <div className="flex flex-col w-full space-y-1.5">
+                  <Label htmlFor="tags" className="font-bold text-md">
+                    Tags
+                  </Label>
+                  <Select className="w-full">
+                    <SelectTrigger id="tags" className="w-full shadow-xl">
+                      <SelectValue placeholder="Select Tags" />
+                    </SelectTrigger>
+                    <SelectContent position="popper">
+                      <SelectItem value="Writing Tips">
+                        ScriptWriting
+                      </SelectItem>
+                      <SelectItem value="Book Reviews">GhostWriting</SelectItem>
+                      <SelectItem value="Publishing">StoryWrihting</SelectItem>
+                      <SelectItem value="Writing Prompts">Writing</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
                 {/* Status */}
                 <div className="flex flex-col w-full space-y-1.5">
                   <Label htmlFor="status" className="font-bold text-md">
