@@ -8,6 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "./ui/button";
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 
 const invoices = [
   {
@@ -58,7 +61,7 @@ export function BlogTable() {
   return (
     <div className="rounded-xl border shadow-2xl p-3 bg-white dark:bg-gray-800">
       <Table className="p-4">
-        <TableCaption className="text-lg font-medium mb-4 dark:text-gray-200 ">
+        <TableCaption className="text-lg font-medium mb-4 dark:text-gray-200">
           A list of your recent invoices.
         </TableCaption>
         <TableHeader className="p-4">
@@ -66,7 +69,7 @@ export function BlogTable() {
             <TableHead className="w-[100px] font-bold text-xl text-gray-800 dark:text-gray-200 p-5">
               #
             </TableHead>
-            <TableHead className="font-bold text-xl text-gray-800 dark:text-blue-200">
+            <TableHead className="font-bold text-xl text-gray-800 dark:text-gray-200">
               Title
             </TableHead>
             <TableHead className="font-bold text-xl text-gray-800 dark:text-gray-200">
@@ -82,7 +85,7 @@ export function BlogTable() {
         </TableHeader>
         <TableBody>
           {invoices.map((invoice, index) => (
-            <TableRow key={invoice.invoice} className=" p-2  hover:bg-blue-300">
+            <TableRow key={invoice.invoice} className="p-2 hover:bg-blue-300">
               <TableCell className="font-medium p-4 text-gray-800 dark:text-gray-200">
                 {invoice.invoice}
               </TableCell>
@@ -93,10 +96,16 @@ export function BlogTable() {
                 {invoice.paymentMethod}
               </TableCell>
               <TableCell className="text-gray-800 dark:text-gray-200">
-                {invoice.paymentMethod}
+                <Button className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600">
+                  <MdEdit />
+                  Edit
+                </Button>
               </TableCell>
               <TableCell className="text-right text-gray-800 dark:text-gray-200">
-                {invoice.totalAmount}
+                <Button className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">
+                  <MdDelete />
+                  Delete
+                </Button>
               </TableCell>
             </TableRow>
           ))}
@@ -105,11 +114,11 @@ export function BlogTable() {
           <TableRow className="bg-blue-300 dark:bg-blue-700">
             <TableCell
               colSpan={4}
-              className="font-bold p-4 text-gray-800 dark:text-gray-200"
+              className="font-bold p-4 text-xl text-gray-800 dark:text-gray-200"
             >
               Total
             </TableCell>
-            <TableCell className="text-right font-bold text-gray-800 dark:text-gray-200">
+            <TableCell className=" text-xl text-right font-bold text-gray-800 dark:text-gray-200">
               $2,500.00
             </TableCell>
           </TableRow>

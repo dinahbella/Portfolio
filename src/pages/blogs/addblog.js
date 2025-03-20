@@ -77,7 +77,7 @@ export default function AddBlog() {
 
   return (
     <div className="flex justify-center p-4 sm:p-6 md:p-8">
-      <Card className="w-full max-w-4xl rounded-2xl shadow-xl p-4 sm:p-6 bg-gray-600/10">
+      <Card className="w-full max-w-4xl rounded-2xl shadow-xl p-4 sm:p-6 bg-blue-600/10">
         <CardHeader>
           <CardTitle className="text-center text-2xl sm:text-3xl">
             Add Blog
