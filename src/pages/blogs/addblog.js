@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import Spinner from "@/components/Spinner";
 
 export default function addblog() {
   const [images, setImages] = React.useState([]);
@@ -72,6 +73,9 @@ export default function addblog() {
                   accept="image/*"
                   multiple
                 />
+                <div className="w-100 mt-1 flex flex-left">
+                  {isUploading && <Spinner />}
+                </div>
               </div>
               {images.length > 0 && (
                 <div className="flex">
