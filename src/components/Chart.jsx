@@ -1,8 +1,6 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-
 import {
   Card,
   CardContent,
@@ -18,25 +16,36 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
+// Function to generate a random color in hex format
+const getRandomColor = () => {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
+// Add a random color to each data point in chartData
 const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-  { month: "July", desktop: 214 },
-  { month: "August", desktop: 214 },
-  { month: "September", desktop: 214 },
-  { month: "October", desktop: 214 },
-  { month: "November", desktop: 73 },
-  { month: "December", desktop: 73 },
+  { month: "January", desktop: 186, fill: getRandomColor() },
+  { month: "February", desktop: 305, fill: getRandomColor() },
+  { month: "March", desktop: 237, fill: getRandomColor() },
+  { month: "April", desktop: 73, fill: getRandomColor() },
+  { month: "May", desktop: 209, fill: getRandomColor() },
+  { month: "June", desktop: 214, fill: getRandomColor() },
+  { month: "July", desktop: 214, fill: getRandomColor() },
+  { month: "August", desktop: 214, fill: getRandomColor() },
+  { month: "September", desktop: 214, fill: getRandomColor() },
+  { month: "October", desktop: 214, fill: getRandomColor() },
+  { month: "November", desktop: 73, fill: getRandomColor() },
+  { month: "December", desktop: 73, fill: getRandomColor() },
 ];
 
 const chartConfig = {
   desktop: {
     label: "Desktop",
-    color: "#FF1493", // Updated to pink
+    color: "#FF1493", // Default color (can be ignored since we're using random colors)
   },
 };
 
@@ -71,8 +80,11 @@ export function Chart() {
               cursor={false}
               content={<ChartTooltipContent indicator="dashed" />}
             />
-            <Bar dataKey="desktop" fill="#FF1493" radius={4} />{" "}
-            {/* Updated to pink */}
+            <Bar
+              dataKey="desktop"
+              fill={(entry) => entry.fill} // Use the random color from the data
+              radius={4}
+            />
           </BarChart>
         </ChartContainer>
       </CardContent>

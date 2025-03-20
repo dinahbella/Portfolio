@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import SideBar from "@/components/SideBar";
 import { FaHome } from "react-icons/fa";
 import { Chart } from "@/components/Chart";
+import { TableDe } from "@/components/Table";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -56,7 +57,10 @@ export default function Home() {
           </span>
         </div>
       </div>
-      <Chart />
+      <div className="gap-5 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-5">
+        <Chart className="shadow-xl" />
+        <TableDe className="shadow-xl" />
+      </div>
     </div>
   );
 }

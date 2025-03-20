@@ -16,6 +16,7 @@ import { BsFillPostcardFill } from "react-icons/bs";
 import { IoIosImages } from "react-icons/io";
 import { CiImageOn } from "react-icons/ci";
 import { IoImage } from "react-icons/io5";
+import { ModeToggle } from "./Mode";
 
 export default function SideBar() {
   const [open, setOpen] = useState(false);
@@ -27,21 +28,29 @@ export default function SideBar() {
   return (
     <>
       {/* Header with Menu Button */}
-      <header className="fixed top-0 left-0 right-0 bg-white shadow-md p-5 flex justify-between items-center z-50">
+      <header className="fixed top-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-md p-5 flex justify-between items-center z-50">
         <h1 className="text-2xl font-bold">
-          Admin <span className="text-blue-600">Panel</span>
+          <span className="dark:text-white">Admin</span>{" "}
+          <span className="text-blue-600 dark:text-blue-400">Panel</span>
         </h1>
-        <button
-          onClick={() => setOpen(!open)}
-          className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors duration-200"
-          aria-label={open ? "Close sidebar" : "Open sidebar"}
-        >
-          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+        <div className="gap-3 flex">
+          <button
+            onClick={() => setOpen(!open)}
+            className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200"
+            aria-label={open ? "Close sidebar" : "Open sidebar"}
+          >
+            {open ? (
+              <X className="w-6 h-6 dark:text-white" />
+            ) : (
+              <Menu className="w-6 h-6 dark:text-white" />
+            )}
+          </button>
+          <ModeToggle />
+        </div>
       </header>
 
       {/* Main Content */}
-      <main className="pt-20">
+      <main className="pt-20 dark:bg-gray-900">
         {" "}
         {/* Add padding-top to account for the fixed header */}
         {/* Your main content goes here */}
@@ -49,15 +58,15 @@ export default function SideBar() {
 
       {/* Sidebar */}
       {open && (
-        <aside className="fixed top-0 left-0 h-full bg-white shadow-2xl w-64 z-40">
+        <aside className="fixed top-0 left-0 h-full bg-white dark:bg-gray-800 shadow-2xl w-64 z-40">
           {/* Close Button */}
           <div className="p-4 flex justify-end">
             <button
               onClick={() => setOpen(false)}
               aria-label="Close sidebar"
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
             >
-              <X className="w-6 h-6 cursor-pointer" />
+              <X className="w-6 h-6 cursor-pointer dark:text-white" />
             </button>
           </div>
 
@@ -66,35 +75,37 @@ export default function SideBar() {
             <ul className="space-y-4">
               {/* Home */}
               <li
-                className={`p-2 hover:bg-gray-200 cursor-pointer rounded-lg transition-colors duration-200 ${
-                  activeItem === "Home" ? "bg-gray-200" : ""
+                className={`p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg transition-colors duration-200 ${
+                  activeItem === "Home" ? "bg-gray-200 dark:bg-gray-700" : ""
                 }`}
                 onClick={() => setActiveItem("Home")}
               >
                 <Link href="/" className="flex items-center space-x-2">
-                  🏠 Dashboard
+                  🏠 <span className="dark:text-white">Dashboard</span>
                 </Link>
               </li>
 
               {/* Blogs */}
-              <li className="p-2 hover:bg-gray-200 cursor-pointer rounded-lg transition-colors duration-200">
+              <li className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg transition-colors duration-200">
                 <div
                   className="flex items-center justify-between"
                   onClick={() => setIsBlogsOpen(!isBlogsOpen)}
                 >
                   <div className="flex items-center space-x-2">
-                    <FileText className="w-5 h-5" />
-                    <span>Blogs</span>
+                    <FileText className="w-5 h-5 dark:text-white" />
+                    <span className="dark:text-white">Blogs</span>
                   </div>
-                  <span className="text-gray-500">
+                  <span className="text-gray-500 dark:text-gray-400">
                     {isBlogsOpen ? "▲" : "▼"}
                   </span>
                 </div>
                 {isBlogsOpen && (
                   <ul className="pl-6 mt-2 space-y-2">
                     <li
-                      className={`p-2 hover:bg-gray-200 cursor-pointer rounded-lg transition-colors duration-200 ${
-                        activeItem === "All blogs" ? "bg-gray-200" : ""
+                      className={`p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg transition-colors duration-200 ${
+                        activeItem === "All blogs"
+                          ? "bg-gray-200 dark:bg-gray-700"
+                          : ""
                       }`}
                       onClick={() => setActiveItem("All blogs")}
                     >
@@ -102,12 +113,14 @@ export default function SideBar() {
                         href="/blogs"
                         className="flex items-center space-x-2"
                       >
-                        📱 All blogs
+                        📱 <span className="dark:text-white">All blogs</span>
                       </Link>
                     </li>
                     <li
-                      className={`p-2 hover:bg-gray-200 cursor-pointer rounded-lg transition-colors duration-200 ${
-                        activeItem === "Add blog" ? "bg-gray-200" : ""
+                      className={`p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg transition-colors duration-200 ${
+                        activeItem === "Add blog"
+                          ? "bg-gray-200 dark:bg-gray-700"
+                          : ""
                       }`}
                       onClick={() => setActiveItem("Add blog")}
                     >
@@ -115,13 +128,15 @@ export default function SideBar() {
                         href="/blogs/addblog"
                         className="flex items-center space-x-2"
                       >
-                        <IoIosAddCircleOutline />
-                        <span> Add blog</span>
+                        <IoIosAddCircleOutline className="dark:text-white" />
+                        <span className="dark:text-white"> Add blog</span>
                       </Link>
                     </li>
                     <li
-                      className={`p-2 hover:bg-gray-200 cursor-pointer rounded-lg transition-colors duration-200 ${
-                        activeItem === "Draft blog" ? "bg-gray-200" : ""
+                      className={`p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg transition-colors duration-200 ${
+                        activeItem === "Draft blog"
+                          ? "bg-gray-200 dark:bg-gray-700"
+                          : ""
                       }`}
                       onClick={() => setActiveItem("Draft blog")}
                     >
@@ -129,8 +144,8 @@ export default function SideBar() {
                         href="/blogs/draftblog"
                         className="flex items-center space-x-2"
                       >
-                        <FaFirstdraft />
-                        <span>Draft blog</span>
+                        <FaFirstdraft className="dark:text-white" />
+                        <span className="dark:text-white">Draft blog</span>
                       </Link>
                     </li>
                   </ul>
@@ -138,24 +153,26 @@ export default function SideBar() {
               </li>
 
               {/* Projects */}
-              <li className="p-2 hover:bg-gray-200 cursor-pointer rounded-lg transition-colors duration-200">
+              <li className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg transition-colors duration-200">
                 <div
                   className="flex items-center justify-between"
                   onClick={() => setIsProjectsOpen(!isProjectsOpen)}
                 >
                   <div className="flex items-center space-x-2">
-                    <BsFillPostcardFill />
-                    <span>Projects</span>
+                    <BsFillPostcardFill className="dark:text-white" />
+                    <span className="dark:text-white">Projects</span>
                   </div>
-                  <span className="text-gray-500">
+                  <span className="text-gray-500 dark:text-gray-400">
                     {isProjectsOpen ? "▲" : "▼"}
                   </span>
                 </div>
                 {isProjectsOpen && (
                   <ul className="pl-6 mt-2 space-y-2">
                     <li
-                      className={`p-2 hover:bg-gray-200 cursor-pointer rounded-lg transition-colors duration-200 ${
-                        activeItem === "All Projects" ? "bg-gray-200" : ""
+                      className={`p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg transition-colors duration-200 ${
+                        activeItem === "All Projects"
+                          ? "bg-gray-200 dark:bg-gray-700"
+                          : ""
                       }`}
                       onClick={() => setActiveItem("All Projects")}
                     >
@@ -163,13 +180,15 @@ export default function SideBar() {
                         href="/projects/allprojects"
                         className="flex items-center space-x-2"
                       >
-                        <AiOutlineProject />
-                        <span>All Projects</span>
+                        <AiOutlineProject className="dark:text-white" />
+                        <span className="dark:text-white">All Projects</span>
                       </Link>
                     </li>
                     <li
-                      className={`p-2 hover:bg-gray-200 cursor-pointer rounded-lg transition-colors duration-200 ${
-                        activeItem === "Add project" ? "bg-gray-200" : ""
+                      className={`p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg transition-colors duration-200 ${
+                        activeItem === "Add project"
+                          ? "bg-gray-200 dark:bg-gray-700"
+                          : ""
                       }`}
                       onClick={() => setActiveItem("Add project")}
                     >
@@ -177,13 +196,15 @@ export default function SideBar() {
                         href="/projects/addproject"
                         className="flex items-center space-x-2"
                       >
-                        <PlusCircle />
-                        <span>Add project</span>
+                        <PlusCircle className="dark:text-white" />
+                        <span className="dark:text-white">Add project</span>
                       </Link>
                     </li>
                     <li
-                      className={`p-2 hover:bg-gray-200 cursor-pointer rounded-lg transition-colors duration-200 ${
-                        activeItem === "Draft project" ? "bg-gray-200" : ""
+                      className={`p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg transition-colors duration-200 ${
+                        activeItem === "Draft project"
+                          ? "bg-gray-200 dark:bg-gray-700"
+                          : ""
                       }`}
                       onClick={() => setActiveItem("Draft project")}
                     >
@@ -191,8 +212,8 @@ export default function SideBar() {
                         href="/projects/draftproject"
                         className="flex items-center space-x-2"
                       >
-                        <FaFirstdraft />
-                        <span>Draft project</span>
+                        <FaFirstdraft className="dark:text-white" />
+                        <span className="dark:text-white">Draft project</span>
                       </Link>
                     </li>
                   </ul>
@@ -200,24 +221,26 @@ export default function SideBar() {
               </li>
 
               {/* Photos */}
-              <li className="p-2 hover:bg-gray-200 cursor-pointer rounded-lg transition-colors duration-200">
+              <li className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg transition-colors duration-200">
                 <div
                   className="flex items-center justify-between"
                   onClick={() => setIsPhotosOpen(!isPhotosOpen)}
                 >
                   <div className="flex items-center space-x-2">
-                    <IoIosImages />
-                    <span>Photos</span>
+                    <IoIosImages className="dark:text-white" />
+                    <span className="dark:text-white">Photos</span>
                   </div>
-                  <span className="text-gray-500">
+                  <span className="text-gray-500 dark:text-gray-400">
                     {isPhotosOpen ? "▲" : "▼"}
                   </span>
                 </div>
                 {isPhotosOpen && (
                   <ul className="pl-6 mt-2 space-y-2">
                     <li
-                      className={`p-2 hover:bg-gray-200 cursor-pointer rounded-lg transition-colors duration-200 ${
-                        activeItem === "All Photos" ? "bg-gray-200" : ""
+                      className={`p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg transition-colors duration-200 ${
+                        activeItem === "All Photos"
+                          ? "bg-gray-200 dark:bg-gray-700"
+                          : ""
                       }`}
                       onClick={() => setActiveItem("All Photos")}
                     >
@@ -225,13 +248,15 @@ export default function SideBar() {
                         href="/photos/allphotos"
                         className="flex items-center space-x-2"
                       >
-                        <IoImage />
-                        <span>All Photos</span>
+                        <IoImage className="dark:text-white" />
+                        <span className="dark:text-white">All Photos</span>
                       </Link>
                     </li>
                     <li
-                      className={`p-2 hover:bg-gray-200 cursor-pointer rounded-lg transition-colors duration-200 ${
-                        activeItem === "Add Photo" ? "bg-gray-200" : ""
+                      className={`p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg transition-colors duration-200 ${
+                        activeItem === "Add Photo"
+                          ? "bg-gray-200 dark:bg-gray-700"
+                          : ""
                       }`}
                       onClick={() => setActiveItem("Add Photo")}
                     >
@@ -239,8 +264,8 @@ export default function SideBar() {
                         href="/photos/addphoto"
                         className="flex items-center space-x-2"
                       >
-                        <CiImageOn />
-                        <span>Add Photo</span>
+                        <CiImageOn className="dark:text-white" />
+                        <span className="dark:text-white">Add Photo</span>
                       </Link>
                     </li>
                   </ul>
@@ -249,27 +274,29 @@ export default function SideBar() {
 
               {/* Contact */}
               <li
-                className={`p-2 hover:bg-gray-200 cursor-pointer rounded-lg transition-colors duration-200 ${
-                  activeItem === "Contact" ? "bg-gray-200" : ""
+                className={`p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg transition-colors duration-200 ${
+                  activeItem === "Contact" ? "bg-gray-200 dark:bg-gray-700" : ""
                 }`}
                 onClick={() => setActiveItem("Contact")}
               >
                 <Link href="/contact" className="flex items-center space-x-2">
-                  <Phone className="w-5 h-5" />
-                  <span>Contact</span>
+                  <Phone className="w-5 h-5 dark:text-white" />
+                  <span className="dark:text-white">Contact</span>
                 </Link>
               </li>
 
               {/* Settings */}
               <li
-                className={`p-2 hover:bg-gray-200 cursor-pointer rounded-lg transition-colors duration-200 ${
-                  activeItem === "Settings" ? "bg-gray-200" : ""
+                className={`p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg transition-colors duration-200 ${
+                  activeItem === "Settings"
+                    ? "bg-gray-200 dark:bg-gray-700"
+                    : ""
                 }`}
                 onClick={() => setActiveItem("Settings")}
               >
                 <Link href="/settings" className="flex items-center space-x-2">
-                  <Settings2Icon className="w-5 h-5" />
-                  <span>Settings</span>
+                  <Settings2Icon className="w-5 h-5 dark:text-white" />
+                  <span className="dark:text-white">Settings</span>
                 </Link>
               </li>
             </ul>
