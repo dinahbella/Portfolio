@@ -27,8 +27,10 @@ export default function SideBar() {
   return (
     <>
       {/* Header with Menu Button */}
-      <header className="fixed top-0 left-0 right-0 bg-white shadow-md p-4 flex justify-between items-center z-50">
-        <h1 className="text-xl font-bold">My App</h1>
+      <header className="fixed top-0 left-0 right-0 fixed bg-white shadow-md p-4 flex justify-between items-center z-50">
+        <h1 className="text-2xl font-bold">
+          Admin <span>Panel</span>
+        </h1>
         <button
           onClick={() => setOpen(!open)}
           className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors duration-200"
