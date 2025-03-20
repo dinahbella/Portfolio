@@ -27,9 +27,9 @@ export default function SideBar() {
   return (
     <>
       {/* Header with Menu Button */}
-      <header className="fixed top-0 left-0 right-0 fixed bg-white shadow-md p-4 flex justify-between items-center z-50">
+      <header className="fixed top-0 left-0 right-0 bg-white shadow-md p-5 flex justify-between items-center z-50">
         <h1 className="text-2xl font-bold">
-          Admin <span>Panel</span>
+          Admin <span className="text-blue-600">Panel</span>
         </h1>
         <button
           onClick={() => setOpen(!open)}
@@ -39,6 +39,13 @@ export default function SideBar() {
           {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </header>
+
+      {/* Main Content */}
+      <main className="pt-20">
+        {" "}
+        {/* Add padding-top to account for the fixed header */}
+        {/* Your main content goes here */}
+      </main>
 
       {/* Sidebar */}
       {open && (
