@@ -25,16 +25,16 @@ export default function Index() {
   const [searchQuery, setSearchQuery] = useState("");
   const { alldata, loading } = useFetchData("/api/project");
 
-  // Filter blogs based on search query and published status
-  const filteredBlogs =
+  // Filter projects based on search query and published status
+  const filteredprojects =
     searchQuery.trim() === ""
       ? alldata
-      : alldata.filter((blog) =>
-          blog.title.toLowerCase().includes(searchQuery.toLowerCase())
+      : alldata.filter((project) =>
+          project.title.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
-  const publishedBlogs = filteredBlogs.filter(
-    (blog) => blog.status === "draft"
+  const publishedprojects = filteredprojects.filter(
+    (project) => project.status === "draft"
   );
 
   return (
@@ -69,7 +69,7 @@ export default function Index() {
       <div className="rounded-xl border shadow-2xl p-3 bg-white dark:bg-gray-800 overflow-x-auto">
         <Table className="min-w-[600px] w-full">
           <TableCaption className="text-lg font-medium mb-4 dark:text-gray-200">
-            A list of your recent blogs.
+            A list of your recent projects.
           </TableCaption>
           <TableHeader>
             <TableRow className="bg-blue-300 hover:bg-blue-600 dark:bg-blue-700">
@@ -97,16 +97,16 @@ export default function Index() {
                   <Spinner />
                 </TableCell>
               </TableRow>
-            ) : publishedBlogs.length === 0 ? (
+            ) : publishedprojects.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={5} className="text-center p-4">
                   <h2 className="font-bold"> No project available.</h2>
                 </TableCell>
               </TableRow>
             ) : (
-              publishedBlogs.map((blog, index) => (
+              publishedprojects.map((project, index) => (
                 <TableRow
-                  key={blog._id}
+                  key={project._id}
                   className="hover:bg-blue-300 dark:hover:bg-blue-600"
                 >
                   <TableCell className="font-medium p-4 text-gray-800 dark:text-gray-200">
@@ -114,18 +114,18 @@ export default function Index() {
                   </TableCell>
                   <TableCell className="text-gray-800 dark:text-gray-200">
                     <Image
-                      src={blog.images[0]}
+                      src={project.images[0]}
                       width={100}
                       height={100}
-                      alt="blog"
+                      alt="project"
                       className="w-16 h-16 object-cover rounded-lg"
                     />
                   </TableCell>
                   <TableCell className="text-gray-800 text-xl font-bold dark:text-gray-200">
-                    {blog.title}
+                    {project.title}
                   </TableCell>
                   <TableCell className="text-gray-800 dark:text-gray-200">
-                    <Link href={`/blogs/edit/${blog._id}`}>
+                    <Link href={`/projects/edit/${project._id}`}>
                       <Button className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600">
                         <MdEdit className="mr-2" />
                         Edit
@@ -133,7 +133,7 @@ export default function Index() {
                     </Link>
                   </TableCell>
                   <TableCell className="text-right text-gray-800  dark:text-gray-200">
-                    <Link href={`/blogs/delete/${blog._id}`}>
+                    <Link href={`/projects/delete/${project._id}`}>
                       <Button className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">
                         <MdDelete className="mr-2" />
                         Delete
@@ -153,7 +153,7 @@ export default function Index() {
                 Total
               </TableCell>
               <TableCell className="text-xl text-right font-bold text-gray-800 dark:text-gray-200">
-                {publishedBlogs.length} projects
+                {publishedprojects.length} projects
               </TableCell>
             </TableRow>
           </TableFooter>
