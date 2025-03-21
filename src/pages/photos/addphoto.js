@@ -23,33 +23,78 @@ import Spinner from "@/components/Spinner";
 import { FaTrashAlt } from "react-icons/fa";
 import { ReactSortable } from "react-sortablejs";
 import { FaPlusSquare } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { toast } from "sonner";
+import { useState } from "react";
 
-export default function addphoto() {
+export default function AddProject({ id }) {
   const [images, setImages] = React.useState([]); // For image previews
   const [uploadedFiles, setUploadedFiles] = React.useState([]); // For file input
   const [isUploading, setIsUploading] = React.useState(false);
   const fileInputRef = React.useRef(null); // Ref for the file input
+  const [title, setTitle] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+  const [redirect, setRedirect] = React.useState(false); // Tracks if redirect is needed
+
+  async function createProject(e) {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const data = {
+        title,
+        images,
+      };
+
+      // Check if it's an update or a new project
+      if (id) {
+        await axios.put("/api/photos", { ...data, id });
+        toast.success("Photo updated successfully");
+      } else {
+        await axios.post("/api/photos", data);
+        toast.success("Photo created successfully");
+      }
+
+      setRedirect(true);
+    } catch (error) {
+      console.error("Error saving photo:", error);
+      toast.error("Failed to save photo");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (redirect) {
+    router.push("/photos/allphotos");
+    return null;
+  }
 
   // Handle image upload
-  const handleImageUpload = (e) => {
-    const files = e.target.files;
-    if (files.length > 0) {
+  const handleImageUpload = async (ev) => {
+    const files = ev.target?.files;
+    if (files && files.length > 0) {
       setIsUploading(true);
-      const uploadedImages = [];
-      const newFiles = Array.from(files); // Convert FileList to array
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          uploadedImages.push(event.target.result);
-          if (uploadedImages.length === files.length) {
-            setImages((prevImages) => [...prevImages, ...uploadedImages]);
-            setUploadedFiles((prevFiles) => [...prevFiles, ...newFiles]);
-            setIsUploading(false);
-          }
-        };
-        reader.readAsDataURL(file);
+
+      const uploadImageQueue = [];
+      for (const file of files) {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        uploadImageQueue.push(
+          axios.post("/api/upload", formData).then((res) => {
+            setImages((oldImages) => [...oldImages, ...res.data.links]);
+          })
+        );
       }
+
+      await Promise.all(uploadImageQueue);
+      setIsUploading(false);
+      toast.success("Images uploaded successfully");
+    } else {
+      toast.error("No files selected");
     }
   };
 
@@ -81,28 +126,28 @@ export default function addphoto() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 gap-3 sm:gap-0">
         {/* Title */}
         <h2 className="text-xl sm:text-2xl text-blue-600 font-semibold">
-          Add Projects
+          Add Photos
         </h2>
 
         {/* Breadcrumb */}
         <div className="text-blue-600 flex items-center gap-2">
           <FaPlusSquare className="text-lg sm:text-xl text-blue-600" />
           <span>/</span>
-          <span>Add Projects</span>
+          <span>Add Photos</span>
         </div>
       </div>
       <div className="flex justify-center p-4 sm:p-6 md:p-8">
         <Card className="w-full max-w-4xl rounded-2xl shadow-xl p-4 sm:p-6 bg-blue-600/15">
           <CardHeader>
             <CardTitle className="text-center text-2xl sm:text-3xl">
-              Add Project
+              Add Photo
             </CardTitle>
             <CardDescription className="text-center">
-              Create New Project
+              Create New Photo
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form>
+            <form onSubmit={createProject}>
               <div className="grid w-full items-center gap-4">
                 {/* Title */}
                 <div className="flex flex-col space-y-1.5">
@@ -114,6 +159,8 @@ export default function addphoto() {
                     type="text"
                     placeholder="Name of your project"
                     className="shadow-lg"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
                   />
                 </div>
 
@@ -168,11 +215,13 @@ export default function addphoto() {
                     </ReactSortable>
                   </div>
                 )}
+
                 <Button
                   type="submit"
-                  className="bg-blue-500 hover:bg-blue-800 w-full mt-2 font-medium text-lg p-2"
+                  className="bg-blue-500 mt-2 hover:bg-blue-800 w-full font-medium text-lg p-2"
+                  disabled={loading}
                 >
-                  Save Blog
+                  {loading ? "Saving..." : "Save Photo"}
                 </Button>
               </div>
             </form>

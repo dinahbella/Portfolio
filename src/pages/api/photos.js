@@ -1,24 +1,23 @@
-import { mongooseConnect } from "../../lib/mongoose";
-import { Photo } from "../../models/Photo";
+import { Photo } from "@/models/Photo";
+import connectDB from "@/lib/mongodb";
 
 export default async function handle(req, res) {
-  await mongooseConnect();
+  await connectDB();
 
   const { method } = req;
 
   try {
     if (method === "POST") {
-      const { title, slug, images } = req.body;
+      const { title, images } = req.body;
 
       // Validate required fields
-      if (!title || !slug || !images) {
+      if (!title || !images) {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
       // Create a new photo
       const photoDoc = await Photo.create({
         title,
-        slug,
         images,
       });
 
@@ -40,7 +39,7 @@ export default async function handle(req, res) {
       const { _id, title, slug, images } = req.body;
 
       // Validate required fields
-      if (!_id || !title || !slug) {
+      if (!_id || !title) {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
@@ -49,7 +48,6 @@ export default async function handle(req, res) {
         _id,
         {
           title,
-          slug,
           images,
         },
         { new: true } // Return the updated document

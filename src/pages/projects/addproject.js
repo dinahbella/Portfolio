@@ -27,7 +27,8 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "sonner";
 import { useState } from "react";
-export default function addproject({ id }) {
+
+export default function AddProject({ id }) {
   const [images, setImages] = React.useState([]); // For image previews
   const [uploadedFiles, setUploadedFiles] = React.useState([]); // For file input
   const [isUploading, setIsUploading] = React.useState(false);
@@ -35,10 +36,9 @@ export default function addproject({ id }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [client, setClient] = useState("");
-  const [projectCategory, setProjectCategory] = useState("");
+  const [projectcategory, setProjectcategory] = useState("");
   const [tags, setTags] = useState("");
   const [status, setStatus] = useState("");
-  const uploadImageQueue = [];
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -54,17 +54,20 @@ export default function addproject({ id }) {
         description,
         images,
         client,
-        projectCategory,
+        projectcategory,
         tags,
         status,
       };
-      if (_id) {
-        await axios.put("/api/projects", { ...data, id });
+
+      // Check if it's an update or a new project
+      if (id) {
+        await axios.put("/api/project", { ...data, id });
         toast.success("Project updated successfully");
       } else {
-        await axios.post("/api/projects");
+        await axios.post("/api/project", data);
         toast.success("Project created successfully");
       }
+
       setRedirect(true);
     } catch (error) {
       console.error("Error saving project:", error);
@@ -75,14 +78,17 @@ export default function addproject({ id }) {
   }
 
   if (redirect) {
-    router.push("/projects");
+    router.push("/projects/allprojects");
     return null;
-  } // Handle image upload
+  }
+
+  // Handle image upload
   const handleImageUpload = async (ev) => {
     const files = ev.target?.files;
     if (files && files.length > 0) {
       setIsUploading(true);
 
+      const uploadImageQueue = [];
       for (const file of files) {
         const formData = new FormData();
         formData.append("file", file);
@@ -93,6 +99,7 @@ export default function addproject({ id }) {
           })
         );
       }
+
       await Promise.all(uploadImageQueue);
       setIsUploading(false);
       toast.success("Images uploaded successfully");
@@ -234,6 +241,8 @@ export default function addproject({ id }) {
                     </ReactSortable>
                   </div>
                 )}
+
+                {/* Client */}
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="client" className="font-bold text-md">
                     Client
@@ -247,6 +256,7 @@ export default function addproject({ id }) {
                     onChange={(e) => setClient(e.target.value)}
                   />
                 </div>
+
                 {/* Category */}
                 <div className="flex flex-col w-full space-y-1.5">
                   <Label htmlFor="category" className="font-bold text-md">
@@ -254,8 +264,8 @@ export default function addproject({ id }) {
                   </Label>
                   <Select
                     className="w-full"
-                    value={projectCategory}
-                    onValueChange={(value) => setProjectCategory(value)}
+                    value={projectcategory}
+                    onValueChange={(value) => setProjectcategory(value)}
                   >
                     <SelectTrigger id="category" className="w-full shadow-xl">
                       <SelectValue placeholder="Select project Category" />
@@ -269,8 +279,9 @@ export default function addproject({ id }) {
                       </SelectItem>
                     </SelectContent>
                   </Select>
-                  {/* tags */}
                 </div>
+
+                {/* Tags */}
                 <div className="flex flex-col w-full space-y-1.5">
                   <Label htmlFor="tags" className="font-bold text-md">
                     Tags
@@ -284,15 +295,16 @@ export default function addproject({ id }) {
                       <SelectValue placeholder="Select Tags" />
                     </SelectTrigger>
                     <SelectContent position="popper">
-                      <SelectItem value="Writing Tips">
+                      <SelectItem value="ScriptWriting">
                         ScriptWriting
                       </SelectItem>
-                      <SelectItem value="Book Reviews">GhostWriting</SelectItem>
-                      <SelectItem value="Publishing">StoryWrihting</SelectItem>
-                      <SelectItem value="Writing Prompts">Writing</SelectItem>
+                      <SelectItem value="GhostWriting">GhostWriting</SelectItem>
+                      <SelectItem value="StoryWriting">StoryWriting</SelectItem>
+                      <SelectItem value="Writing">Writing</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
+
                 {/* Status */}
                 <div className="flex flex-col w-full space-y-1.5">
                   <Label htmlFor="status" className="font-bold text-md">
@@ -316,8 +328,9 @@ export default function addproject({ id }) {
                 <Button
                   type="submit"
                   className="bg-blue-500 mt-2 hover:bg-blue-800 w-full font-medium text-lg p-2"
+                  disabled={loading}
                 >
-                  Save Project
+                  {loading ? "Saving..." : "Save Project"}
                 </Button>
               </div>
             </form>

@@ -1,8 +1,8 @@
-import { mongooseConnect } from "../../lib/mongoose";
-import { Project } from "../../models/Project";
+import connectDB from "@/lib/mongodb";
+import { Project } from "@/models/Projects";
 
 export default async function handle(req, res) {
-  await mongooseConnect();
+  await connectDB();
 
   const { method } = req;
 
@@ -10,8 +10,8 @@ export default async function handle(req, res) {
     if (method === "POST") {
       const {
         title,
-        images,
         description,
+        images,
         client,
         projectcategory,
         tags,
@@ -24,8 +24,8 @@ export default async function handle(req, res) {
 
       const projectDoc = await Project.create({
         title,
-        images,
         description,
+        images,
         client,
         projectcategory,
         tags,
@@ -60,8 +60,8 @@ export default async function handle(req, res) {
       const {
         _id,
         title,
-        images,
         description,
+        images,
         client,
         projectcategory,
         tags,
@@ -76,8 +76,8 @@ export default async function handle(req, res) {
         _id,
         {
           title,
-          images,
           description,
+          images,
           client,
           projectcategory,
           tags,
