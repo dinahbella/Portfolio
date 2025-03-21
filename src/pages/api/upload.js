@@ -1,5 +1,5 @@
+import connectDB from "@/lib/mongodb";
 import cloudinary from "cloudinary";
-import { mongooseConnect } from "../../lib/mongoose";
 import multiparty from "multiparty";
 cloudinary.v2.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -8,7 +8,7 @@ cloudinary.v2.config({
 });
 
 export default async function handle(req, res) {
-  await mongooseConnect();
+  await connectDB();
   const form = new multiparty.Form();
   const { fields, files } = await new Promise((resolve, reject) => {
     form.parse(req, (err, fields, files) => {

@@ -22,37 +22,94 @@ import { Textarea } from "@/components/ui/textarea";
 import Spinner from "@/components/Spinner";
 import { FaTrashAlt } from "react-icons/fa";
 import { ReactSortable } from "react-sortablejs";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { toast } from "sonner";
 
-export default function AddBlog() {
-  const [images, setImages] = React.useState([]); // For image previews
-  const [uploadedFiles, setUploadedFiles] = React.useState([]); // For file input
-  const [isUploading, setIsUploading] = React.useState(false);
-  const fileInputRef = React.useRef(null); // Ref for the file input
+export default function AddBlog({ id }) {
+  // State for managing image previews and uploaded files
+  const [images, setImages] = React.useState([]); // Stores image URLs for preview
+  const [uploadedFiles, setUploadedFiles] = React.useState([]); // Stores uploaded file objects
+  const [isUploading, setIsUploading] = React.useState(false); // Tracks upload status
+  const fileInputRef = React.useRef(null); // Ref for the file input element
+  const [loading, setLoading] = React.useState(false);
 
-  // Handle image upload
-  const handleImageUpload = (e) => {
-    const files = e.target.files;
-    if (files.length > 0) {
-      setIsUploading(true);
-      const uploadedImages = [];
-      const newFiles = Array.from(files); // Convert FileList to array
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          uploadedImages.push(event.target.result);
-          if (uploadedImages.length === files.length) {
-            setImages((prevImages) => [...prevImages, ...uploadedImages]);
-            setUploadedFiles((prevFiles) => [...prevFiles, ...newFiles]);
-            setIsUploading(false);
-          }
-        };
-        reader.readAsDataURL(file);
+  // State for form fields
+  const [title, setTitle] = React.useState("");
+  const [description, setDescription] = React.useState("");
+  const [blogcategory, setBlogcategory] = React.useState("");
+  const [tags, setTags] = React.useState("");
+  const [status, setStatus] = React.useState("");
+  const uploadImageQueue = [];
+  // Router for navigation
+  const router = useRouter();
+  const [redirect, setRedirect] = React.useState(false); // Tracks if redirect is needed
+
+  // Function to handle blog creation or update
+  async function createBlog(e) {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      // Prepare data for API request
+      const data = {
+        title,
+        description,
+        images,
+        blogcategory,
+        tags,
+        status,
+      };
+
+      // Check if it's an update or a new blog
+      if (_id) {
+        await axios.put("/api/blogs", { ...data, id });
+        toast.success("Blog updated successfully");
+      } else {
+        await axios.post("/api/blogs", data);
+        toast.success("Blog created successfully");
       }
+
+      // Redirect to blogs page after successful save
+      setRedirect(true);
+    } catch (error) {
+      console.error("Error saving blog:", error);
+      toast.error("Failed to save blog");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // Redirect to blogs page if `redirect` is true
+  if (redirect) {
+    router.push("/blogs");
+    return null;
+  }
+
+  const handleImageUpload = async (ev) => {
+    const files = ev.target?.files;
+    if (files && files.length > 0) {
+      setIsUploading(true);
+
+      for (const file of files) {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        uploadImageQueue.push(
+          axios.post("/api/upload", formData).then((res) => {
+            setImages((oldImages) => [...oldImages, ...res.data.links]);
+          })
+        );
+      }
+      await Promise.all(uploadImageQueue);
+      setIsUploading(false);
+      toast.success("Images uploaded successfully");
+    } else {
+      toast.error("No files selected");
     }
   };
 
-  // Handle image deletion
+  // Function to delete an image
   const handleDeleteImage = (index) => {
     // Remove the image from the preview
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
@@ -70,7 +127,7 @@ export default function AddBlog() {
     }
   };
 
-  // Update image order for drag-and-drop
+  // Function to update image order for drag-and-drop
   const updateImageOrder = (newList) => {
     setImages(newList);
   };
@@ -87,7 +144,7 @@ export default function AddBlog() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={createBlog}>
             <div className="grid w-full items-center gap-4">
               {/* Title */}
               <div className="flex flex-col space-y-1.5">
@@ -99,6 +156,9 @@ export default function AddBlog() {
                   type="text"
                   placeholder="Name of your project"
                   className="shadow-lg"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  required
                 />
               </div>
 
@@ -109,9 +169,11 @@ export default function AddBlog() {
                 </Label>
                 <Textarea
                   id="description"
-                  type="text"
                   placeholder="Describe your project"
                   className="shadow-lg"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  required
                 />
               </div>
 
@@ -122,13 +184,12 @@ export default function AddBlog() {
                 </Label>
                 <Input
                   id="image"
-                  placeholder="Upload images"
                   className="shadow-lg"
                   type="file"
                   accept="image/*"
                   multiple
                   onChange={handleImageUpload}
-                  ref={fileInputRef} // Add ref to the file input
+                  ref={fileInputRef}
                 />
                 <div className="w-100 mt-1 flex flex-left">
                   {isUploading && <Spinner />}
@@ -172,7 +233,11 @@ export default function AddBlog() {
                 <Label htmlFor="category" className="font-bold text-md">
                   Category
                 </Label>
-                <Select className="w-full">
+                <Select
+                  className="w-full"
+                  value={blogcategory}
+                  onValueChange={(value) => setBlogcategory(value)}
+                >
                   <SelectTrigger id="category" className="w-full shadow-xl">
                     <SelectValue placeholder="Select Category" />
                   </SelectTrigger>
@@ -186,29 +251,39 @@ export default function AddBlog() {
                   </SelectContent>
                 </Select>
               </div>
+
               {/* Tags */}
               <div className="flex flex-col w-full space-y-1.5">
                 <Label htmlFor="tags" className="font-bold text-md">
                   Tags
                 </Label>
-                <Select className="w-full">
+                <Select
+                  className="w-full"
+                  value={tags}
+                  onValueChange={(value) => setTags(value)}
+                >
                   <SelectTrigger id="tags" className="w-full shadow-xl">
                     <SelectValue placeholder="Select Tags" />
                   </SelectTrigger>
                   <SelectContent position="popper">
-                    <SelectItem value="Writing Tips">ScriptWriting</SelectItem>
-                    <SelectItem value="Book Reviews">GhostWriting</SelectItem>
-                    <SelectItem value="Publishing">StoryWrihting</SelectItem>
-                    <SelectItem value="Writing Prompts">Writing</SelectItem>
+                    <SelectItem value="ScriptWriting">ScriptWriting</SelectItem>
+                    <SelectItem value="GhostWriting">GhostWriting</SelectItem>
+                    <SelectItem value="StoryWriting">StoryWriting</SelectItem>
+                    <SelectItem value="Writing">Writing</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
+
               {/* Status */}
               <div className="flex flex-col w-full space-y-1.5">
                 <Label htmlFor="status" className="font-bold text-md">
                   Status
                 </Label>
-                <Select className="w-full">
+                <Select
+                  className="w-full"
+                  value={status}
+                  onValueChange={(value) => setStatus(value)}
+                >
                   <SelectTrigger id="status" className="w-full shadow-xl">
                     <SelectValue placeholder="Select Status" />
                   </SelectTrigger>
@@ -219,16 +294,15 @@ export default function AddBlog() {
                 </Select>
               </div>
             </div>
+            <Button
+              type="submit"
+              className="bg-blue-500 mt-2 p-4 shadow-2xl hover:bg-blue-800 w-full font-medium text-lg"
+              disabled={loading}
+            >
+              {loading ? "Saving..." : "Save Blog"}
+            </Button>
           </form>
         </CardContent>
-        <CardFooter className="flex justify-end">
-          <Button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-800 w-full font-medium text-lg p-2"
-          >
-            Save Blog
-          </Button>
-        </CardFooter>
       </Card>
     </div>
   );

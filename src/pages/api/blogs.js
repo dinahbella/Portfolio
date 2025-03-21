@@ -1,25 +1,24 @@
-import { mongooseConnect } from "../../lib/mongoose";
-import { Blog } from "../../models/Blog";
+import connectDB from "@/lib/mongodb";
+import { Blog } from "@/models/Blogs";
 
 export default async function handle(req, res) {
-  await mongooseConnect();
+  await connectDB();
 
   const { method } = req;
 
   try {
     if (method === "POST") {
-      const { title, slug, images, description, blogcategory, tags, status } =
+      const { title, description, images, blogcategory, tags, status } =
         req.body;
 
       // Validate required fields
-      if (!title || !slug || !description || !blogcategory) {
+      if (!title || !description || !blogcategory) {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
       // Create a new blog
       const blogDoc = await Blog.create({
         title,
-        slug,
         images,
         description,
         blogcategory,
@@ -46,19 +45,11 @@ export default async function handle(req, res) {
     }
 
     if (method === "PUT") {
-      const {
-        _id,
-        title,
-        slug,
-        images,
-        description,
-        blogcategory,
-        tags,
-        status,
-      } = req.body;
+      const { _id, title, description, images, blogcategory, tags, status } =
+        req.body;
 
       // Validate required fields
-      if (!_id || !title || !slug || !description || !blogcategory) {
+      if (!_id || !title || !description || !blogcategory) {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
@@ -67,9 +58,8 @@ export default async function handle(req, res) {
         _id,
         {
           title,
-          slug,
-          images,
           description,
+          images,
           blogcategory,
           tags,
           status,
