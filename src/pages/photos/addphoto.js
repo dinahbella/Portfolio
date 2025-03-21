@@ -28,7 +28,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { useState } from "react";
 
-export default function AddProject({ id }) {
+export default function AddPhoto({ id }) {
   const [images, setImages] = React.useState([]); // For image previews
   const [uploadedFiles, setUploadedFiles] = React.useState([]); // For file input
   const [isUploading, setIsUploading] = React.useState(false);
@@ -39,7 +39,7 @@ export default function AddProject({ id }) {
   const router = useRouter();
   const [redirect, setRedirect] = React.useState(false); // Tracks if redirect is needed
 
-  async function createProject(e) {
+  async function createPhoto(e) {
     e.preventDefault();
     setLoading(true);
 
@@ -147,7 +147,7 @@ export default function AddProject({ id }) {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={createProject}>
+            <form onSubmit={createPhoto}>
               <div className="grid w-full items-center gap-4">
                 {/* Title */}
                 <div className="flex flex-col space-y-1.5">
