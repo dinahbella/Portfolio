@@ -133,177 +133,181 @@ export default function AddBlog({ id }) {
   };
 
   return (
-    <div className="flex justify-center p-4 sm:p-6 md:p-8">
-      <Card className="w-full max-w-4xl rounded-2xl shadow-xl p-4 sm:p-6 bg-blue-600/15">
-        <CardHeader>
-          <CardTitle className="text-center text-2xl sm:text-3xl">
-            Add Blog
-          </CardTitle>
-          <CardDescription className="text-center">
-            Create New Blog
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={createBlog}>
-            <div className="grid w-full items-center gap-4">
-              {/* Title */}
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="title" className="font-bold text-md">
-                  Title
-                </Label>
-                <Input
-                  id="title"
-                  type="text"
-                  placeholder="Name of your project"
-                  className="shadow-lg"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  required
-                />
-              </div>
-
-              {/* Description */}
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="description" className="font-bold text-md">
-                  Description
-                </Label>
-                <Textarea
-                  id="description"
-                  placeholder="Describe your project"
-                  className="shadow-lg"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
-                />
-              </div>
-
-              {/* Image Upload */}
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="image" className="font-bold text-md">
-                  Image
-                </Label>
-                <Input
-                  id="image"
-                  className="shadow-lg"
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={handleImageUpload}
-                  ref={fileInputRef}
-                />
-                <div className="w-100 mt-1 flex flex-left">
-                  {isUploading && <Spinner />}
+    <div>
+      <div className="flex justify-center p-4 sm:p-6 md:p-8">
+        <Card className="w-full max-w-4xl rounded-2xl shadow-xl p-4 sm:p-6 bg-blue-600/15">
+          <CardHeader>
+            <CardTitle className="text-center text-2xl sm:text-3xl">
+              Add Blog
+            </CardTitle>
+            <CardDescription className="text-center">
+              Create New Blog
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={createBlog}>
+              <div className="grid w-full items-center gap-4">
+                {/* Title */}
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="title" className="font-bold text-md">
+                    Title
+                  </Label>
+                  <Input
+                    id="title"
+                    type="text"
+                    placeholder="Name of your project"
+                    className="shadow-lg"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                  />
                 </div>
-              </div>
 
-              {/* Image Previews */}
-              {images.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  <ReactSortable
-                    list={images}
-                    setList={updateImageOrder}
-                    animation={200}
-                    className="flex flex-wrap gap-2"
-                  >
-                    {images.map((link, index) => (
-                      <div
-                        key={index}
-                        className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden shadow-md"
-                      >
-                        <img
-                          src={link}
-                          alt={`uploaded-${index}`}
-                          className="w-full h-full object-cover"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => handleDeleteImage(index)}
-                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                {/* Description */}
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="description" className="font-bold text-md">
+                    Description
+                  </Label>
+                  <Textarea
+                    id="description"
+                    placeholder="Describe your project"
+                    className="shadow-lg"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    required
+                  />
+                </div>
+
+                {/* Image Upload */}
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="image" className="font-bold text-md">
+                    Image
+                  </Label>
+                  <Input
+                    id="image"
+                    className="shadow-lg"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleImageUpload}
+                    ref={fileInputRef}
+                  />
+                  <div className="w-100 mt-1 flex flex-left">
+                    {isUploading && <Spinner />}
+                  </div>
+                </div>
+
+                {/* Image Previews */}
+                {images.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    <ReactSortable
+                      list={images}
+                      setList={updateImageOrder}
+                      animation={200}
+                      className="flex flex-wrap gap-2"
+                    >
+                      {images.map((link, index) => (
+                        <div
+                          key={index}
+                          className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden shadow-md"
                         >
-                          <FaTrashAlt className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ))}
-                  </ReactSortable>
+                          <img
+                            src={link}
+                            alt={`uploaded-${index}`}
+                            className="w-full h-full object-cover"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteImage(index)}
+                            className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                          >
+                            <FaTrashAlt className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </ReactSortable>
+                  </div>
+                )}
+
+                {/* Category */}
+                <div className="flex flex-col w-full space-y-1.5">
+                  <Label htmlFor="category" className="font-bold text-md">
+                    Category
+                  </Label>
+                  <Select
+                    className="w-full"
+                    value={blogcategory}
+                    onValueChange={(value) => setBlogcategory(value)}
+                  >
+                    <SelectTrigger id="category" className="w-full shadow-xl">
+                      <SelectValue placeholder="Select Category" />
+                    </SelectTrigger>
+                    <SelectContent position="popper">
+                      <SelectItem value="Writing Tips">Writing Tips</SelectItem>
+                      <SelectItem value="Book Reviews">Book Reviews</SelectItem>
+                      <SelectItem value="Publishing">Publishing</SelectItem>
+                      <SelectItem value="Writing Prompts">
+                        Writing Prompts
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
-              )}
 
-              {/* Category */}
-              <div className="flex flex-col w-full space-y-1.5">
-                <Label htmlFor="category" className="font-bold text-md">
-                  Category
-                </Label>
-                <Select
-                  className="w-full"
-                  value={blogcategory}
-                  onValueChange={(value) => setBlogcategory(value)}
-                >
-                  <SelectTrigger id="category" className="w-full shadow-xl">
-                    <SelectValue placeholder="Select Category" />
-                  </SelectTrigger>
-                  <SelectContent position="popper">
-                    <SelectItem value="Writing Tips">Writing Tips</SelectItem>
-                    <SelectItem value="Book Reviews">Book Reviews</SelectItem>
-                    <SelectItem value="Publishing">Publishing</SelectItem>
-                    <SelectItem value="Writing Prompts">
-                      Writing Prompts
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+                {/* Tags */}
+                <div className="flex flex-col w-full space-y-1.5">
+                  <Label htmlFor="tags" className="font-bold text-md">
+                    Tags
+                  </Label>
+                  <Select
+                    className="w-full"
+                    value={tags}
+                    onValueChange={(value) => setTags(value)}
+                  >
+                    <SelectTrigger id="tags" className="w-full shadow-xl">
+                      <SelectValue placeholder="Select Tags" />
+                    </SelectTrigger>
+                    <SelectContent position="popper">
+                      <SelectItem value="ScriptWriting">
+                        ScriptWriting
+                      </SelectItem>
+                      <SelectItem value="GhostWriting">GhostWriting</SelectItem>
+                      <SelectItem value="StoryWriting">StoryWriting</SelectItem>
+                      <SelectItem value="Writing">Writing</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              {/* Tags */}
-              <div className="flex flex-col w-full space-y-1.5">
-                <Label htmlFor="tags" className="font-bold text-md">
-                  Tags
-                </Label>
-                <Select
-                  className="w-full"
-                  value={tags}
-                  onValueChange={(value) => setTags(value)}
-                >
-                  <SelectTrigger id="tags" className="w-full shadow-xl">
-                    <SelectValue placeholder="Select Tags" />
-                  </SelectTrigger>
-                  <SelectContent position="popper">
-                    <SelectItem value="ScriptWriting">ScriptWriting</SelectItem>
-                    <SelectItem value="GhostWriting">GhostWriting</SelectItem>
-                    <SelectItem value="StoryWriting">StoryWriting</SelectItem>
-                    <SelectItem value="Writing">Writing</SelectItem>
-                  </SelectContent>
-                </Select>
+                {/* Status */}
+                <div className="flex flex-col w-full space-y-1.5">
+                  <Label htmlFor="status" className="font-bold text-md">
+                    Status
+                  </Label>
+                  <Select
+                    className="w-full"
+                    value={status}
+                    onValueChange={(value) => setStatus(value)}
+                  >
+                    <SelectTrigger id="status" className="w-full shadow-xl">
+                      <SelectValue placeholder="Select Status" />
+                    </SelectTrigger>
+                    <SelectContent position="popper">
+                      <SelectItem value="draft">Draft</SelectItem>
+                      <SelectItem value="publish">Publish</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-
-              {/* Status */}
-              <div className="flex flex-col w-full space-y-1.5">
-                <Label htmlFor="status" className="font-bold text-md">
-                  Status
-                </Label>
-                <Select
-                  className="w-full"
-                  value={status}
-                  onValueChange={(value) => setStatus(value)}
-                >
-                  <SelectTrigger id="status" className="w-full shadow-xl">
-                    <SelectValue placeholder="Select Status" />
-                  </SelectTrigger>
-                  <SelectContent position="popper">
-                    <SelectItem value="draft">Draft</SelectItem>
-                    <SelectItem value="publish">Publish</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <Button
-              type="submit"
-              className="bg-blue-500 mt-2 p-4 shadow-2xl hover:bg-blue-800 w-full font-medium text-lg"
-              disabled={loading}
-            >
-              {loading ? "Saving..." : "Save Blog"}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+              <Button
+                type="submit"
+                className="bg-blue-500 mt-2 p-4 shadow-2xl hover:bg-blue-800 w-full font-medium text-lg"
+                disabled={loading}
+              >
+                {loading ? "Saving..." : "Save Blog"}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

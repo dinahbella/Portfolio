@@ -56,7 +56,7 @@ export function Chart() {
         <CardTitle>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 gap-3 sm:gap-0">
             <h1>Total Blogs</h1>
-            <span className="text-2xl text-blue-500">1 / 356</span>
+            <span className="text-2xl text-blue-500">1 / 365</span>
           </div>
         </CardTitle>
         <CardDescription>January - December 2024</CardDescription>

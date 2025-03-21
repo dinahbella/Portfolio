@@ -5,6 +5,7 @@ function useFetchData(apiEndpoint) {
   const [loading, setLoading] = useState(true);
   const [initialLoad, setInitialLoad] = useState(true);
 
+
   useEffect(() => {
     if (initialLoad) {
       setInitialLoad(false);
@@ -32,3 +33,5 @@ function useFetchData(apiEndpoint) {
   return { alldata, loading };
 }
 export default useFetchData;
+
+

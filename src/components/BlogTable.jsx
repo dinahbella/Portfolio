@@ -60,14 +60,7 @@ const invoices = [
 ];
 
 export function BlogTable() {
-  // Filter all data based on the search query
-  const filteredBlogs =
-    searchQuery.trim() === ""
-      ? alldata
-      : alldata.filter((blog) =>
-          blog.title.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-  const { alldata } = useFetchData("/api/blogs");
+  const { alldata, loading } = useFetchData("/api/blogs");
   return (
     <div className="rounded-xl border shadow-2xl p-3 bg-white dark:bg-gray-800 overflow-x-auto">
       <Table className="min-w-[600px] w-full">
@@ -109,21 +102,20 @@ export function BlogTable() {
                 {invoice.paymentMethod}
               </TableCell>
               <TableCell className="text-gray-800 dark:text-gray-200">
-                <Link href={`/blogs/edit/${blog._id}`}>
-                  <Button className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600">
-                    <MdEdit className="mr-2" />
-                    Edit
-                  </Button>
-                </Link>
+                {/* <Link href={`/blogs/edit/${blog._id}`}> */}
+                <Button className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600">
+                  <MdEdit className="mr-2" />
+                  Edit
+                </Button>
+                {/* </Link> */}
               </TableCell>
               <TableCell className="text-right text-gray-800 dark:text-gray-200">
-                <Link href={`/blogs/delete${blog._id}`}>
-                  {" "}
-                  <Button className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">
-                    <MdDelete className="mr-2" />
-                    Delete
-                  </Button>
-                </Link>
+                {/* <Link href={`/blogs/delete${blog._id}`}> */}{" "}
+                <Button className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">
+                  <MdDelete className="mr-2" />
+                  Delete
+                </Button>
+                {/* </Link> */}
               </TableCell>
             </TableRow>
           ))}
