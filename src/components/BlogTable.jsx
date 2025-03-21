@@ -13,7 +13,7 @@ import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import Link from "next/link";
 import useFetchData from "@/hooks/useFetchData";
-
+import { useState } from "react";
 const invoices = [
   {
     invoice: "INV001",
@@ -60,7 +60,18 @@ const invoices = [
 ];
 
 export function BlogTable() {
+  const [searchQuery, setSearchQuery] = useState("");
   const { alldata, loading } = useFetchData("/api/blogs");
+  const filteredBlogs =
+    searchQuery.trim() === ""
+      ? alldata
+      : alldata.filter((blog) =>
+          blog.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+  const publishedBlogs = filteredBlogs.filter((ab) => {
+    return ab.status === "publish";
+  });
   return (
     <div className="rounded-xl border shadow-2xl p-3 bg-white dark:bg-gray-800 overflow-x-auto">
       <Table className="min-w-[600px] w-full">

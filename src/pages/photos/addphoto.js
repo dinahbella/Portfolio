@@ -168,17 +168,15 @@ export default function addphoto() {
                     </ReactSortable>
                   </div>
                 )}
+                <Button
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-800 w-full mt-2 font-medium text-lg p-2"
+                >
+                  Save Blog
+                </Button>
               </div>
             </form>
           </CardContent>
-          <CardFooter className="flex justify-end">
-            <Button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-800 w-full font-medium text-lg p-2"
-            >
-              Save Blog
-            </Button>
-          </CardFooter>
         </Card>
       </div>
     </div>
