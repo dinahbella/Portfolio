@@ -23,33 +23,81 @@ import Spinner from "@/components/Spinner";
 import { FaTrashAlt } from "react-icons/fa";
 import { ReactSortable } from "react-sortablejs";
 import { FaPlusSquare } from "react-icons/fa";
-
-export default function addproject() {
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { toast } from "sonner";
+import { useState } from "react";
+export default function addproject({ id }) {
   const [images, setImages] = React.useState([]); // For image previews
   const [uploadedFiles, setUploadedFiles] = React.useState([]); // For file input
   const [isUploading, setIsUploading] = React.useState(false);
   const fileInputRef = React.useRef(null); // Ref for the file input
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [client, setClient] = useState("");
+  const [projectCategory, setProjectCategory] = useState("");
+  const [tags, setTags] = useState("");
+  const [status, setStatus] = useState("");
+  const uploadImageQueue = [];
+  const [loading, setLoading] = useState(false);
 
-  // Handle image upload
-  const handleImageUpload = (e) => {
-    const files = e.target.files;
-    if (files.length > 0) {
-      setIsUploading(true);
-      const uploadedImages = [];
-      const newFiles = Array.from(files); // Convert FileList to array
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          uploadedImages.push(event.target.result);
-          if (uploadedImages.length === files.length) {
-            setImages((prevImages) => [...prevImages, ...uploadedImages]);
-            setUploadedFiles((prevFiles) => [...prevFiles, ...newFiles]);
-            setIsUploading(false);
-          }
-        };
-        reader.readAsDataURL(file);
+  const router = useRouter();
+  const [redirect, setRedirect] = React.useState(false); // Tracks if redirect is needed
+
+  async function createProject(e) {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const data = {
+        title,
+        description,
+        images,
+        client,
+        projectCategory,
+        tags,
+        status,
+      };
+      if (_id) {
+        await axios.put("/api/projects", { ...data, id });
+        toast.success("Project updated successfully");
+      } else {
+        await axios.post("/api/projects");
+        toast.success("Project created successfully");
       }
+      setRedirect(true);
+    } catch (error) {
+      console.error("Error saving project:", error);
+      toast.error("Failed to save project");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (redirect) {
+    router.push("/projects");
+    return null;
+  } // Handle image upload
+  const handleImageUpload = async (ev) => {
+    const files = ev.target?.files;
+    if (files && files.length > 0) {
+      setIsUploading(true);
+
+      for (const file of files) {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        uploadImageQueue.push(
+          axios.post("/api/upload", formData).then((res) => {
+            setImages((oldImages) => [...oldImages, ...res.data.links]);
+          })
+        );
+      }
+      await Promise.all(uploadImageQueue);
+      setIsUploading(false);
+      toast.success("Images uploaded successfully");
+    } else {
+      toast.error("No files selected");
     }
   };
 
@@ -102,7 +150,7 @@ export default function addproject() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form>
+            <form onSubmit={createProject}>
               <div className="grid w-full items-center gap-4">
                 {/* Title */}
                 <div className="flex flex-col space-y-1.5">
@@ -114,6 +162,8 @@ export default function addproject() {
                     type="text"
                     placeholder="Name of your project"
                     className="shadow-lg"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
                   />
                 </div>
 
@@ -127,6 +177,9 @@ export default function addproject() {
                     type="text"
                     placeholder="Describe your project"
                     className="shadow-lg"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -190,6 +243,8 @@ export default function addproject() {
                     type="text"
                     placeholder="Enter client Name"
                     className="shadow-lg"
+                    value={client}
+                    onChange={(e) => setClient(e.target.value)}
                   />
                 </div>
                 {/* Category */}
@@ -197,7 +252,11 @@ export default function addproject() {
                   <Label htmlFor="category" className="font-bold text-md">
                     Category
                   </Label>
-                  <Select className="w-full">
+                  <Select
+                    className="w-full"
+                    value={projectCategory}
+                    onValueChange={(value) => setProjectCategory(value)}
+                  >
                     <SelectTrigger id="category" className="w-full shadow-xl">
                       <SelectValue placeholder="Select project Category" />
                     </SelectTrigger>
@@ -216,7 +275,11 @@ export default function addproject() {
                   <Label htmlFor="tags" className="font-bold text-md">
                     Tags
                   </Label>
-                  <Select className="w-full">
+                  <Select
+                    className="w-full"
+                    value={tags}
+                    onValueChange={(value) => setTags(value)}
+                  >
                     <SelectTrigger id="tags" className="w-full shadow-xl">
                       <SelectValue placeholder="Select Tags" />
                     </SelectTrigger>
@@ -235,7 +298,11 @@ export default function addproject() {
                   <Label htmlFor="status" className="font-bold text-md">
                     Status
                   </Label>
-                  <Select className="w-full">
+                  <Select
+                    className="w-full"
+                    value={status}
+                    onValueChange={(value) => setStatus(value)}
+                  >
                     <SelectTrigger id="status" className="w-full shadow-xl">
                       <SelectValue placeholder="Select Status" />
                     </SelectTrigger>
@@ -250,7 +317,7 @@ export default function addproject() {
                   type="submit"
                   className="bg-blue-500 mt-2 hover:bg-blue-800 w-full font-medium text-lg p-2"
                 >
-                  Save Blog
+                  Save Project
                 </Button>
               </div>
             </form>

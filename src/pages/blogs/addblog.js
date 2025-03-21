@@ -134,6 +134,19 @@ export default function AddBlog({ id }) {
 
   return (
     <div>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 gap-3 sm:gap-0">
+        {/* Title */}
+        <h2 className="text-xl sm:text-2xl text-blue-600 font-semibold">
+          Add Blogs
+        </h2>
+
+        {/* Breadcrumb */}
+        <div className="text-blue-600 flex items-center gap-2">
+          <FaPlusSquare className="text-lg sm:text-xl text-blue-600" />
+          <span>/</span>
+          <span>Add Blogs</span>
+        </div>
+      </div>
       <div className="flex justify-center p-4 sm:p-6 md:p-8">
         <Card className="w-full max-w-4xl rounded-2xl shadow-xl p-4 sm:p-6 bg-blue-600/15">
           <CardHeader>

@@ -10,29 +10,25 @@ export default async function handle(req, res) {
     if (method === "POST") {
       const {
         title,
-        slug,
         images,
         description,
         client,
         projectcategory,
         tags,
-        livepreview,
         status,
       } = req.body;
 
-      if (!title || !slug || !description || !projectcategory) {
+      if (!title || !description || !projectcategory) {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
       const projectDoc = await Project.create({
         title,
-        slug,
         images,
         description,
         client,
         projectcategory,
         tags,
-        livepreview,
         status,
       });
 
@@ -64,17 +60,15 @@ export default async function handle(req, res) {
       const {
         _id,
         title,
-        slug,
         images,
         description,
         client,
         projectcategory,
         tags,
-        livepreview,
         status,
       } = req.body;
 
-      if (!_id || !title || !slug || !description || !projectcategory) {
+      if (!_id || !title || !description || !projectcategory) {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
@@ -82,13 +76,11 @@ export default async function handle(req, res) {
         _id,
         {
           title,
-          slug,
           images,
           description,
           client,
           projectcategory,
           tags,
-          livepreview,
           status,
         },
         { new: true }
