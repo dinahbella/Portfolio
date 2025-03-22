@@ -65,16 +65,14 @@ export default function Settings() {
       formData.append("name", profile.name);
       formData.append("email", profile.email);
       formData.append("phone", profile.phone || ""); // Optional field
-      formData.append("password", profile.password); // Required field
+
       if (imageFile) {
         formData.append("profilepicture", imageFile);
       }
 
-      // Determine if it's a new profile or an update
-      const url = profile._id
-        ? `/api/profile?id=${profile._id}`
-        : "/api/profile";
-      const method = profile._id ? "PUT" : "POST";
+      // Update profile request
+      const url = `/api/profile?id=${profile._id}`;
+      const method = "PUT"; // Fixed incorrect syntax
 
       const response = await axios({
         method,
@@ -84,19 +82,14 @@ export default function Settings() {
       });
 
       if (!response.data) {
-        throw new Error("Failed to save profile");
+        throw new Error("Failed to update profile");
       }
 
       setProfile(response.data);
-      setIsNewProfile(false); // Profile is no longer new after creation
-      toast.success(
-        isNewProfile
-          ? "Profile created successfully"
-          : "Profile updated successfully"
-      );
+      toast.success("Profile updated successfully");
     } catch (error) {
-      console.error("Error saving profile:", error);
-      toast.error("Failed to save profile");
+      console.error("Error updating profile:", error);
+      toast.error("Failed to update profile");
     } finally {
       setIsLoading(false);
     }

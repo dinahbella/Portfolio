@@ -111,13 +111,13 @@ export default function Index() {
                   <TableCell className="text-gray-800 dark:text-gray-200">
                     <Image
                       src={photo.images[0]}
-                      width={100}
-                      height={100}
+                      width={200}
+                      height={200}
                       alt="photo"
                       className="w-16 h-16 object-cover rounded-lg"
                     />
                   </TableCell>
-                  <TableCell className="text-gray-800 dark:text-gray-200">
+                  <TableCell className="text-gray-800 dark:text-gray-200 font-bold text-xl">
                     {photo.title}
                   </TableCell>
                   <TableCell className="text-gray-800 dark:text-gray-200">
