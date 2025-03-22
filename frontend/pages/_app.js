@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }) {
       >
         {" "}
         <Header />
-        <main className="bg-gradient-to-br from-blue-500 via-teal-400 to-indigo-700 border-teal-300">
+        <main>
           <Component {...pageProps} />;
         </main>
       </ThemeProvider>

@@ -1,12 +1,28 @@
 import Head from "next/head";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import { ModeToggle } from "./Mode";
 import { HiMenuAlt3 } from "react-icons/hi";
+import { useRouter } from "next/router";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to toggle mobile menu
+  //  active
+  const router = useRouter();
+  const [clicked, setClicked] = useState(false);
+  const isActive = (path) => router.pathname === path;
+
+  const handleLinkClick = () => {
+    setIsMenuOpen(false);
+  };
+
+  useEffect(() => {
+    setIsMenuOpen(router.pathname);
+  }, [router.pathname]);
+
+  //  mobile navbar
+  const [mobile, setMobile] = useState(false);
 
   return (
     <div>
@@ -38,36 +54,53 @@ export default function Header() {
           {/* Navigation Links */}
           <nav
             className={`${
-              isMenuOpen ? "block" : "hidden"
-            } md:flex md:items-center gap-5 absolute md:static top-16 left-0 w-full md:w-auto bg-gradient-r from-blue-600 via-teal-500 to-indigo-800 md:bg-transparent p-5 md:p-0 shadow-lg md:shadow-none rounded-lg md:rounded-none transition-all duration-300 ease-in-out`}
+              isMenuOpen
+                ? "block p-3 bg-gradient-to-br from-blue-600 via-teal-500 to-indigo-800"
+                : "hidden"
+            } md:flex md:items-center gap-5 absolute md:static top-16 left-0 w-full md:w-auto md:bg-transparent p-5 md:p-0 shadow-lg md:shadow-none rounded-lg md:rounded-none transition-all duration-300 ease-in-out`}
           >
             <Link
               href="/"
-              className="block font-bold text-xl text-white hover:underline p-3 transition-all duration-300 hover:scale-105"
+              className={`block font-bold text-xl text-white hover:underline p-3 transition-all duration-300 hover:scale-105 ${
+                isActive("/") ? "underline" : ""
+              }`}
+              onClick={handleLinkClick}
             >
               Home
             </Link>
             <Link
               href="/projects"
-              className="block font-bold text-xl text-white hover:underline p-3 transition-all duration-300 hover:scale-105"
+              className={`block font-bold text-xl text-white hover:underline p-3 transition-all duration-300 hover:scale-105 ${
+                isActive("/projects") ? "underline" : ""
+              }`}
+              onClick={handleLinkClick}
             >
               Projects
             </Link>
             <Link
-              href="/photos"
-              className="block font-bold text-xl text-white hover:underline p-3 transition-all duration-300 hover:scale-105"
+              href="/blogs"
+              className={`block font-bold text-xl text-white hover:underline p-3 transition-all duration-300 hover:scale-105 ${
+                isActive("/blogs") ? "underline" : ""
+              }`}
+              onClick={handleLinkClick}
             >
-              Photos
+              Blogs
             </Link>
             <Link
-              href="/about"
-              className="block font-bold text-xl text-white hover:underline p-3 transition-all duration-300 hover:scale-105"
+              href="/services"
+              className={`block font-bold text-xl text-white hover:underline p-3 transition-all duration-300 hover:scale-105 ${
+                isActive("/services") ? "underline" : ""
+              }`}
+              onClick={handleLinkClick}
             >
-              About
+              Services
             </Link>
             <Link
               href="/contacts"
-              className="block font-bold text-xl text-white hover:underline p-3  transition-all duration-300 hover:scale-105"
+              className={`block font-bold text-xl text-white hover:underline p-3  transition-all duration-300 hover:scale-105 ${
+                isActive("/contacts") ? "underline" : ""
+              }`}
+              onClick={handleLinkClick}
             >
               Contacts
             </Link>
