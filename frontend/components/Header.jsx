@@ -22,7 +22,6 @@ export default function Header() {
   }, [router.pathname]);
 
   //  mobile navbar
-  const [mobile, setMobile] = useState(false);
 
   return (
     <div>
