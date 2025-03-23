@@ -4,6 +4,8 @@ import Header from "@/components/Header";
 import { motion } from "framer-motion";
 import { GoArrowUpRight } from "react-icons/go";
 import { X } from "lucide-react";
+import { useEffect, useState } from "react";
+import Spinner from "@/components/Spinner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,6 +18,33 @@ const geistMono = Geist_Mono({
 });
 
 export default function Home() {
+  const projects = [
+    { id: 1, name: "Project One", image: "/no-image.jpg" },
+    { id: 2, name: "Project Two", image: "/no-image.jpg" },
+    { id: 3, name: "Project Three", image: "/no-image.jpg" },
+    { id: 4, name: "Project Four", image: "/no-image.jpg" },
+  ];
+  const [loading, setLoading] = useState(true);
+  const [alldata, setAlldata] = useState([]);
+  const [allwork, setAllwork] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [projectResponse, blogResponse] = await Promise.all([
+          fetch("/api/projects"),
+        ]);
+        const projectData = await projectResponse.json();
+        setAlldata(projectData);
+      } catch (error) {
+        confirm.error("Error fetching data");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  });
+
   return (
     <div className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
       {/* Header */}
@@ -127,7 +156,7 @@ export default function Home() {
           </div>
         </motion.div>
       </div>
-      <div>
+      <div className="mb-4">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 20 }}
@@ -136,27 +165,18 @@ export default function Home() {
         >
           {/* Services Grid */}
           <div className="grid grid-cols-1 mb-4 sm:grid-cols-2 lg:grid-cols-3 gap-4 m-3">
-            {/* Content Writing & Blogging */}
             <div className="bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
               📖 Content Writing & Blogging
             </div>
-
-            {/* Creative Writing */}
             <div className="bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
               📚 Creative Writing
             </div>
-
-            {/* Copywriting & Marketing */}
             <div className="bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
               📢 Copywriting & Marketing
             </div>
-
-            {/* Editing & Proofreading */}
             <div className="bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
               📑 Editing & Proofreading
             </div>
-
-            {/* Technical & Academic Writing */}
             <div className="bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
               📜 Technical & Academic Writing
             </div>
@@ -166,7 +186,7 @@ export default function Home() {
           </div>
         </motion.div>
       </div>
-      <div className="">
+      <div className="p-5">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -181,7 +201,49 @@ export default function Home() {
             professional writing, your words hold the power to inform, persuade,
             and entertain.
           </p>
+          <div className="flex w-full justify-center gap-8 items-center p-5 hover:scale-x-110 duration-500 transition-all">
+            <p className=" p-4 shadow-xl hover:bg-gradient-to-r  from-blue-500 to-indigo-800 rounded-2xl">
+              All
+            </p>
+            <p className=" p-4 shadow-xl hover:bg-gradient-to-r  from-blue-500 to-indigo-800 rounded-2xl">
+              Blogs
+            </p>
+            <p className=" p-4 shadow-xl hover:bg-gradient-to-r  from-blue-500 to-indigo-800 rounded-2xl">
+              Project
+            </p>
+            <p className=" p-4 shadow-xl hover:bg-gradient-to-r  from-blue-500 to-indigo-800 rounded-2xl">
+              Book Cover
+            </p>
+          </div>
         </motion.div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 items-center p-4">
+       {loading ? <Spinner/> : (
+        
+       )}
+        {projects.map((project, index) => (
+          <motion.div
+            key={project.id}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: index * 0.2, ease: "easeOut" }}
+            className="relative group"
+          >
+            {/* Image */}
+            <Image
+              src={project.image}
+              alt={project.name}
+              width={250}
+              height={300}
+              className="border-4 border-transparent rounded-lg w-full max-w-[250px] h-auto transition-all duration-300 group-hover:opacity-75 group-hover:border-blue-600"
+            />
+            {/* Project Name Overlay */}
+            <span className="absolute bottom-4 left-[5%] bg-gradient-to-r from-blue-500 to-indigo-800 px-4 py-2 rounded-lg text-white font-mono text-center text-sm sm:text-base opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              {project.name}
+            </span>
+          </motion.div>
+        ))}
       </div>
     </div>
   );

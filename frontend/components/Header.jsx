@@ -5,6 +5,7 @@ import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import { ModeToggle } from "./Mode";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { useRouter } from "next/router";
+import { Button } from "./ui/button";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to toggle mobile menu
@@ -104,9 +105,16 @@ export default function Header() {
               Contacts
             </Link>
           </nav>
+          <div className="flex gap-3">
+            <Link href="/login">
+              <Button className="relative p-5 shadow-xl bg-gradient-to-bl from-blue-600 via-teal-500 to-indigo-800">
+                Admin
+              </Button>
+            </Link>
+            {/* Search Icon */}
 
-          {/* Search Icon */}
-          <ModeToggle className="hidden md:block text-2xl text-white cursor-pointer hover:text-blue-200 dark:hover:text-blue-300 transition-all duration-300" />
+            <ModeToggle className="hidden md:block text-2xl text-white cursor-pointer hover:text-blue-200 dark:hover:text-blue-300 transition-all duration-300" />
+          </div>
         </div>
       </header>
     </div>
