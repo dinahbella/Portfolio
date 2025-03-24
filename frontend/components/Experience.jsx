@@ -65,7 +65,7 @@ export default function Experience() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1.1 }}
           className="space-y-6"
         >
           <div className="flex gap-3 justify-center lg:justify-start items-center hover:scale-105 transition-transform duration-300">
@@ -81,7 +81,7 @@ export default function Experience() {
                 key={item.id}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 1.3, delay: index * 0.5 }}
                 className="p-4 shadow-xl rounded-lg 
                 bg-[linear-gradient(to_bottom_right,rgba(59,130,246,0.3),rgba(34,197,94,0.3),rgba(79,70,229,0.3))]
                 dark:bg-[linear-gradient(to_bottom_right,rgba(29,78,216,0.5),rgba(21,128,61,0.5),rgba(55,48,163,0.5))]"

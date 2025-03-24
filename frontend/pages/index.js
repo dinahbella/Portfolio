@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { IoDiamondSharp } from "react-icons/io5";
 import { FaGraduationCap } from "react-icons/fa6";
 import Experience from "@/components/Experience";
+import Skills from "@/components/Skills";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -293,6 +294,7 @@ export default function Home() {
         ))}
       </div>
       <Experience />
+      <Skills />
     </div>
   );
 }
