@@ -41,7 +41,9 @@ export default function Home() {
   //         fetch("/api/projects"),
   //       ]);
   //       const projectData = await projectResponse.json();
+  //        const blogsData = await blogsResponse.json()
   //       setAlldata(projectData);
+  // setAllwork(blogsData)
   //     } catch (error) {
   //       confirm.error("Error fetching data");
   //     } finally {
@@ -203,6 +205,60 @@ export default function Home() {
       </div>
       <Experience />
       <Skills />
+      <div className="p-5">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.5, ease: "easeIn" }}
+          className="space-y-6"
+        >
+          <h1 className="text-3xl text-center font-bold bg-gradient-to-br  from-blue-500 to-green-500 text-transparent hover:scale-x-115 duration-500 bg-clip-text">
+            Recent Blogs{" "}
+          </h1>
+          <p className="text-sm font-normal font-mono text-center p-2 text-wrap">
+            Whether you focus on creative projects, business communication, or
+            professional writing, your words hold the power to inform, persuade,
+            and entertain.
+          </p>
+        </motion.div>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 items-center p-4">
+        {/* {loading ? (
+          <Spinner />
+        ) : (
+          filteredProjects.slice(0, 4) */}
+        {projects.map((project, index) => (
+          <motion.div
+            key={project.id}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{
+              duration: 1.2,
+              delay: index * 0.4,
+              ease: "easeOut",
+            }}
+            className="relative group"
+          >
+            {/* Image */}
+            <div className="relative group">
+              {/* Image */}
+              <Image
+                src={project.image}
+                // src={project.image[0]}
+                alt={project.name}
+                width={200} // Default width
+                height={250} // Default height
+                className=" p-2 shadow-xl bg-gradient-to-r  from-blue-500 via-teal-600 to-indigo-800 border-transparent rounded-lg w-full max-w-[200px] md:max-w-[250px] h-auto transition-all duration-300 group-hover:opacity-75 group-hover:border-blue-600"
+              />
+              {/* Project Name Overlay */}
+              <span className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-indigo-800 px-4 py-2 rounded-lg text-white font-mono text-center text-sm sm:text-base opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                {project.name}
+              </span>
+            </div>
+          </motion.div>
+        ))}
+      </div>
     </div>
   );
 }
