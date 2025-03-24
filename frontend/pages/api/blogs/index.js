@@ -28,5 +28,7 @@ export default async function handle(req, res) {
       const blogs = await Blog.find();
       res.json(blogs.reverse());
     }
+  } else {
+    res.status(405).json({ message: "Method not allowed" });
   }
 }
