@@ -64,7 +64,7 @@ export default function Skills() {
                 key={skill.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.4 }}
                 whileHover={{ scale: 1.03 }}
                 className="p-4 sm:p-5 shadow-lg rounded-xl 
                   bg-gradient-to-br from-blue-50/50 via-teal-50/50 to-indigo-50/50
