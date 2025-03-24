@@ -26,6 +26,7 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [loading, setLoading] = useState(false); // Fix: should be a boolean
+  const [filteredBlogs, setFilteredBlogs] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,6 +69,21 @@ export default function Home() {
     }
   }, [selectedCategory, alldata]);
 
+  useEffect(() => {
+    if (selectedCategory === "All") {
+      setFilteredBlogs(allwork.filter((blog) => blog.status === "publish"));
+    } else {
+      setFilteredBlogs(
+        allwork.filter(
+          (blog) =>
+            blog.status === "publish" &&
+            blog.projectcategory?.[0] === selectedCategory
+        )
+      );
+    }
+  }, [selectedCategory, allwork]);
+
+  // const publishedBlogs = allwork.filter((blog) => blog.status === "publish");
   const handleCategoryChange = (category) => {
     setSelectedCategory(category); // Fix: should use setSelectedCategory
   };
@@ -142,18 +158,18 @@ export default function Home() {
           transition={{ duration: 1.5, ease: "easeIn" }}
           className="space-y-6"
         >
-          <h1 className="text-3xl text-center font-bold bg-gradient-to-br from-blue-500 to-green-500 text-transparent bg-clip-text">
+          <h1 className="text-3xl hover:scale-x-110 duration-500  text-center font-bold bg-gradient-to-br from-blue-500 to-green-500 text-transparent bg-clip-text">
             My Recent Works
           </h1>
         </motion.div>
       </div>
 
-      <div className="flex w-full justify-center gap-8 items-center p-5">
+      <div className="flex w-full justify-center gap-8 items-center p-5 hover:scale-110 transition-all duration-500">
         {categories.map((category) => (
           <button
             key={category}
             onClick={() => handleCategoryChange(category)}
-            className={`w-full sm:w-auto p-4 sm:px-6 py-2 sm:py-3 shadow-xl font-bold text-blue-600 rounded-2xl transition-all duration-300 text-center
+            className={`w-full sm:w-auto p-4 sm:px-6 py-2 sm:py-3 shadow-xl font-bold text-blue-600 rounded-2xl transition-all duration-500 text-center 
             ${
               selectedCategory === category
                 ? "bg-gradient-to-bl from-blue-500 via-teal-600 to-indigo-800 text-white"
@@ -181,13 +197,18 @@ export default function Home() {
               }}
               className="relative group"
             >
-              <Image
-                src={project.images[0]}
-                alt={project.name}
-                width={200}
-                height={250}
-                className="p-2 shadow-xl bg-gradient-to-r from-blue-500 via-teal-600 to-indigo-800 border-transparent rounded-lg"
-              />
+              <div className="relative group">
+                <Image
+                  src={project.images[0]}
+                  alt={project.title}
+                  width={200}
+                  height={250}
+                  className=" p-2 shadow-xl bg-gradient-to-r  from-blue-500 via-teal-600 to-indigo-800 border-transparent rounded-lg w-full max-w-[200px] md:max-w-[250px] h-auto transition-all duration-300 group-hover:opacity-75 group-hover:border-blue-600"
+                />
+                <span className="absolute bottom-4  left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-indigo-800 px-4 py-2 rounded-lg text-white font-mono text-center text-sm sm:text-base opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {project.title}
+                </span>
+              </div>
             </motion.div>
           ))
         )}
@@ -197,21 +218,44 @@ export default function Home() {
       <Skills />
 
       <div className="p-5">
-        <h1 className="text-3xl text-center font-bold bg-gradient-to-br from-blue-500 to-green-500 text-transparent bg-clip-text">
+        <h1 className="text-3xl hover:scale-x-110 duration-500 text-center font-bold bg-gradient-to-br from-blue-500 to-green-500 text-transparent bg-clip-text">
           Recent Blogs
         </h1>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 items-center p-4">
-        {Array.isArray(allwork) && allwork.length > 0 ? (
-          allwork.map((blog) => (
+        {Array.isArray(filteredBlogs) && filteredBlogs.length > 0 ? (
+          filteredBlogs.slice(0, 5).map((blog) => (
             <Link key={blog.id} href={`/blogs/${blog.slug}`}>
-              <Image
-                src={blog.image}
-                alt={blog.name}
-                width={200}
-                height={250}
-              />
+              <motion.div
+                key={blog.id}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  duration: 1.2,
+                  // delay: index * 0.4,
+                  ease: "easeOut",
+                }}
+                className="relative group"
+              >
+                <div className="relative group">
+                  <Image
+                    src={blog.images[0]}
+                    alt={blog.title}
+                    width={200}
+                    height={250}
+                    className=" p-2 shadow-xl bg-gradient-to-r  from-blue-500 via-teal-600 to-indigo-800 border-transparent rounded-lg w-full max-w-[200px] md:max-w-[250px] h-auto transition-all duration-300 group-hover:opacity-75 group-hover:border-blue-600"
+                  />
+                  <span className=" flex absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-indigo-800 px-4 py-2 rounded-lg text-white text-center text-xs sm:text-base opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="flex flex-col gap-2">
+                      {" "}
+                      <SlCalender className="font-bold text-2xl" />
+                      {formatDate(new Date(blog.createdAt))}
+                      <h2>{blog.title}</h2>
+                    </div>
+                  </span>
+                </div>
+              </motion.div>
             </Link>
           ))
         ) : (

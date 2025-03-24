@@ -6,6 +6,21 @@ export default async function handle(req, res) {
 
   const { method } = req;
 
+  if (method === "GET") {
+    if (req.query?.id) {
+      // Fetch a single blog by ID
+      const blog = await Blog.findById(req.query.id);
+      if (!blog) {
+        return res.status(404).json({ error: "Blog not found" });
+      }
+      return res.json(blog);
+    } else {
+      // Fetch all blogs
+      const blogs = await Blog.find().sort({ createdAt: -1 }); // Sort by newest first
+      return res.json(blogs);
+    }
+  }
+
   if (req.query?.id) {
     if (req.query?.id) {
       //  fetch blog by id
