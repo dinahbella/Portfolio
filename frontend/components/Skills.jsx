@@ -69,7 +69,8 @@ export default function Skills() {
                 className="p-4 sm:p-5 shadow-lg rounded-xl 
                   bg-gradient-to-br from-blue-50/50 via-teal-50/50 to-indigo-50/50
                   dark:from-blue-900/20 dark:via-teal-900/20 dark:to-indigo-900/20
-                  border border-gray-200 dark:border-gray-700"
+                  border border-gray-200 dark:border-gray-700 hover:bg-[linear-gradient(to_bottom_right,rgba(59,130,246,0.3),rgba(34,197,94,0.3),rgba(79,70,229,0.3))]
+                hover:dark:bg-[linear-gradient(to_bottom_right,rgba(29,78,216,0.5),rgba(21,128,61,0.5),rgba(55,48,163,0.5))]"
               >
                 <div className="text-center">
                   <h2 className="font-bold text-base sm:text-lg text-blue-700 dark:text-blue-300 mb-2">
