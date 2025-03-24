@@ -1,14 +1,13 @@
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
-import Header from "@/components/Header";
-import { motion } from "framer-motion";
-
 import { useEffect, useState } from "react";
-
+import { motion } from "framer-motion";
+import { SlCalender } from "react-icons/sl";
+import Link from "next/link";
+import Num from "@/components/Num";
+import Services from "@/components/Services";
 import Experience from "@/components/Experience";
 import Skills from "@/components/Skills";
-import Services from "@/components/Services";
-import Num from "@/components/Num";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,40 +20,39 @@ const geistMono = Geist_Mono({
 });
 
 export default function Home() {
-  const projects = [
-    { id: 1, name: "Project One", image: "/no-image.jpg" },
-    { id: 2, name: "Project Two", image: "/no-image.jpg" },
-    { id: 3, name: "Project Three", image: "/no-image.jpg" },
-    { id: 4, name: "Project Four", image: "/no-image.jpg" },
-  ];
   const categories = ["All", "Blogs", "Projects", "Book Covers"];
-
-  // const [loading, setLoading] = useState(true);
   const [alldata, setAlldata] = useState([]);
-  // const [allwork, setAllwork] = useState([]);
+  const [allwork, setAllwork] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [filteredProjects, setFilteredProjects] = useState([]);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const [projectResponse, blogResponse] = await Promise.all([
-  //         fetch("/api/projects"),
-  //       ]);
-  //       const projectData = await projectResponse.json();
-  //        const blogsData = await blogsResponse.json()
-  //       setAlldata(projectData);
-  // setAllwork(blogsData)
-  //     } catch (error) {
-  //       confirm.error("Error fetching data");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //   fetchData();
-  // },[]);
+  const [loading, setLoading] = useState(false); // Fix: should be a boolean
 
   useEffect(() => {
-    // Filter projects based on the selected category
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const [projectResponse, blogResponse] = await Promise.all([
+          fetch("/api/projects"),
+          fetch("/api/blogs"),
+        ]);
+
+        const projectData = await projectResponse.json();
+        const blogsData = await blogResponse.json();
+
+        // Ensure both are arrays before setting state
+        setAlldata(Array.isArray(projectData) ? projectData : []);
+        setAllwork(Array.isArray(blogsData) ? blogsData : []);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     if (selectedCategory === "All") {
       setFilteredProjects(
         alldata.filter((project) => project.status === "publish")
@@ -71,15 +69,28 @@ export default function Home() {
   }, [selectedCategory, alldata]);
 
   const handleCategoryChange = (category) => {
-    selectedCategory(category);
+    setSelectedCategory(category); // Fix: should use setSelectedCategory
   };
+
+  const formatDate = (date) => {
+    if (!date || isNaN(new Date(date).getTime())) {
+      return "Invalid date";
+    }
+    const options = {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour12: true,
+    };
+    return new Intl.DateTimeFormat("en-US", options).format(new Date(date));
+  };
+
   return (
     <div className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
       {/* Header */}
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center p-8">
-        {/* Text Content */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -90,21 +101,14 @@ export default function Home() {
             I am Shella Tams
           </h3>
           <h1 className="text-5xl font-bold bg-gradient-to-r hover:scale-y-115 duration-500 from-blue-500 via-green-500 to-purple-500 text-transparent bg-clip-text">
-            Writer + <br />
-            Designer
+            Writer + <br /> Designer
           </h1>
           <p className="text-md text-gray-700 leading-relaxed dark:text-gray-200">
             Shella is a passionate storyteller who explores all genres, weaving
-            captivating narratives that transport readers into different worlds.
-            With a love for crafting compelling characters and immersive plots,
-            Shella brings stories to life—whether through thrilling mysteries,
-            heartfelt romances, epic fantasies, or thought-provoking dramas.
-            Always eager to push creative boundaries, Shella continues to write
-            stories that entertain, inspire, and leave a lasting impact.
+            captivating narratives...
           </p>
         </motion.div>
 
-        {/* Image Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -113,7 +117,7 @@ export default function Home() {
         >
           <div className="flex justify-center ">
             <Image
-              src="/pp.jpg" // Replace with your actual image path
+              src="/pp.jpg"
               alt="Shella Tams"
               width={240}
               height={200}
@@ -122,8 +126,10 @@ export default function Home() {
           </div>
         </motion.div>
       </div>
+
       <Num />
       <Services />
+
       <div className="p-5">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -131,133 +137,81 @@ export default function Home() {
           transition={{ duration: 1.5, ease: "easeIn" }}
           className="space-y-6"
         >
-          <h1 className="text-3xl text-center font-bold bg-gradient-to-br  from-blue-500 to-green-500 text-transparent hover:scale-x-115 duration-500 bg-clip-text">
-            My Recent Works{" "}
+          <h1 className="text-3xl text-center font-bold bg-gradient-to-br from-blue-500 to-green-500 text-transparent bg-clip-text">
+            My Recent Works
           </h1>
-          <p className="text-sm font-normal font-mono text-center p-2 text-wrap">
-            Whether you focus on creative projects, business communication, or
-            professional writing, your words hold the power to inform, persuade,
-            and entertain.
-          </p>
-        </motion.div>
-      </div>
-      <div className="flex w-full justify-center gap-8 items-center p-5 hover:scale-x-110 duration-500 transition-all">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: "easeIn" }}
-          className="space-y-6"
-        >
-          <div className="flex w-full justify-center gap-10 items-center p-5 hover:scale-x-110 duration-500 transition-all">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`w-full sm:w-auto p-4 sm:px-6 py-2 sm:py-3 shadow-xl font-bold text-blue-600 rounded-2xl transition-all duration-300 text-center
-           ${
-             selectedCategory === category
-               ? "bg-gradient-to-bl from-blue-500 via-teal-600 to-indigo-800 text-white"
-               : "bg-white hover:bg-gradient-to-r from-blue-500 to-indigo-800 hover:text-white"
-           }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 items-center p-4">
-        {/* {loading ? (
-          <Spinner />
-        ) : (
-          filteredProjects.slice(0, 4) */}
-        {projects.map((project, index) => (
-          <motion.div
-            key={project.id}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 1.2,
-              delay: index * 0.4,
-              ease: "easeOut",
-            }}
-            className="relative group"
+      <div className="flex w-full justify-center gap-8 items-center p-5">
+        {categories.map((category) => (
+          <button
+            key={category}
+            onClick={() => handleCategoryChange(category)}
+            className={`w-full sm:w-auto p-4 sm:px-6 py-2 sm:py-3 shadow-xl font-bold text-blue-600 rounded-2xl transition-all duration-300 text-center
+            ${
+              selectedCategory === category
+                ? "bg-gradient-to-bl from-blue-500 via-teal-600 to-indigo-800 text-white"
+                : "bg-white hover:bg-gradient-to-r from-blue-500 to-indigo-800 hover:text-white"
+            }`}
           >
-            {/* Image */}
-            <div className="relative group">
-              {/* Image */}
-              <Image
-                src={project.image}
-                // src={project.image[0]}
-                alt={project.name}
-                width={200} // Default width
-                height={250} // Default height
-                className=" p-2 shadow-xl bg-gradient-to-r  from-blue-500 via-teal-600 to-indigo-800 border-transparent rounded-lg w-full max-w-[200px] md:max-w-[250px] h-auto transition-all duration-300 group-hover:opacity-75 group-hover:border-blue-600"
-              />
-              {/* Project Name Overlay */}
-              <span className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-indigo-800 px-4 py-2 rounded-lg text-white font-mono text-center text-sm sm:text-base opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                {project.name}
-              </span>
-            </div>
-          </motion.div>
+            {category}
+          </button>
         ))}
       </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 items-center p-4">
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          filteredProjects.slice(0, 4).map((project, index) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{
+                duration: 1.2,
+                delay: index * 0.4,
+                ease: "easeOut",
+              }}
+              className="relative group"
+            >
+              <Image
+                src={project.image}
+                alt={project.name}
+                width={200}
+                height={250}
+                className="p-2 shadow-xl bg-gradient-to-r from-blue-500 via-teal-600 to-indigo-800 border-transparent rounded-lg"
+              />
+            </motion.div>
+          ))
+        )}
+      </div>
+
       <Experience />
       <Skills />
+
       <div className="p-5">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: "easeIn" }}
-          className="space-y-6"
-        >
-          <h1 className="text-3xl text-center font-bold bg-gradient-to-br  from-blue-500 to-green-500 text-transparent hover:scale-x-115 duration-500 bg-clip-text">
-            Recent Blogs{" "}
-          </h1>
-          <p className="text-sm font-normal font-mono text-center p-2 text-wrap">
-            Whether you focus on creative projects, business communication, or
-            professional writing, your words hold the power to inform, persuade,
-            and entertain.
-          </p>
-        </motion.div>
+        <h1 className="text-3xl text-center font-bold bg-gradient-to-br from-blue-500 to-green-500 text-transparent bg-clip-text">
+          Recent Blogs
+        </h1>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 items-center p-4">
-        {/* {loading ? (
-          <Spinner />
-        ) : (
-          filteredProjects.slice(0, 4) */}
-        {projects.map((project, index) => (
-          <motion.div
-            key={project.id}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 1.2,
-              delay: index * 0.4,
-              ease: "easeOut",
-            }}
-            className="relative group"
-          >
-            {/* Image */}
-            <div className="relative group">
-              {/* Image */}
+        {Array.isArray(allwork) && allwork.length > 0 ? (
+          allwork.map((blog) => (
+            <Link key={blog.id} href={`/blogs/${blog.slug}`}>
               <Image
-                src={project.image}
-                // src={project.image[0]}
-                alt={project.name}
-                width={200} // Default width
-                height={250} // Default height
-                className=" p-2 shadow-xl bg-gradient-to-r  from-blue-500 via-teal-600 to-indigo-800 border-transparent rounded-lg w-full max-w-[200px] md:max-w-[250px] h-auto transition-all duration-300 group-hover:opacity-75 group-hover:border-blue-600"
+                src={blog.image}
+                alt={blog.name}
+                width={200}
+                height={250}
               />
-              {/* Project Name Overlay */}
-              <span className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-indigo-800 px-4 py-2 rounded-lg text-white font-mono text-center text-sm sm:text-base opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                {project.name}
-              </span>
-            </div>
-          </motion.div>
-        ))}
+            </Link>
+          ))
+        ) : (
+          <p>No blogs available.</p>
+        )}
       </div>
     </div>
   );

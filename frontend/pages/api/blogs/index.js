@@ -12,11 +12,15 @@ export default async function handle(req, res) {
       const blog = await Blog.findById(req.query.id);
       res.json(blog);
     } else if (req.query?.blogcategory) {
-      //  fetch b;log by category
+      //  fetch blog by category
       const blogcate = await Blog.find({
         blogcategory: req.query.blogcategory,
       });
       res.json(blogcate);
+    } else if (req.query?.tags) {
+      //  fetch blog by tags
+      const blogtags = await Blog.find({ tags: req.query.tags });
+      res.json(blogtags);
     } else if (req.query.slug) {
       //  fetch blog by slug
       const blogslug = await Blog.find({
