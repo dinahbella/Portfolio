@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 function useFetchData(apiEndpoint) {
   const [alldata, setAlldata] = useState([]);
   const [loading, setLoading] = useState(true);
   const [initialLoad, setInitialLoad] = useState(true);
-
 
   useEffect(() => {
     if (initialLoad) {
@@ -15,7 +13,7 @@ function useFetchData(apiEndpoint) {
     setLoading(true);
     const fetchAllData = async () => {
       try {
-        const res = await axios.get(apiEndpoint);
+        const res = await fetch(apiEndpoint);
         const alldata = res.data;
         setAlldata(alldata);
         console.log("Fetched Data:", res.data); // Debugging
@@ -33,5 +31,3 @@ function useFetchData(apiEndpoint) {
   return { alldata, loading };
 }
 export default useFetchData;
-
-

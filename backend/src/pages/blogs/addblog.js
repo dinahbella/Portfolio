@@ -25,6 +25,7 @@ import { ReactSortable } from "react-sortablejs";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "sonner";
+import { IoIosAddCircle } from "react-icons/io";
 
 export default function AddBlog({ id }) {
   // State for managing image previews and uploaded files
@@ -62,7 +63,7 @@ export default function AddBlog({ id }) {
       };
 
       // Check if it's an update or a new blog
-      if (_id) {
+      if (id) {
         await axios.put("/api/blogs", { ...data, id });
         toast.success("Blog updated successfully");
       } else {
@@ -142,7 +143,7 @@ export default function AddBlog({ id }) {
 
         {/* Breadcrumb */}
         <div className="text-blue-600 flex items-center gap-2">
-          <FaPlusSquare className="text-lg sm:text-xl text-blue-600" />
+          <IoIosAddCircle className="text-lg sm:text-xl text-blue-600" />
           <span>/</span>
           <span>Add Blogs</span>
         </div>
