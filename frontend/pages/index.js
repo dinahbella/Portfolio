@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner";
 import { Button } from "@/components/ui/button";
 import { IoDiamondSharp } from "react-icons/io5";
+import { FaGraduationCap } from "react-icons/fa6";
+import Experience from "@/components/Experience";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -240,7 +242,7 @@ export default function Home() {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 shadow-xl font-bold text-blue-600 rounded-2xl transition-all duration-300 text-center
+                className={`w-full sm:w-auto p-4 sm:px-6 py-2 sm:py-3 shadow-xl font-bold text-blue-600 rounded-2xl transition-all duration-300 text-center
            ${
              selectedCategory === category
                ? "bg-gradient-to-bl from-blue-500 via-teal-600 to-indigo-800 text-white"
@@ -290,42 +292,7 @@ export default function Home() {
           </motion.div>
         ))}
       </div>
-      <div className="flex">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{
-            duration: 1.2,
-            ease: "easeOut",
-          }}
-          className="space-y-6"
-        >
-          <div className="flex gap-2 justify-center items-center text-center hover:scale-x-115 duration-500">
-            <IoDiamondSharp className="text-3xl mt-3 text-teal-500  duration-500 " />
-
-            <h1 className="text-3xl mt-5 text-center font-bold bg-gradient-to-br  from-blue-500 to-green-500 text-transparent  bg-clip-text">
-              My Exprience{" "}
-            </h1>
-          </div>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{
-            duration: 1.2,
-            ease: "easeOut",
-          }}
-          className="space-y-6"
-        >
-          <div className="flex gap-2 justify-center items-center text-center hover:scale-x-115 duration-500">
-            <IoDiamondSharp className="text-3xl mt-3 text-teal-500  duration-500 " />
-
-            <h1 className="text-3xl mt-5 text-center font-bold bg-gradient-to-br  from-blue-500 to-green-500 text-transparent  bg-clip-text">
-              My Exprience{" "}
-            </h1>
-          </div>
-        </motion.div>
-      </div>
+      <Experience />
     </div>
   );
 }
