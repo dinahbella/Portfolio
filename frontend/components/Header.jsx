@@ -107,7 +107,7 @@ export default function Header() {
           </nav>
           <div className="flex gap-3">
             <Link href="/login">
-              <Button className="relative p-5 shadow-xl bg-gradient-to-bl from-blue-600 via-teal-500 to-indigo-800">
+              <Button className="relative p-5 text-white font-bold text-md shadow-xl bg-gradient-to-bl from-blue-600 via-teal-500 to-indigo-800">
                 Admin
               </Button>
             </Link>

@@ -6,6 +6,8 @@ import { GoArrowUpRight } from "react-icons/go";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner";
+import { Button } from "@/components/ui/button";
+import { IoDiamondSharp } from "react-icons/io5";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,27 +26,50 @@ export default function Home() {
     { id: 3, name: "Project Three", image: "/no-image.jpg" },
     { id: 4, name: "Project Four", image: "/no-image.jpg" },
   ];
-  const [loading, setLoading] = useState(true);
+  const categories = ["All", "Blogs", "Projects", "Book Covers"];
+
+  // const [loading, setLoading] = useState(true);
   const [alldata, setAlldata] = useState([]);
-  const [allwork, setAllwork] = useState([]);
+  // const [allwork, setAllwork] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [filteredProjects, setFilteredProjects] = useState([]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const [projectResponse, blogResponse] = await Promise.all([
+  //         fetch("/api/projects"),
+  //       ]);
+  //       const projectData = await projectResponse.json();
+  //       setAlldata(projectData);
+  //     } catch (error) {
+  //       confirm.error("Error fetching data");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchData();
+  // },[]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [projectResponse, blogResponse] = await Promise.all([
-          fetch("/api/projects"),
-        ]);
-        const projectData = await projectResponse.json();
-        setAlldata(projectData);
-      } catch (error) {
-        confirm.error("Error fetching data");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  });
+    // Filter projects based on the selected category
+    if (selectedCategory === "All") {
+      setFilteredProjects(
+        alldata.filter((project) => project.status === "publish")
+      );
+    } else {
+      setFilteredProjects(
+        alldata.filter(
+          (project) =>
+            project.status === "publish" &&
+            project.projectcategory?.[0] === selectedCategory
+        )
+      );
+    }
+  }, [selectedCategory, alldata]);
 
+  const handleCategoryChange = (category) => {
+    selectedCategory(category);
+  };
   return (
     <div className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
       {/* Header */}
@@ -87,9 +112,9 @@ export default function Home() {
             <Image
               src="/pp.jpg" // Replace with your actual image path
               alt="Shella Tams"
-              width={200}
+              width={240}
               height={200}
-              className="rounded-3xl transform rotate-4  hover:translate-3.5 duration-500 transition-all shadow-xl border-4 ml-5 border-blue-500"
+              className="rounded-3xl transform rotate-4 border-5 hover:translate-3.5 duration-500 transition-all shadow-xl ml-5 bg-gradient-to-tl from-blue-500 via-teal-600 to-indigo-800 p-1"
             />
           </div>
         </motion.div>
@@ -165,22 +190,22 @@ export default function Home() {
         >
           {/* Services Grid */}
           <div className="grid grid-cols-1 mb-4 sm:grid-cols-2 lg:grid-cols-3 gap-4 m-3">
-            <div className="bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
+            <div className=" hover:bg-gradient-to-bl bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
               📖 Content Writing & Blogging
             </div>
-            <div className="bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
+            <div className="  hover:bg-gradient-to-bl bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
               📚 Creative Writing
             </div>
-            <div className="bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
+            <div className=" hover:bg-gradient-to-bl bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
               📢 Copywriting & Marketing
             </div>
-            <div className="bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
+            <div className=" hover:bg-gradient-to-bl bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
               📑 Editing & Proofreading
             </div>
-            <div className="bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
+            <div className="  hover:bg-gradient-to-bl bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
               📜 Technical & Academic Writing
             </div>
-            <div className="bg-gradient-to-r  from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
+            <div className="  hover:bg-gradient-to-bl bg-gradient-to-r  from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
               🎙 Scriptwriting & Speech Writing
             </div>
           </div>
@@ -201,49 +226,105 @@ export default function Home() {
             professional writing, your words hold the power to inform, persuade,
             and entertain.
           </p>
-          <div className="flex w-full justify-center gap-8 items-center p-5 hover:scale-x-110 duration-500 transition-all">
-            <p className=" p-4 shadow-xl hover:bg-gradient-to-r  from-blue-500 to-indigo-800 rounded-2xl">
-              All
-            </p>
-            <p className=" p-4 shadow-xl hover:bg-gradient-to-r  from-blue-500 to-indigo-800 rounded-2xl">
-              Blogs
-            </p>
-            <p className=" p-4 shadow-xl hover:bg-gradient-to-r  from-blue-500 to-indigo-800 rounded-2xl">
-              Project
-            </p>
-            <p className=" p-4 shadow-xl hover:bg-gradient-to-r  from-blue-500 to-indigo-800 rounded-2xl">
-              Book Cover
-            </p>
+        </motion.div>
+      </div>
+      <div className="flex w-full justify-center gap-8 items-center p-5 hover:scale-x-110 duration-500 transition-all">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.5, ease: "easeIn" }}
+          className="space-y-6"
+        >
+          <div className="flex w-full justify-center gap-10 items-center p-5 hover:scale-x-110 duration-500 transition-all">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 shadow-xl font-bold text-blue-600 rounded-2xl transition-all duration-300 text-center
+           ${
+             selectedCategory === category
+               ? "bg-gradient-to-bl from-blue-500 via-teal-600 to-indigo-800 text-white"
+               : "bg-white hover:bg-gradient-to-r from-blue-500 to-indigo-800 hover:text-white"
+           }`}
+              >
+                {category}
+              </button>
+            ))}
           </div>
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 items-center p-4">
-       {loading ? <Spinner/> : (
-        
-       )}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 items-center p-4">
+        {/* {loading ? (
+          <Spinner />
+        ) : (
+          filteredProjects.slice(0, 4) */}
         {projects.map((project, index) => (
           <motion.div
             key={project.id}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: index * 0.2, ease: "easeOut" }}
+            transition={{
+              duration: 1.2,
+              delay: index * 0.4,
+              ease: "easeOut",
+            }}
             className="relative group"
           >
             {/* Image */}
-            <Image
-              src={project.image}
-              alt={project.name}
-              width={250}
-              height={300}
-              className="border-4 border-transparent rounded-lg w-full max-w-[250px] h-auto transition-all duration-300 group-hover:opacity-75 group-hover:border-blue-600"
-            />
-            {/* Project Name Overlay */}
-            <span className="absolute bottom-4 left-[5%] bg-gradient-to-r from-blue-500 to-indigo-800 px-4 py-2 rounded-lg text-white font-mono text-center text-sm sm:text-base opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              {project.name}
-            </span>
+            <div className="relative group">
+              {/* Image */}
+              <Image
+                src={project.image}
+                // src={project.image[0]}
+                alt={project.name}
+                width={200} // Default width
+                height={250} // Default height
+                className=" p-2 shadow-xl bg-gradient-to-r  from-blue-500 via-teal-600 to-indigo-800 border-transparent rounded-lg w-full max-w-[200px] md:max-w-[250px] h-auto transition-all duration-300 group-hover:opacity-75 group-hover:border-blue-600"
+              />
+              {/* Project Name Overlay */}
+              <span className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-indigo-800 px-4 py-2 rounded-lg text-white font-mono text-center text-sm sm:text-base opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                {project.name}
+              </span>
+            </div>
           </motion.div>
         ))}
+      </div>
+      <div className="flex">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{
+            duration: 1.2,
+            ease: "easeOut",
+          }}
+          className="space-y-6"
+        >
+          <div className="flex gap-2 justify-center items-center text-center hover:scale-x-115 duration-500">
+            <IoDiamondSharp className="text-3xl mt-3 text-teal-500  duration-500 " />
+
+            <h1 className="text-3xl mt-5 text-center font-bold bg-gradient-to-br  from-blue-500 to-green-500 text-transparent  bg-clip-text">
+              My Exprience{" "}
+            </h1>
+          </div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{
+            duration: 1.2,
+            ease: "easeOut",
+          }}
+          className="space-y-6"
+        >
+          <div className="flex gap-2 justify-center items-center text-center hover:scale-x-115 duration-500">
+            <IoDiamondSharp className="text-3xl mt-3 text-teal-500  duration-500 " />
+
+            <h1 className="text-3xl mt-5 text-center font-bold bg-gradient-to-br  from-blue-500 to-green-500 text-transparent  bg-clip-text">
+              My Exprience{" "}
+            </h1>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
