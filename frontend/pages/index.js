@@ -2,15 +2,12 @@ import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import { motion } from "framer-motion";
-import { GoArrowUpRight } from "react-icons/go";
-import { X } from "lucide-react";
+
 import { useEffect, useState } from "react";
-import Spinner from "@/components/Spinner";
-import { Button } from "@/components/ui/button";
-import { IoDiamondSharp } from "react-icons/io5";
-import { FaGraduationCap } from "react-icons/fa6";
+
 import Experience from "@/components/Experience";
 import Skills from "@/components/Skills";
+import Services from "@/components/Services";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -162,7 +159,7 @@ export default function Home() {
           </div>
         </motion.div>
       </div>
-
+      <Services />
       <div className="p-5">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
