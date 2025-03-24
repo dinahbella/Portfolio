@@ -100,12 +100,17 @@ export default function Home() {
           <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
             I am Shella Tams
           </h3>
-          <h1 className="text-5xl font-bold bg-gradient-to-r hover:scale-y-115 duration-500 from-blue-500 via-green-500 to-purple-500 text-transparent bg-clip-text">
-            Writer + <br /> Designer
+          <h1 className="text-5xl font-bold bg-gradient-to-r hover:scale-y-115 duration-500 from-blue-500 via-green-500 to-indigo-800 text-transparent bg-clip-text">
+            Writer + Designer
           </h1>
           <p className="text-md text-gray-700 leading-relaxed dark:text-gray-200">
             Shella is a passionate storyteller who explores all genres, weaving
-            captivating narratives...
+            captivating narratives that transport readers into different worlds.
+            With a love for crafting compelling characters and immersive plots,
+            Shella brings stories to life—whether through thrilling mysteries,
+            heartfelt romances, epic fantasies, or thought-provoking dramas.
+            Always eager to push creative boundaries, Shella continues to write
+            stories that entertain, inspire, and leave a lasting impact.
           </p>
         </motion.div>
 
@@ -164,7 +169,7 @@ export default function Home() {
         {loading ? (
           <p>Loading...</p>
         ) : (
-          filteredProjects.slice(0, 4).map((project, index) => (
+          filteredProjects.slice(0, 5).map((project, index) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, x: -20 }}
@@ -177,7 +182,7 @@ export default function Home() {
               className="relative group"
             >
               <Image
-                src={project.image}
+                src={project.images[0]}
                 alt={project.name}
                 width={200}
                 height={250}
@@ -210,7 +215,9 @@ export default function Home() {
             </Link>
           ))
         ) : (
-          <p>No blogs available.</p>
+          <div className="col-span-full text-center py-3 font-bold text-gray-700 dark:text-gray-200">
+            No blogs available.
+          </div>
         )}
       </div>
     </div>

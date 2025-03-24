@@ -16,10 +16,10 @@ import { Button } from "@/components/ui/button";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import Link from "next/link";
-import useFetchData from "@/hooks/useFetchData";
 import Image from "next/image";
 import Spinner from "@/components/Spinner";
 import { BsPostcardFill } from "react-icons/bs";
+import useFetchData from "@/hooks/useFetchData";
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState("");
