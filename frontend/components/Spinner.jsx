@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-export default function Spinner2() {
+export default function Spinner() {
   return (
     <div className="w-full flex justify-center items-center py-4">
       <motion.div
