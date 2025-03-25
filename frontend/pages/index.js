@@ -336,6 +336,11 @@ export default function Home() {
         >
           Our Recent Blogs
         </motion.h1>
+        <p className="text-center font-mono text-gray-700 dark:text-gray-200">
+          The blog aims to educate, inspire, and support both aspiring and
+          professional writers while establishing the company as an authority in
+          the writing and content creation space.
+        </p>
       </motion.div>
 
       <motion.div

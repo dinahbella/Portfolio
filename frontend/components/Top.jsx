@@ -47,7 +47,7 @@ const BackToTopButton = () => {
             aria-label="Back to top"
             className="p-4 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-900 transition-all duration-500 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex flex-col items-center"
           >
-            <ArrowUp className="h-5 w-5" />
+            <ArrowUp className="h-5 w-5 font-bold text-2xl" />
             <span className="text-sm mt-1">{Math.round(scrollProgress)}%</span>
           </button>
         )}
