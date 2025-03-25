@@ -31,10 +31,9 @@ export default function Header() {
         <meta name="description" content="Welcome to Dinah's website" />
       </Head>
 
-      {/* Header with Gradient Background */}
-      <header className="relative p-5 shadow-xl bg-gradient-to-r from-blue-600 via-teal-500 to-indigo-800">
+      <header className="fixed top-0 left-0 w-full z-50 p-5 shadow-xl bg-gradient-to-r from-blue-600 via-teal-500 to-indigo-800">
         {/* Mask (Semi-Transparent Overlay) */}
-        <div className="absolute inset-0 bg-black/20 dark:bg-gradient-to-r from-blue-600 via-teal-500 to-indigo-800 "></div>
+        <div className="absolute inset-0 bg-black/20 dark:bg-gradient-to-r from-blue-600 via-teal-500 to-indigo-800"></div>
 
         {/* Header Content */}
         <div className="relative z-10 flex justify-between items-center max-w-7xl mx-auto">
@@ -45,7 +44,7 @@ export default function Header() {
 
           {/* Hamburger Menu Icon (Mobile) */}
           <button
-            className="text-right md:hidden text-2xl text-white hover:text-blue-200 dark:hover:text-blue-300 focus:outline-none transition-all duration-300"
+            className="md:hidden text-2xl text-white hover:text-blue-200 dark:hover:text-blue-300 focus:outline-none transition-all duration-300"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <FaTimes /> : <HiMenuAlt3 />}
@@ -59,59 +58,33 @@ export default function Header() {
                 : "hidden"
             } md:flex md:items-center gap-5 absolute md:static top-16 left-0 w-full md:w-auto md:bg-transparent p-5 md:p-0 shadow-lg md:shadow-none rounded-lg md:rounded-none transition-all duration-300 ease-in-out`}
           >
-            <Link
-              href="/"
-              className={`block font-bold text-xl text-white hover:underline p-3 transition-all duration-300 hover:scale-105 ${
-                isActive("/") ? "underline" : ""
-              }`}
-              onClick={handleLinkClick}
-            >
-              Home
-            </Link>
-            <Link
-              href="/projects"
-              className={`block font-bold text-xl text-white hover:underline p-3 transition-all duration-300 hover:scale-105 ${
-                isActive("/projects") ? "underline" : ""
-              }`}
-              onClick={handleLinkClick}
-            >
-              Projects
-            </Link>
-            <Link
-              href="/blogs"
-              className={`block font-bold text-xl text-white hover:underline p-3 transition-all duration-300 hover:scale-105 ${
-                isActive("/blogs") ? "underline" : ""
-              }`}
-              onClick={handleLinkClick}
-            >
-              Blogs
-            </Link>
-            <Link
-              href="/services"
-              className={`block font-bold text-xl text-white hover:underline p-3 transition-all duration-300 hover:scale-105 ${
-                isActive("/services") ? "underline" : ""
-              }`}
-              onClick={handleLinkClick}
-            >
-              Services
-            </Link>
-            <Link
-              href="/contacts"
-              className={`block font-bold text-xl text-white hover:underline p-3  transition-all duration-300 hover:scale-105 ${
-                isActive("/contacts") ? "underline" : ""
-              }`}
-              onClick={handleLinkClick}
-            >
-              Contacts
-            </Link>
+            {[
+              { href: "/", label: "Home" },
+              { href: "/projects", label: "Projects" },
+              { href: "/blogs", label: "Blogs" },
+              { href: "/services", label: "Services" },
+              { href: "/contacts", label: "Contacts" },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`block font-bold text-xl text-white hover:underline p-3 transition-all duration-300 hover:scale-105 ${
+                  isActive(item.href) ? "underline" : ""
+                }`}
+                onClick={handleLinkClick}
+              >
+                {item.label}
+              </Link>
+            ))}
           </nav>
+
+          {/* Right Section (Admin & Toggle) */}
           <div className="flex gap-3">
             <Link href="/login">
               <Button className="relative p-5 text-white font-bold text-md shadow-xl bg-gradient-to-bl from-blue-600 via-teal-500 to-indigo-800">
                 Admin
               </Button>
             </Link>
-            {/* Search Icon */}
 
             <ModeToggle className="hidden md:block text-2xl text-white cursor-pointer hover:text-blue-200 dark:hover:text-blue-300 transition-all duration-300" />
           </div>

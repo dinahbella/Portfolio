@@ -11,7 +11,6 @@ import Skills from "@/components/Skills";
 import Spinner from "@/components/Spinner";
 import Spinner2 from "@/components/Spinner2";
 
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -156,7 +155,7 @@ export default function Home() {
           </motion.h3>
 
           <motion.h1
-            className="text-5xl font-bold bg-gradient-to-r from-blue-500 via-green-500 to-indigo-800 text-transparent bg-clip-text"
+            className="text-5xl font-bold bg-gradient-to-r from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text"
             animate={{
               backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
             }}
