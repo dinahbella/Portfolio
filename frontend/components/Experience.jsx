@@ -70,8 +70,8 @@ export default function Experience() {
         >
           <div className="flex gap-3 justify-center lg:justify-start items-center hover:scale-105 transition-transform duration-300">
             <IoDiamondSharp className="text-3xl text-teal-500" />
-            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-br from-blue-500 to-green-500 text-transparent bg-clip-text">
-              My Experience
+            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text">
+              Our Experience
             </h1>
           </div>
 
@@ -111,8 +111,8 @@ export default function Experience() {
         >
           <div className="flex gap-3 justify-center lg:justify-start items-center hover:scale-105 transition-transform duration-300">
             <FaGraduationCap className="text-3xl text-teal-500" />
-            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-br from-blue-500 to-green-500 text-transparent bg-clip-text">
-              My Education
+            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-br from-blue-500 via-teal-600 to-inndigo-800 text-transparent bg-clip-text">
+              Education
             </h1>
           </div>
 

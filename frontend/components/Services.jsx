@@ -11,8 +11,8 @@ export default function Services() {
           transition={{ duration: 1.5, ease: "easeIn" }}
           className="space-y-6"
         >
-          <h1 className="text-3xl mt-5 text-center font-bold bg-gradient-to-br  from-blue-500 to-green-500 text-transparent hover:scale-x-115 duration-500 bg-clip-text">
-            My Quality Services{" "}
+          <h1 className="text-3xl mt-5 text-center font-bold bg-gradient-to-br  from-blue-500 via-teal-600 to-indigo-800 text-transparent hover:scale-x-115 duration-500 bg-clip-text">
+            Our Quality Services{" "}
           </h1>
           <div className="w-full p-2">
             {/* Description Section */}

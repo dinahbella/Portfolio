@@ -44,12 +44,12 @@ export default function Skills() {
             transition={{ duration: 0.3 }}
             className="inline-block"
           >
-            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-br from-blue-500 to-green-500 text-transparent bg-clip-text">
-              My Skills
+            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text">
+              Our Skills
             </h1>
           </motion.div>
           <p className="mt-3 text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            I have strong grammar, vocabulary, and editing skills. Creativity,
+            We have strong grammar, vocabulary, and editing skills. Creativity,
             storytelling, and adaptability are essential for engaging content.
             Time management, discipline, and idea generation boost productivity.
             Understanding publishing, marketing, and SEO helps reach a wider

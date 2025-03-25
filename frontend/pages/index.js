@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { SlCalender } from "react-icons/sl";
 import Link from "next/link";
 import Num from "@/components/Num";
@@ -19,13 +19,49 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut",
+    },
+  },
+};
+
+const hoverVariants = {
+  hover: {
+    scale: 1.05,
+    transition: {
+      duration: 0.3,
+      ease: "easeOut",
+    },
+  },
+  tap: {
+    scale: 0.98,
+  },
+};
+
 export default function Home() {
   const categories = ["All", "Blogs", "Projects", "Book Covers"];
   const [alldata, setAlldata] = useState([]);
   const [allwork, setAllwork] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [filteredProjects, setFilteredProjects] = useState([]);
-  const [loading, setLoading] = useState(false); // Fix: should be a boolean
+  const [loading, setLoading] = useState(false);
   const [filteredBlogs, setFilteredBlogs] = useState([]);
 
   useEffect(() => {
@@ -40,7 +76,6 @@ export default function Home() {
         const projectData = await projectResponse.json();
         const blogsData = await blogResponse.json();
 
-        // Ensure both are arrays before setting state
         setAlldata(Array.isArray(projectData) ? projectData : []);
         setAllwork(Array.isArray(blogsData) ? blogsData : []);
       } catch (error) {
@@ -83,9 +118,8 @@ export default function Home() {
     }
   }, [selectedCategory, allwork]);
 
-  // const publishedBlogs = allwork.filter((blog) => blog.status === "publish");
   const handleCategoryChange = (category) => {
-    setSelectedCategory(category); // Fix: should use setSelectedCategory
+    setSelectedCategory(category);
   };
 
   const formatDate = (date) => {
@@ -103,23 +137,42 @@ export default function Home() {
 
   return (
     <div className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
-      {/* Header */}
-
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center p-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="space-y-6"
-        >
-          <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+        className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center p-8"
+      >
+        <motion.div variants={itemVariants} className="space-y-6">
+          <motion.h3
+            whileHover={{ scale: 1.02 }}
+            className="text-2xl font-bold text-gray-800 dark:text-gray-200"
+          >
             I am Shella Tams
-          </h3>
-          <h1 className="text-5xl font-bold bg-gradient-to-r hover:scale-y-115 duration-500 from-blue-500 via-green-500 to-indigo-800 text-transparent bg-clip-text">
+          </motion.h3>
+
+          <motion.h1
+            className="text-5xl font-bold bg-gradient-to-r from-blue-500 via-green-500 to-indigo-800 text-transparent bg-clip-text"
+            animate={{
+              backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          >
             Writer + Designer
-          </h1>
-          <p className="text-md text-gray-700 leading-relaxed dark:text-gray-200">
+          </motion.h1>
+
+          <motion.p
+            className="text-md text-gray-700 leading-relaxed dark:text-gray-200"
+            whileHover={{
+              scale: 1.01,
+              transition: { duration: 0.3 },
+            }}
+          >
             Shella is a passionate storyteller who explores all genres, weaving
             captivating narratives that transport readers into different worlds.
             With a love for crafting compelling characters and immersive plots,
@@ -127,143 +180,224 @@ export default function Home() {
             heartfelt romances, epic fantasies, or thought-provoking dramas.
             Always eager to push creative boundaries, Shella continues to write
             stories that entertain, inspire, and leave a lasting impact.
-          </p>
+          </motion.p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: "easeIn" }}
-          className="space-y-6"
-        >
-          <div className="flex justify-center ">
-            <Image
-              src="/pp.jpg"
-              alt="Shella Tams"
-              width={240}
-              height={200}
-              className="rounded-3xl transform rotate-4 border-5 hover:translate-3.5 duration-500 transition-all shadow-xl ml-5 bg-gradient-to-tl from-blue-500 via-teal-600 to-indigo-800 p-1"
-            />
-          </div>
+        <motion.div variants={itemVariants} className="space-y-6">
+          <motion.div
+            className="flex justify-center"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <motion.div
+              initial={{ rotate: 4 }}
+              animate={{
+                rotate: [4, -4, 4],
+                transition: {
+                  duration: 8,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                },
+              }}
+              className="rounded-3xl border-5 shadow-xl ml-5 bg-gradient-to-tl from-blue-500 via-teal-600 to-indigo-800 p-1"
+            >
+              <Image
+                src="/pp.jpg"
+                alt="Shella Tams"
+                width={240}
+                height={200}
+                className="rounded-3xl"
+              />
+            </motion.div>
+          </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
 
       <Num />
       <Services />
 
-      <div className="p-5">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: "easeIn" }}
-          className="space-y-6"
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8 }}
+        className="p-5"
+      >
+        <motion.h1
+          className="text-3xl text-center font-bold bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text"
+          whileHover={{ scaleX: 1.1 }}
+          transition={{ duration: 0.5 }}
         >
-          <h1 className="text-3xl hover:scale-x-110 duration-500  text-center font-bold bg-gradient-to-br from-blue-500 to-green-500 text-transparent bg-clip-text">
-            My Recent Works
-          </h1>
-        </motion.div>
-      </div>
+          Our Recent Works
+        </motion.h1>
+      </motion.div>
 
-      <div className="flex w-full justify-center gap-8 items-center p-5 hover:scale-110 transition-all duration-500">
-        {categories.map((category) => (
-          <button
+      <motion.div
+        className="flex w-full justify-center gap-8 items-center p-5"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
+        {categories.map((category, index) => (
+          <motion.button
             key={category}
             onClick={() => handleCategoryChange(category)}
-            className={`w-full sm:w-auto p-4 sm:px-6 py-2 sm:py-3 shadow-xl font-bold text-blue-600 rounded-2xl transition-all duration-500 text-center 
+            className={`w-full sm:w-auto p-4 sm:px-6 py-2 sm:py-3 shadow-xl font-bold text-blue-600 rounded-2xl text-center 
             ${
               selectedCategory === category
                 ? "bg-gradient-to-bl from-blue-500 via-teal-600 to-indigo-800 text-white"
                 : "bg-white hover:bg-gradient-to-r from-blue-500 to-indigo-800 hover:text-white"
             }`}
+            variants={itemVariants}
+            whileHover="hover"
+            whileTap="tap"
+            custom={index}
           >
             {category}
-          </button>
+          </motion.button>
         ))}
-      </div>
+      </motion.div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 items-center p-4">
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 max-w-6xl mx-auto"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
         {loading ? (
-          <p>Loading...</p>
+          <motion.p
+            className="col-span-full text-center"
+            variants={itemVariants}
+          >
+            Loading...
+          </motion.p>
         ) : (
-          filteredProjects.slice(0, 5).map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{
-                duration: 1.2,
-                delay: index * 0.4,
-                ease: "easeOut",
-              }}
-              className="relative group"
-            >
-              <div className="relative group">
-                <Image
-                  src={project.images[0]}
-                  alt={project.title}
-                  width={200}
-                  height={250}
-                  className=" p-2 shadow-xl bg-gradient-to-r  from-blue-500 via-teal-600 to-indigo-800 border-transparent rounded-lg w-full max-w-[200px] md:max-w-[250px] h-auto transition-all duration-300 group-hover:opacity-75 group-hover:border-blue-600"
-                />
-                <span className="absolute bottom-4  left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-indigo-800 px-4 py-2 rounded-lg text-white font-mono text-center text-sm sm:text-base opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  {project.title}
-                </span>
-              </div>
-            </motion.div>
-          ))
+          <AnimatePresence>
+            {filteredProjects.slice(0, 5).map((project, index) => (
+              <motion.div
+                key={project.id}
+                variants={itemVariants}
+                custom={index}
+                whileHover={{
+                  y: -10,
+                  transition: { duration: 1.3 },
+                }}
+                className="relative group"
+              >
+                <motion.div
+                  className="relative group"
+                  whileHover={{ scale: 1.03 }}
+                >
+                  <Image
+                    src={project.images[0]}
+                    alt={project.title}
+                    width={200}
+                    height={200}
+                    className="w-full h-[200px] sm:h-[250px] md:h-[300px] object-cover rounded-lg shadow-xl border border-transparent transition-all duration-300 group-hover:opacity-75 group-hover:border-blue-600"
+                  />
+                  <motion.span
+                    className="absolute bottom-0 text-center left-0 w-full bg-gradient-to-r from-blue-500 to-indigo-800 px-3 py-1 sm:px-4 sm:py-2 rounded-b-lg text-white text-xs sm:text-sm opacity-0 group-hover:opacity-100"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileHover={{
+                      opacity: 1,
+                      y: 0,
+                      transition: { delay: 0 },
+                    }}
+                  >
+                    {project.title}
+                  </motion.span>
+                </motion.div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         )}
-      </div>
+      </motion.div>
 
       <Experience />
       <Skills />
 
-      <div className="p-5">
-        <h1 className="text-3xl hover:scale-x-110 duration-500 text-center font-bold bg-gradient-to-br from-blue-500 to-green-500 text-transparent bg-clip-text">
-          Recent Blogs
-        </h1>
-      </div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8 }}
+        className="p-5"
+      >
+        <motion.h1
+          className="text-3xl text-center font-bold bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text"
+          whileHover={{ scaleX: 1.1 }}
+          transition={{ duration: 0.8 }}
+        >
+          Our Recent Blogs
+        </motion.h1>
+      </motion.div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 items-center p-4">
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 max-w-6xl mx-auto p-4"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
         {Array.isArray(filteredBlogs) && filteredBlogs.length > 0 ? (
-          filteredBlogs.slice(0, 5).map((blog) => (
-            <Link key={blog.id} href={`/blogs/${blog.slug}`}>
-              <motion.div
-                key={blog.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{
-                  duration: 1.2,
-                  // delay: index * 0.4,
-                  ease: "easeOut",
-                }}
-                className="relative group"
-              >
-                <div className="relative group">
-                  <Image
-                    src={blog.images[0]}
-                    alt={blog.title}
-                    width={200}
-                    height={250}
-                    className=" p-2 shadow-xl bg-gradient-to-r  from-blue-500 via-teal-600 to-indigo-800 border-transparent rounded-lg w-full max-w-[200px] md:max-w-[250px] h-auto transition-all duration-300 group-hover:opacity-75 group-hover:border-blue-600"
-                  />
-                  <span className=" flex absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-indigo-800 px-4 py-2 rounded-lg text-white text-center text-xs sm:text-base opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="flex flex-col gap-2">
-                      {" "}
-                      <SlCalender className="font-bold text-2xl" />
-                      {formatDate(new Date(blog.createdAt))}
-                      <h2>{blog.title}</h2>
-                    </div>
-                  </span>
-                </div>
-              </motion.div>
-            </Link>
-          ))
+          <AnimatePresence>
+            {filteredBlogs.slice(0, 5).map((blog, index) => (
+              <Link key={blog.id} href={`/blogs/${blog.slug}`}>
+                <motion.div
+                  variants={itemVariants}
+                  custom={index}
+                  whileHover={{
+                    y: -10,
+                    transition: { duration: 1.3 },
+                  }}
+                  className="relative"
+                >
+                  <motion.div
+                    className="relative group"
+                    whileHover={{ scale: 1.03 }}
+                  >
+                    <Image
+                      src={blog.images[0]}
+                      alt={blog.title}
+                      width={200}
+                      height={250}
+                      className="w-full h-[200px] sm:h-[250px] md:h-[300px] object-cover rounded-lg shadow-xl border border-transparent transition-all duration-300 group-hover:opacity-75 group-hover:border-blue-600"
+                    />
+
+                    <motion.span
+                      className="absolute bottom-0 left-0 w-full bg-gradient-to-r from-blue-500 to-indigo-800 px-3 py-1 sm:px-4 sm:py-2 rounded-b-lg text-white text-xs sm:text-sm opacity-0 group-hover:opacity-100"
+                      initial={{ opacity: 0, y: 10 }}
+                      whileHover={{
+                        opacity: 1,
+                        y: 0,
+                        transition: { delay: 0 },
+                      }}
+                    >
+                      <div className="flex flex-col items-center text-center gap-1 sm:gap-[2px]">
+                        <div className="flex items-center gap-1 sm:gap-2">
+                          <SlCalender className="text-base sm:text-lg" />
+                          <span className="text-[10px] sm:text-xs">
+                            {formatDate(blog.createdAt)}
+                          </span>
+                        </div>
+                        <h2 className="text-xs sm:text-sm font-medium">
+                          {blog.title}
+                        </h2>
+                      </div>
+                    </motion.span>
+                  </motion.div>
+                </motion.div>
+              </Link>
+            ))}
+          </AnimatePresence>
         ) : (
-          <div className="col-span-full text-center py-3 font-bold text-gray-700 dark:text-gray-200">
+          <motion.div
+            className="col-span-full text-center py-3 font-bold text-gray-700 dark:text-gray-200"
+            variants={itemVariants}
+          >
             No blogs available.
-          </div>
+          </motion.div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }
