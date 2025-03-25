@@ -8,6 +8,7 @@ import Num from "@/components/Num";
 import Services from "@/components/Services";
 import Experience from "@/components/Experience";
 import Skills from "@/components/Skills";
+import Spinner from "@/components/Spinner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -269,7 +270,11 @@ export default function Home() {
             className="col-span-full text-center"
             variants={itemVariants}
           >
-            Loading...
+            <div>
+              {" "}
+              <Spinner />
+              <h1>Loading...</h1>
+            </div>
           </motion.p>
         ) : (
           <AnimatePresence>
@@ -338,38 +343,48 @@ export default function Home() {
         animate="visible"
         variants={containerVariants}
       >
-        {Array.isArray(filteredBlogs) && filteredBlogs.length > 0 ? (
+        {loading ? (
+          <motion.p
+            className="col-span-full text-center"
+            variants={itemVariants}
+          >
+            <div>
+              {" "}
+              <Spinner />
+              <h1>Loading...</h1>
+            </div>
+          </motion.p>
+        ) : Array.isArray(filteredBlogs) && filteredBlogs.length > 0 ? (
           <AnimatePresence>
             {filteredBlogs.slice(0, 5).map((blog, index) => (
-              <Link key={blog.id} href={`/blogs/${blog.slug}`}>
+              <Link key={blog.id} href={`/blogs/${blog.slug}`} passHref>
                 <motion.div
                   variants={itemVariants}
                   custom={index}
                   whileHover={{
-                    y: -10,
-                    transition: { duration: 1.3 },
+                    y: -5,
+                    transition: { duration: 0.4, ease: "easeOut" },
                   }}
                   className="relative"
                 >
                   <motion.div
-                    className="relative group"
+                    className="relative group overflow-hidden rounded-lg shadow-lg border border-transparent"
                     whileHover={{ scale: 1.03 }}
                   >
                     <Image
                       src={blog.images[0]}
                       alt={blog.title}
-                      width={200}
-                      height={250}
-                      className="w-full h-[200px] sm:h-[250px] md:h-[300px] object-cover rounded-lg shadow-xl border border-transparent transition-all duration-300 group-hover:opacity-75 group-hover:border-blue-600"
+                      width={300}
+                      height={300}
+                      className="w-full h-[200px] sm:h-[250px] md:h-[300px] object-cover rounded-lg transition-all duration-300 group-hover:opacity-80 group-hover:border-blue-600"
                     />
-
                     <motion.span
-                      className="absolute bottom-0 left-0 w-full bg-gradient-to-r from-blue-500 to-indigo-800 px-3 py-1 sm:px-4 sm:py-2 rounded-b-lg text-white text-xs sm:text-sm opacity-0 group-hover:opacity-100"
+                      className="absolute bottom-0 left-0 w-full bg-gradient-to-r from-blue-500 to-indigo-800 px-3 py-2 text-white text-xs sm:text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       initial={{ opacity: 0, y: 10 }}
                       whileHover={{
                         opacity: 1,
                         y: 0,
-                        transition: { delay: 0 },
+                        transition: { duration: 0.3 },
                       }}
                     >
                       <div className="flex flex-col items-center text-center gap-1 sm:gap-[2px]">
