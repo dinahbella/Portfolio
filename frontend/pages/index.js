@@ -9,6 +9,8 @@ import Services from "@/components/Services";
 import Experience from "@/components/Experience";
 import Skills from "@/components/Skills";
 import Spinner from "@/components/Spinner";
+import Spinner2 from "@/components/Spinner2";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -350,7 +352,7 @@ export default function Home() {
           >
             <div>
               {" "}
-              <Spinner />
+              <Spinner2 />
               <h1>Loading...</h1>
             </div>
           </motion.p>
