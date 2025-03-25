@@ -31,9 +31,9 @@ export default function Header() {
         <meta name="description" content="Welcome to Dinah's website" />
       </Head>
 
-      <header className="fixed top-0 left-0 w-full z-50 p-5 shadow-xl bg-gradient-to-r from-blue-600 via-teal-500 to-indigo-800">
+      <header className="relative p-5 shadow-xl bg-gradient-to-r from-blue-600 via-teal-500 to-indigo-800">
         {/* Mask (Semi-Transparent Overlay) */}
-        <div className="absolute inset-0 bg-black/20 dark:bg-gradient-to-r from-blue-600 via-teal-500 to-indigo-800"></div>
+        <div className="absolute inset-0"></div>
 
         {/* Header Content */}
         <div className="relative z-10 flex justify-between items-center max-w-7xl mx-auto">

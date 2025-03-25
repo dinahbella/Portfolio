@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import { ThemeProvider } from "@/components/Provider";
 import "@/styles/globals.css";
 import Footer from "@/components/Footer";
+import BackToTopButton from "@/components/Top";
 export default function App({ Component, pageProps }) {
   return (
     <div>
@@ -17,6 +18,8 @@ export default function App({ Component, pageProps }) {
           <Component {...pageProps} />;
         </main>
       </ThemeProvider>
+      <BackToTopButton />
+
       <Footer />
     </div>
   );
