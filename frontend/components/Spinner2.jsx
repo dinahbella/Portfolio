@@ -1,36 +1,25 @@
 import React from "react";
+import { motion } from "framer-motion";
 
-export default function Spinner2() {
+export default function Spinner() {
   return (
-    <>
-      {/* Add styles dynamically */}
-      <style>
-        {`
-          .custom-loader {
-            --d: 44px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            color: #766DF4;
-            box-shadow: 
-              calc(1 * var(--d)) calc(0 * var(--d)) 0 0,
-              calc(0.707 * var(--d)) calc(0.707 * var(--d)) 0 2px,
-              calc(0 * var(--d)) calc(1 * var(--d)) 0 4px,
-              calc(-0.707 * var(--d)) calc(0.707 * var(--d)) 0 6px,
-              calc(-1 * var(--d)) calc(0 * var(--d)) 0 8px,
-              calc(-0.707 * var(--d)) calc(-0.707 * var(--d)) 0 10px,
-              calc(0 * var(--d)) calc(-1 * var(--d)) 0 12px;
-            animation: spin-animation 2s infinite steps(8);
-          }
-
-          @keyframes spin-animation {
-            100% {
-              transform: rotate(1turn);
-            }
-          }
-        `}
-      </style>
-      <div className="custom-loader"></div>
-    </>
+    <div className="w-full flex justify-center items-center py-4">
+      <motion.div
+        className="w-3 h-3 rounded-full bg-indigo-500"
+        style={{
+          boxShadow: `
+            44px 0 0 0 #766DF4,
+            31px 31px 0 2px #766DF4,
+            0 44px 0 4px #766DF4,
+            -31px 31px 0 6px #766DF4,
+            -44px 0 0 8px #766DF4,
+            -31px -31px 0 10px #766DF4,
+            0 -44px 0 12px #766DF4
+          `,
+        }}
+        animate={{ rotate: 360 }}
+        transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+      />
+    </div>
   );
 }

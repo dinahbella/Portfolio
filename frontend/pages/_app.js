@@ -15,11 +15,10 @@ export default function App({ Component, pageProps }) {
         {" "}
         <Header />
         <main>
-          <Component {...pageProps} />;
+          <Component {...pageProps} />
         </main>
       </ThemeProvider>
       <BackToTopButton />
-
       <Footer />
     </div>
   );
