@@ -6,7 +6,7 @@ import { FreeMode } from "swiper/modules";
 import Head from "next/head";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Spinner2 from "@/components/Spinner2";
+import Spinner from "@/components/Spinner";
 import useFetchData from "@/hooks/useFetchData";
 import Link from "next/link";
 import Image from "next/image";
@@ -29,10 +29,8 @@ export default function Blogs() {
   const indexOfFirstBlog = (currentPage - 1) * perPage;
   const indexOfLastBlog = currentPage * perPage;
   const currentBlogs = filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog);
-  const publishedData = currentBlogs.filter(
-    (blog) => blog.status === "publish"
-  );
-  const sliderPubData = alldata.filter((blog) => blog.status === "publish");
+  const publishedData = alldata.filter((blog) => blog.status === "publish");
+  const sliderPubData = publishedData.slice(0, 6); // Take first 6 published blogs for slider
 
   const pageNumbers = [];
   const totalPages = Math.ceil(filteredBlogs.length / perPage);
@@ -42,7 +40,6 @@ export default function Blogs() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // Reset to first page when searching
     setCurrentPage(1);
   };
 
@@ -108,7 +105,8 @@ export default function Blogs() {
             </form>
           </div>
 
-          <div className="mt-6 mb-8">
+          {/* Featured Posts Slider */}
+          <div className="mt-10 mb-12">
             <h2 className="font-bold text-2xl dark:text-gray-200 mb-4">
               Featured Posts:
             </h2>
@@ -120,19 +118,20 @@ export default function Blogs() {
               className="featured-swiper"
             >
               {loading ? (
-                <Spinner2 />
+                <Spinner />
               ) : (
-                sliderPubData.slice(0, 6).map((blog) => (
-                  <SwiperSlide key={blog._id}>
-                    <div className="w-[200px]">
+                sliderPubData.map((blog) => (
+                  <SwiperSlide key={blog._id} style={{ width: "200px" }}>
+                    <div className="w-full">
                       <Link href={`/blogs/${blog.slug}`}>
-                        <Image
-                          src={blog.images[0]} // Fixed typo from 'scr' to 'src'
-                          alt={blog.title}
-                          width={200}
-                          height={200}
-                          className="object-cover rounded-lg"
-                        />
+                        <div className="relative aspect-square">
+                          <Image
+                            src={blog.images[0]}
+                            alt={blog.title}
+                            fill
+                            className="object-cover rounded-lg shadow-xl border"
+                          />
+                        </div>
                       </Link>
                     </div>
                   </SwiperSlide>
@@ -140,6 +139,60 @@ export default function Blogs() {
               )}
             </Swiper>
           </div>
+
+          {/* All Blog Posts
+          <div className="mt-8">
+            <h2 className="font-bold text-2xl dark:text-gray-200 mb-6">
+              All Blog Posts
+            </h2>
+
+            {loading ? (
+              <Spinner />
+            ) : publishedData.length > 0 ? (
+              <div className="space-y-8">
+                {publishedData.map((blog) => (
+                  <div
+                    key={blog._id}
+                    className="border-b pb-6 border-gray-200 dark:border-gray-700"
+                  >
+                    <Link href={`/blogs/${blog.slug}`}>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                        {blog.title}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-400 mt-2">
+                        {blog.excerpt || blog.description?.substring(0, 150)}...
+                      </p>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-600 dark:text-gray-400">
+                No blog posts found.
+              </p>
+            )}
+
+            {/* Pagination */}
+          {/* {totalPages > 1 && (
+              <div className="flex justify-center mt-8">
+                <nav className="flex items-center gap-1">
+                  {pageNumbers.map((number) => (
+                    <button
+                      key={number}
+                      onClick={() => paginate(number)}
+                      className={`px-3 py-1 rounded-md ${
+                        currentPage === number
+                          ? "bg-blue-600 text-white"
+                          : "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600"
+                      }`}
+                    >
+                      {number}
+                    </button>
+                  ))}
+                </nav>
+              </div>
+            )}
+          </div>  */}
         </div>
       </main>
     </div>
