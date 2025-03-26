@@ -15,7 +15,7 @@ export default function Blogs() {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(7);
   const [searchQuery, setSearchQuery] = useState("");
-  const { alldata, loading } = useFetchData("/api/blogs");
+  const { alldata = [], loading } = useFetchData("/api/blogs");
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
