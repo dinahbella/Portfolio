@@ -47,6 +47,24 @@ export default async function handler(req, res) {
         await parentComment.save();
         res.status(201).json(newComment);
       }
-    } catch (error) {}
+      const newComment = new Comment({
+        name,
+        email,
+        title,
+        contentpera,
+        maincomment,
+        blog: blog._id,
+      });
+      await newComment.save();
+      res.status(201).json(newComment);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Server error" });
+    }
+  } else {
+    res.setHeader("Allow", ["GET", "POST"]);
+    return res
+      .status(405)
+      .json({ message: `Method ${req.method} not allowed` });
   }
 }
