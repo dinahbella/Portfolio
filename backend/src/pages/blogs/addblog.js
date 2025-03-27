@@ -37,6 +37,7 @@ export default function AddBlog({ id }) {
 
   // State for form fields
   const [title, setTitle] = React.useState("");
+  const [slug, setSlug] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [blogcategory, setBlogcategory] = React.useState("");
   const [tags, setTags] = React.useState("");
@@ -55,6 +56,7 @@ export default function AddBlog({ id }) {
       // Prepare data for API request
       const data = {
         title,
+        slug,
         description,
         images,
         blogcategory,
@@ -169,10 +171,24 @@ export default function AddBlog({ id }) {
                   <Input
                     id="title"
                     type="text"
-                    placeholder="Name of your project"
+                    placeholder="Name of your Blog"
                     className="shadow-lg"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="slug" className="font-bold text-md">
+                    Slug
+                  </Label>
+                  <Input
+                    id="slug"
+                    type="text"
+                    placeholder="example-of-slug"
+                    className="shadow-lg"
+                    value={slug}
+                    onChange={(e) => setSlug(e.target.value)}
                     required
                   />
                 </div>
@@ -184,7 +200,7 @@ export default function AddBlog({ id }) {
                   </Label>
                   <Textarea
                     id="description"
-                    placeholder="Describe your project"
+                    placeholder="Describe your blog"
                     className="shadow-lg"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}

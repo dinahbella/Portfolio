@@ -9,7 +9,7 @@ export default async function handle(req, res) {
   try {
     switch (method) {
       case "POST": {
-        const { title, images } = req.body;
+        const { title, slug, images } = req.body;
 
         // Validate required fields
         if (!title || !images) {
@@ -39,7 +39,7 @@ export default async function handle(req, res) {
       }
 
       case "PUT": {
-        const { _id, title, images } = req.body;
+        const { _id, title, slug, images } = req.body;
 
         // Validate required fields
         if (!_id || !title || !images) {

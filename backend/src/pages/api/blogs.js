@@ -8,7 +8,7 @@ export default async function handle(req, res) {
 
   try {
     if (method === "POST") {
-      const { title, description, images, blogcategory, tags, status } =
+      const { title, slug, description, images, blogcategory, tags, status } =
         req.body;
 
       // Validate required fields
@@ -19,6 +19,7 @@ export default async function handle(req, res) {
       // Create a new blog
       const blogDoc = await Blog.create({
         title,
+        slug,
         images,
         description,
         blogcategory,
@@ -45,8 +46,16 @@ export default async function handle(req, res) {
     }
 
     if (method === "PUT") {
-      const { _id, title, description, images, blogcategory, tags, status } =
-        req.body;
+      const {
+        _id,
+        title,
+        slug,
+        description,
+        images,
+        blogcategory,
+        tags,
+        status,
+      } = req.body;
 
       // Validate required fields
       if (!_id || !title || !description || !blogcategory) {
@@ -58,6 +67,7 @@ export default async function handle(req, res) {
         _id,
         {
           title,
+          slug,
           description,
           images,
           blogcategory,

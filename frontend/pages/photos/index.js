@@ -57,7 +57,7 @@ const fadeIn = {
 };
 
 export default function PhotoGallery() {
-  const { alldata = [], loading } = useFetchData("/api/photo");
+  const { alldata = [], loading, error } = useFetchData("/api/photo");
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
@@ -67,6 +67,7 @@ export default function PhotoGallery() {
           name="description"
           content="Explore our stunning book cover design portfolio"
         />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
       <main className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
@@ -77,7 +78,6 @@ export default function PhotoGallery() {
           variants={containerVariants}
           className="flex flex-col lg:flex-row gap-8 mb-20"
         >
-          {/* Left content */}
           <motion.div
             variants={itemVariants}
             className="lg:w-1/2 flex flex-col justify-center"
@@ -107,7 +107,7 @@ export default function PhotoGallery() {
               whileTap={{ scale: 0.95 }}
               className="inline-block"
             >
-              <Link href={`/photos#photosimages`}>
+              <Link href="/photos#photosimages" passHref legacyBehavior>
                 <Button
                   className="px-8 py-4 text-lg hover:bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 hover:text-white transition-all duration-300"
                   variant="outline"
@@ -118,7 +118,6 @@ export default function PhotoGallery() {
             </motion.div>
           </motion.div>
 
-          {/* Right gallery */}
           <motion.div
             variants={containerVariants}
             className="lg:w-1/2 grid grid-cols-2 gap-6 md:gap-8"
@@ -127,7 +126,6 @@ export default function PhotoGallery() {
               <motion.div
                 key={photo.id}
                 variants={itemVariants}
-                custom={index}
                 className={`relative group overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ${
                   index === 0 ? "row-span-2" : ""
                 }`}
@@ -138,6 +136,7 @@ export default function PhotoGallery() {
                     src={photo.src}
                     alt={photo.alt}
                     fill
+                    priority={index < 2} // Prioritize loading first two images
                     className="object-cover group-hover:grayscale group-hover:brightness-75 transition-all duration-500 ease-in-out"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
@@ -174,7 +173,7 @@ export default function PhotoGallery() {
         >
           <motion.div variants={fadeIn} className="text-center mb-12">
             <h3
-              className="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2 "
+              className="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2"
               id="photosimages"
             >
               <span className="text-blue-500 dark:text-blue-400">01/</span>OUR
@@ -206,12 +205,16 @@ export default function PhotoGallery() {
             <div className="flex justify-center py-12">
               <Spinner />
             </div>
+          ) : error ? (
+            <div className="text-center py-12 text-red-500">
+              Failed to load photos. Please try again later.
+            </div>
           ) : (
             <motion.div
               variants={containerVariants}
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
             >
-              {alldata.map((photo, index) => (
+              {alldata.map((photo) => (
                 <motion.div
                   key={photo._id}
                   variants={itemVariants}
@@ -220,10 +223,11 @@ export default function PhotoGallery() {
                 >
                   <div className="aspect-[2/3] overflow-hidden">
                     <Image
-                      src={photo.images[0]}
-                      alt={photo.title}
+                      src={photo.images[0] || "/placeholder.jpg"}
+                      alt={photo.title || "Book cover"}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
@@ -232,7 +236,7 @@ export default function PhotoGallery() {
                       whileInView={{ opacity: 1, y: 0 }}
                       className="text-white text-xl font-bold mb-1"
                     >
-                      {photo.title}
+                      {photo.title || "Untitled"}
                     </motion.h3>
                     <motion.p
                       initial={{ opacity: 0 }}
@@ -265,7 +269,7 @@ export default function PhotoGallery() {
             whileTap={{ scale: 0.95 }}
             className="inline-block"
           >
-            <Link href="/contact">
+            <Link href="/contact" passHref legacyBehavior>
               <Button className="px-8 py-4 text-lg bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 text-white hover:shadow-lg transition-all">
                 GET STARTED TODAY
               </Button>

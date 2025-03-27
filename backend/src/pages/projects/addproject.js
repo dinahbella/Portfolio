@@ -38,6 +38,7 @@ export default function AddProject({ id }) {
   const [client, setClient] = useState("");
   const [projectcategory, setProjectcategory] = useState("");
   const [tags, setTags] = useState("");
+  const [slug, setSlug] = useState("");
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -51,6 +52,7 @@ export default function AddProject({ id }) {
     try {
       const data = {
         title,
+        slug,
         description,
         images,
         client,
@@ -173,7 +175,20 @@ export default function AddProject({ id }) {
                     onChange={(e) => setTitle(e.target.value)}
                   />
                 </div>
-
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="slug" className="font-bold text-md">
+                    Slug
+                  </Label>
+                  <Input
+                    id="slug"
+                    type="text"
+                    placeholder="example-of-slug"
+                    className="shadow-lg"
+                    value={slug}
+                    onChange={(e) => setSlug(e.target.value)}
+                    required
+                  />
+                </div>
                 {/* Description */}
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="description" className="font-bold text-md">

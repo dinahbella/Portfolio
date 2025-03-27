@@ -10,6 +10,7 @@ export default async function handle(req, res) {
     if (method === "POST") {
       const {
         title,
+        slug,
         description,
         images,
         client,
@@ -24,6 +25,7 @@ export default async function handle(req, res) {
 
       const projectDoc = await Project.create({
         title,
+        slug,
         description,
         images,
         client,
@@ -60,6 +62,7 @@ export default async function handle(req, res) {
       const {
         _id,
         title,
+        slug,
         description,
         images,
         client,
@@ -76,6 +79,7 @@ export default async function handle(req, res) {
         _id,
         {
           title,
+          slug,
           description,
           images,
           client,

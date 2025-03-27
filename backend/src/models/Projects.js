@@ -2,6 +2,7 @@ const { Schema, models, model } = require("mongoose");
 const ProjectSchema = new Schema(
   {
     title: { type: String },
+    slug: { type: String },
     description: { type: String },
     images: [{ type: String }],
     client: { type: String },
