@@ -1,8 +1,8 @@
-import { mongooseConnect } from "../../lib/mongoose";
-import { Contact } from "../../models/Contact";
+import connectDB from "@/lib/mongodb";
+import { Contact } from "@/models/Contact";
 
 export default async function handle(req, res) {
-  await mongooseConnect();
+  await connectDB();
 
   const { method } = req;
 
