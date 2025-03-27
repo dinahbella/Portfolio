@@ -35,6 +35,7 @@ export default function AddPhoto({ id }) {
   const fileInputRef = React.useRef(null); // Ref for the file input
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
+  const [slug, setSlug] = useState("");
 
   const router = useRouter();
   const [redirect, setRedirect] = React.useState(false); // Tracks if redirect is needed
@@ -46,6 +47,7 @@ export default function AddPhoto({ id }) {
     try {
       const data = {
         title,
+        slug,
         images,
       };
 
@@ -164,6 +166,20 @@ export default function AddPhoto({ id }) {
                   />
                 </div>
 
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="slug" className="font-bold text-md">
+                    Slug
+                  </Label>
+                  <Input
+                    id="slug"
+                    type="text"
+                    placeholder="example-of-slug"
+                    className="shadow-lg"
+                    value={slug}
+                    onChange={(e) => setSlug(e.target.value)}
+                    required
+                  />
+                </div>
                 {/* Image Upload */}
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="image" className="font-bold text-md">

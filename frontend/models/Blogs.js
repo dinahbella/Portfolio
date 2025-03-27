@@ -8,6 +8,7 @@ const BlogSchema = new Schema(
     tags: [{ type: String }],
     status: { type: String },
     comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+    createdAt: { type: Date },
   },
   {
     timestamps: true,
