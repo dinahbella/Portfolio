@@ -56,12 +56,13 @@ export default function Header() {
               isMenuOpen
                 ? "block p-3 bg-gradient-to-br from-blue-600 via-teal-500 to-indigo-800"
                 : "hidden"
-            } md:flex md:items-center gap-5 absolute md:static top-16 left-0 w-full md:w-auto md:bg-transparent p-5 md:p-0 shadow-lg md:shadow-none rounded-lg md:rounded-none transition-all duration-300 ease-in-out`}
+            } md:flex md:items-center gap-3 absolute md:static top-16 left-0 w-full md:w-auto md:bg-transparent p-5 md:p-0 shadow-lg md:shadow-none rounded-lg md:rounded-none transition-all duration-300 ease-in-out`}
           >
             {[
               { href: "/", label: "Home" },
               { href: "/projects", label: "Projects" },
               { href: "/blogs", label: "Blogs" },
+              { href: "/photos", label: "Photos" },
               { href: "/services", label: "Services" },
               { href: "/contacts", label: "Contacts" },
             ].map((item) => (
