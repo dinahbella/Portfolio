@@ -1,25 +1,25 @@
-const { Schema, models, model } = require("mongoose");
+import mongoose from "mongoose";
+
+const { Schema, models, model } = mongoose;
+
 const CommentSchema = new Schema(
   {
     name: { type: String, required: true },
-    email: { type: String },
-    title: { type: String },
-    contentpera: { type: String },
-    maincomment: { type: Boolean },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    blog: { type: Schema.Types.ObjectId, ref: "Blog", required: true },
-    parent: { type: Schema.Types.ObjectId, ref: "Comment" },
-    children: { type: Schema.Types.ObjectId, ref: "Comment" },
-    parentName: {
-      type: String,
-    },
+    email: { type: String, required: true },
+    title: String,
+    content: { type: String, required: true },
+    blog: { type: mongoose.Schema.Types.ObjectId, ref: "Blog", required: true },
+    parent: { type: mongoose.Schema.Types.ObjectId, ref: "Comment" },
+    parentName: String,
+    children: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+    maincomment: { type: Boolean, default: true },
+    edited: { type: Boolean, default: false },
+    editedAt: Date,
+    deleted: { type: Boolean, default: false },
+    deletedAt: Date,
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
-export const Comment =
-  models.Comment || model("Comment", CommentSchema, "comments");
+
+// Export model safely
+export const Comment = models.Comment || model("Comment", CommentSchema);

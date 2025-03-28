@@ -11,7 +11,6 @@ export default async function handler(req, res) {
   try {
     switch (method) {
       case "GET":
-        // Get all comments for a blog post
         if (slug) {
           const blog = await Blog.findOne({ slug }).populate({
             path: "comments",
@@ -22,7 +21,6 @@ export default async function handler(req, res) {
           }
           return res.status(200).json(blog.comments);
         }
-        // Get a specific comment by ID
         if (id) {
           const comment = await Comment.findById(id).populate("children");
           if (!comment) {
@@ -33,74 +31,86 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: "Missing slug or comment ID" });
 
       case "POST":
-        // Add a new comment
         if (!slug) {
           return res.status(400).json({ error: "Blog post slug is required" });
         }
 
         const { name, email, title, content, parent } = req.body;
 
-        // Basic validation
-        if (!name || !email || !content) {
-          return res
-            .status(400)
-            .json({ error: "Name, email, and content are required" });
+        // Enhanced validation
+        if (!name?.trim() || !email?.trim() || !content?.trim()) {
+          return res.status(400).json({
+            error: "Name, email, and content are required",
+            details: {
+              name: !name?.trim() ? "Name is required" : null,
+              email: !email?.trim() ? "Email is required" : null,
+              content: !content?.trim() ? "Content is required" : null,
+            },
+          });
         }
 
-        // Find the blog post
         const blog = await Blog.findOne({ slug });
         if (!blog) {
           return res.status(404).json({ error: "Blog post not found" });
         }
 
-        // Create the comment
         const commentData = {
-          name,
-          email,
-          content,
+          name: name.trim(),
+          email: email.trim(),
+          content: content.trim(),
           blog: blog._id,
-          title: title || "",
+          title: title?.trim() || "",
+          maincomment: !parent, // Add this field to distinguish parent/child comments
         };
 
         if (parent) {
-          commentData.parent = parent;
           const parentComment = await Comment.findById(parent);
           if (!parentComment) {
             return res.status(404).json({ error: "Parent comment not found" });
           }
+          commentData.parent = parent;
+          commentData.parentName = parentComment.name;
         }
 
         const comment = await Comment.create(commentData);
 
         // Update parent comment if this is a reply
         if (parent) {
-          await Comment.findByIdAndUpdate(parent, {
-            $push: { children: comment._id },
-          });
+          await Comment.findByIdAndUpdate(
+            parent,
+            { $push: { children: comment._id } },
+            { new: true }
+          );
         }
 
-        // Add comment to blog post
-        await Blog.findByIdAndUpdate(blog._id, {
-          $push: { comments: comment._id },
-          $inc: { commentCount: 1 },
-        });
+        // Add comment to blog post if it's a main comment
+        if (!parent) {
+          await Blog.findByIdAndUpdate(
+            blog._id,
+            { $push: { comments: comment._id }, $inc: { commentCount: 1 } },
+            { new: true }
+          );
+        }
 
         return res.status(201).json(comment);
 
       case "PUT":
-        // Update a comment
         if (!id) {
           return res.status(400).json({ error: "Comment ID is required" });
         }
 
         const { content: updatedContent } = req.body;
-        if (!updatedContent) {
+        if (!updatedContent?.trim()) {
           return res.status(400).json({ error: "Content is required" });
         }
 
         const updatedComment = await Comment.findByIdAndUpdate(
           id,
-          { content: updatedContent, edited: true },
+          {
+            content: updatedContent.trim(),
+            edited: true,
+            editedAt: new Date(),
+          },
           { new: true }
         );
 
@@ -111,48 +121,55 @@ export default async function handler(req, res) {
         return res.status(200).json(updatedComment);
 
       case "DELETE":
-        // Delete a comment
         if (!id) {
           return res.status(400).json({ error: "Comment ID is required" });
         }
 
-        // Find and delete the comment
         const commentToDelete = await Comment.findById(id);
         if (!commentToDelete) {
           return res.status(404).json({ error: "Comment not found" });
         }
 
-        // If it's a parent comment, remove reference from blog
+        // Handle parent comment deletion
         if (!commentToDelete.parent) {
-          await Blog.findByIdAndUpdate(commentToDelete.blog, {
-            $pull: { comments: id },
-            $inc: { commentCount: -1 },
-          });
+          await Blog.findByIdAndUpdate(
+            commentToDelete.blog,
+            { $pull: { comments: id }, $inc: { commentCount: -1 } },
+            { new: true }
+          );
         }
 
-        // If it has children, mark as deleted instead of removing
-        if (commentToDelete.children && commentToDelete.children.length > 0) {
-          await Comment.findByIdAndUpdate(id, {
-            deleted: true,
-            content: "[deleted]",
-            name: "Deleted User",
-            email: "",
-          });
+        // Handle child comment deletion
+        if (commentToDelete.parent) {
+          await Comment.findByIdAndUpdate(
+            commentToDelete.parent,
+            { $pull: { children: id } },
+            { new: true }
+          );
+        }
+
+        // Soft delete for comments with children
+        if (commentToDelete.children?.length > 0) {
+          await Comment.findByIdAndUpdate(
+            id,
+            {
+              content: "[deleted]",
+              name: "Deleted User",
+              email: "",
+              deleted: true,
+              deletedAt: new Date(),
+            },
+            { new: true }
+          );
         } else {
-          // If no children, remove completely
+          // Hard delete for comments without children
           await Comment.findByIdAndDelete(id);
-
-          // Remove from parent's children array if it was a reply
-          if (commentToDelete.parent) {
-            await Comment.findByIdAndUpdate(commentToDelete.parent, {
-              $pull: { children: id },
-            });
-          }
         }
 
-        return res
-          .status(200)
-          .json({ message: "Comment deleted successfully" });
+        return res.status(200).json({
+          message: "Comment deleted successfully",
+          deleted: true,
+        });
 
       default:
         res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
@@ -163,7 +180,12 @@ export default async function handler(req, res) {
     return res.status(500).json({
       error: "Internal server error",
       details:
-        process.env.NODE_ENV === "development" ? error.message : undefined,
+        process.env.NODE_ENV === "development"
+          ? {
+              message: error.message,
+              stack: error.stack,
+            }
+          : undefined,
     });
   }
 }

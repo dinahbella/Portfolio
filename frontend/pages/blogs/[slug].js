@@ -98,7 +98,7 @@ export default function BlogPage() {
 
   const handleUpdateComment = async () => {
     try {
-      await axios.put(`/api/comment/${editingCommentId}`, {
+      await axios.put(`/api/comments/${editingCommentId}`, {
         content: editingContent,
       });
 
@@ -127,7 +127,7 @@ export default function BlogPage() {
 
   const handleDelete = async (commentId) => {
     try {
-      await axios.delete(`/api/comment/${commentId}`);
+      await axios.delete(`/api/comments/${commentId}`);
 
       setBlogData((prevData) => {
         const removeComment = (comments) =>
@@ -161,66 +161,44 @@ export default function BlogPage() {
 
   const handleSubmitComment = async (e) => {
     e.preventDefault();
+
     try {
       const response = await axios.post(`/api/blogs/${slug}`, newComment);
+      const newPostedComment = response.data;
 
-      if (newComment.parent) {
-        setBlogData((prevData) => {
-          const updateChildrenComment = (children, parentId, newReply) => {
-            return children.map((child) => {
-              if (child._id === parentId) {
-                return {
-                  ...child,
-                  children: [...(child.children || []), newReply],
-                };
-              } else if (child.children && child.children.length > 0) {
-                return {
-                  ...child,
-                  children: updateChildrenComment(
-                    child.children,
-                    parentId,
-                    newReply
-                  ),
-                };
-              }
-              return child;
-            });
-          };
-
-          const updatedComments = prevData.comments.map((comment) => {
+      setBlogData((prevData) => {
+        const addReply = (comments) => {
+          return comments.map((comment) => {
             if (comment._id === newComment.parent) {
               return {
                 ...comment,
-                children: [...(comment.children || []), response.data],
+                children: [...(comment.children || []), newPostedComment],
               };
             } else if (comment.children && comment.children.length > 0) {
               return {
                 ...comment,
-                children: updateChildrenComment(
-                  comment.children,
-                  newComment.parent,
-                  response.data
-                ),
+                children: addReply(comment.children),
               };
             }
             return comment;
           });
+        };
 
-          return {
-            ...prevData,
-            comments: updatedComments,
-          };
-        });
-      } else {
-        setBlogData((prevData) => ({
+        const updatedComments = newComment.parent
+          ? addReply(prevData.comments)
+          : [newPostedComment, ...prevData.comments];
+
+        return {
           ...prevData,
-          comments: [response.data, ...prevData.comments],
-        }));
-      }
+          comments: updatedComments,
+        };
+      });
 
+      // Show success message
       setMessageOk("✅ Comment posted successfully");
       setTimeout(() => setMessageOk(""), 5000);
 
+      // Reset form
       setNewComment({
         name: "",
         email: "",
@@ -236,7 +214,7 @@ export default function BlogPage() {
     }
   };
 
-  const handleReply = (parentCommentId, parentName) => {
+  const handleReply = async (parentCommentId, parentName) => {
     setNewComment({
       ...newComment,
       parent: parentCommentId,
@@ -278,8 +256,9 @@ export default function BlogPage() {
 
     return comments.map((comment) => {
       // Limit content to 50 words
-      const limitedContent = comment.content.split(" ").slice(0, 50).join(" ");
-      const showEllipsis = comment.content.split(" ").length > 50;
+      // const words = comment.content;
+      // const limitedContent = words.slice(0, 50).join(" ");
+      // const showEllipsis = words.length > 50;
 
       return (
         <motion.div
@@ -338,12 +317,13 @@ export default function BlogPage() {
             ) : (
               <>
                 <p className="text-gray-700 dark:text-gray-300 mb-2">
-                  {limitedContent}
+                  {comment.content}
+                  {/* {limitedContent}
                   {showEllipsis && (
                     <span className="text-gray-500 dark:text-gray-400">
                       ...
                     </span>
-                  )}
+                  )} */}
                 </p>
                 <div className="flex gap-2">
                   <Button
@@ -380,7 +360,13 @@ export default function BlogPage() {
     });
   };
 
-  const shareUrl = `${window.location.origin}/blogs/${slug}`;
+  const [shareUrl, setShareUrl] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setShareUrl(`${window.location.origin}/blogs/${slug}`);
+    }
+  }, [slug]);
   const socialLinks = [
     {
       icon: <FaFacebook className="text-blue-600 hover:text-blue-700" />,
