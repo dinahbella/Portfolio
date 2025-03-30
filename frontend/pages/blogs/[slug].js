@@ -12,6 +12,8 @@ import { FaFacebook, FaLinkedin } from "react-icons/fa";
 import Link from "next/link";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { toast } from "sonner";
+import BlogSearch from "@/components/BlogSearch";
+import useFetchData from "@/hooks/useFetchData";
 
 // Animation variants
 const fadeIn = {
@@ -67,7 +69,7 @@ export default function BlogPage() {
   });
   const replyFormRef = useRef(null);
   const [shareUrl, setShareUrl] = useState("");
-
+  const { alldata } = useFetchData("/api/blogs");
   useEffect(() => {
     const fetchBlogData = async () => {
       if (!slug) return;
@@ -279,7 +281,12 @@ export default function BlogPage() {
       toast.error("Failed to copy URL");
     }
   };
-
+  const handleSearchOpen = () => {
+    setSearchInput(!searchInput);
+  };
+  const handleSearchClose = () => {
+    setSearchInput(false);
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewComment((prev) => ({ ...prev, [name]: value }));
@@ -779,6 +786,7 @@ export default function BlogPage() {
             <input
               type="text"
               placeholder="Search blog..."
+              onClick={handleSearchOpen}
               className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
@@ -812,24 +820,36 @@ export default function BlogPage() {
               {/* Add more recent posts as needed */}
             </div>
           </div>
-          {}
+          {searchInput ? <BlogSearch cls={handleSearchClose} /> : null}
           {/* Categories Widget */}
-          {/* <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow">
+          <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow">
             <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
               Categories
             </h3>
             <div className="space-y-2">
-              {blogData.blog.blogcategory?.map((category, index) => (
-                <Link
-                  key={index}
-                  href={`/blog/category/${category.toLowerCase()}`}
-                  className="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
-                >
-                  {category}
-                </Link>
-              ))}
+              {blogData.blog.blogcategory?.map((category, index) => {
+                // Count blogs in this category
+                const categoryCount = alldata.filter((blog) =>
+                  blog.blogcategory?.some((cat) => cat === category)
+                ).length;
+
+                return (
+                  <Link
+                    key={index}
+                    href={`/blogs/category/${category}`
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}
+                    className="flex justify-between items-center px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
+                  >
+                    <span>{category}</span>
+                    <span className="text-xs bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded-full">
+                      {categoryCount}
+                    </span>
+                  </Link>
+                );
+              })}
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     </>

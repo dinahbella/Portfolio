@@ -1,6 +1,8 @@
+import useFetchData from "@/hooks/useFetchData";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
+import Spinner from "./Spinner";
 
 const extractFirstParagraph = (markdown) => {
   if (!markdown) return "";
@@ -9,11 +11,11 @@ const extractFirstParagraph = (markdown) => {
 };
 
 export default function BlogSearch({ cls }) {
-  const { allwork } = useFetchData("/api/blogs");
+  const { alldata = [], loading } = useFetchData("/api/blogs");
   const [searchResult, setSearchResult] = useState([]);
   const [blogtitle, setBlogTitle] = useState("");
 
-  const publishedData = allwork?.filter((ab) => ab.status === "publish") || [];
+  const publishedData = alldata?.filter((ab) => ab.status === "publish") || [];
 
   useEffect(() => {
     if (!blogtitle.trim()) {
@@ -21,7 +23,7 @@ export default function BlogSearch({ cls }) {
       return;
     }
     const filteredblogs = publishedData.filter((blog) =>
-      blog?.title?.toLowerCase().includes(blogtitle.toLowerCase())
+      blog.title.toLowerCase().includes(blogtitle.toLowerCase())
     );
     setSearchResult(filteredblogs);
   }, [blogtitle, publishedData]);
@@ -30,7 +32,12 @@ export default function BlogSearch({ cls }) {
     setBlogTitle("");
     cls(); // Close the search modal if needed
   };
-
+  if (loading)
+    return (
+      <div>
+        <Spinner />
+      </div>
+    );
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-start justify-center pt-20 px-4">
       <div className="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden transition-all duration-300">
