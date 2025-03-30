@@ -11,8 +11,7 @@ export default function Category() {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(7);
   const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(false);
-  const { alldata, setAlldata } = useFetchData(
+  const { alldata, loading } = useFetchData(
     `/api/blogs?blogcategory=${category}`
   );
 

@@ -791,35 +791,58 @@ export default function BlogPage() {
             />
           </div>
 
-          {/* Recent Posts Widget */}
-          <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow">
+          <div className="bg-gray-50 dark:bg-gray-800 p-5 rounded-lg shadow-lg">
             <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
               Recent Posts
             </h3>
-            <div className="space-y-3">
-              {/* Add your recent posts here */}
-              <div className="flex items-start gap-3">
-                <div className="w-16 h-16 rounded-md overflow-hidden">
-                  <Image
-                    src="/placeholder-post.jpg"
-                    alt="Recent post"
-                    width={64}
-                    height={64}
-                    className="object-cover"
-                  />
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-gray-900 dark:text-white">
-                    Post Title
-                  </h4>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    January 15, 2023
-                  </p>
-                </div>
-              </div>
-              {/* Add more recent posts as needed */}
+            <div className="space-y-4">
+              {alldata.slice(0, 3).map((blog) => (
+                <Link
+                  key={blog._id}
+                  href={`/blogs/${blog.slug}`}
+                  className="flex items-start gap-4 p-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
+                >
+                  {/* Blog Image */}
+                  <div className="w-16 h-16 rounded-md overflow-hidden bg-gray-200 dark:bg-gray-700">
+                    <Image
+                      src={blog.images[0]}
+                      alt={blog.title}
+                      width={64}
+                      height={64}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+
+                  {/* Blog Content */}
+                  <div className="flex-1">
+                    <h4 className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                      {blog.title}
+                    </h4>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </p>
+
+                    {/* Tags */}
+                    <div className="mt-1 flex flex-wrap gap-2">
+                      {blog.tags.map((cat, index) => (
+                        <span
+                          key={index}
+                          className="text-xs bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full"
+                        >
+                          #{cat}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
+
           {searchInput ? <BlogSearch cls={handleSearchClose} /> : null}
           {/* Categories Widget */}
           <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow">
@@ -843,7 +866,10 @@ export default function BlogPage() {
                   >
                     <span>{category}</span>
                     <span className="text-xs bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded-full">
-                      {categoryCount}
+                      {
+                        alldata.filter((ab) => ab.blogcategory[0] === category)
+                          .length
+                      }{" "}
                     </span>
                   </Link>
                 );
