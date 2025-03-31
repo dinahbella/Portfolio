@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/free-mode";
+import { FreeMode } from "swiper/modules";
 import Head from "next/head";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -9,16 +11,6 @@ import Spinner from "@/components/Spinner";
 import useFetchData from "@/hooks/useFetchData";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  FaSearch,
-  FaCalendarAlt,
-  FaTags,
-  FaArrowRight,
-  FaChevronLeft,
-  FaChevronRight,
-  FaStar,
-} from "react-icons/fa";
-import { FiBookmark, FiShare2 } from "react-icons/fi";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -46,7 +38,7 @@ const tagColors = [
   "bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-100",
 ];
 
-export default function Projects() {
+export default function Blogs() {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(7);
   const [searchQuery, setSearchQuery] = useState("");
@@ -96,9 +88,9 @@ export default function Projects() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       <Head>
-        <title>Inkvision Blog | Writing Tips & Content Strategies</title>
+        <title>Blogs</title>
         <meta
           name="description"
           content="Explore our collection of writing tips, content strategies, and industry insights"
@@ -106,169 +98,150 @@ export default function Projects() {
       </Head>
 
       <main className="container mx-auto px-4 py-8 md:py-12 lg:py-16">
-        {/* Hero Section */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-6xl mx-auto mb-16 text-center"
-        >
-          <div className="inline-flex items-center px-4 py-2 bg-blue-100 dark:bg-blue-900/50 rounded-full mb-6">
-            <span className="text-sm font-medium text-blue-600 dark:text-blue-300">
-              Latest Articles & Guides
-            </span>
-          </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-teal-600 to-indigo-800">
-              Inkvision
-            </span>{" "}
-            Blog
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8 leading-relaxed">
-            Discover expert writing tips, content strategies, and industry
-            insights to elevate your craft.
-          </p>
-
-          {/* Search Bar */}
-          <motion.form
-            onSubmit={handleSearch}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="max-w-2xl mx-auto relative"
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="max-w-3xl mx-auto mb-12"
           >
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <FaSearch className="h-5 w-5 text-gray-400 dark:text-gray-500" />
-            </div>
-            <Input
-              type="text"
-              placeholder="Search articles, guides, tips..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="block w-full pl-12 pr-32 py-3 rounded-xl border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-lg transition-all duration-200"
-            />
-            <Button
-              type="submit"
-              className="absolute right-2 inset-y-1 px-6 text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
-            >
-              Search
-            </Button>
-          </motion.form>
-        </motion.section>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              Welcome to{" "}
+              <span className="font-bold bg-gradient-to-r from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text">
+                Dinah Blogs!
+              </span>
+            </h1>
 
-        {/* Featured Posts Slider */}
-        <motion.section
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-20"
-        >
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-              <FaStar className="text-yellow-500" />
+            <p className="text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed mb-8">
+              This area covers a wide range of topics, from practical writing
+              tips and grammar guides to advanced content marketing strategies
+              and SEO best practices.
+            </p>
+
+            <div className="w-full mb-8">
+              <form onSubmit={handleSearch} className="flex items-center">
+                <div className="relative flex-grow max-w-lg mr-4">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg
+                      className="h-5 w-5 text-gray-400 dark:text-gray-500"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <Input
+                    type="text"
+                    placeholder="Search here..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="block w-full pl-10 pr-4 py-2 rounded-2xl border-blue-600 shadow-lg dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-colors duration-200"
+                  />
+                  <Button
+                    type="submit"
+                    className="absolute right-0 inset-y-0 px-4 text-white bg-gradient-to-tr from-blue-500 via-teal-600 to-indigo-800 hover:bg-blue-700 dark:hover:bg-blue-800 rounded-r-2xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                  >
+                    Search
+                  </Button>
+                </div>
+              </form>
+            </div>
+          </motion.div>
+
+          <div className="shadow-lg mt-4 mb-8">
+            <hr className="border-gray-200 dark:border-gray-700" />
+          </div>
+
+          {/* Featured Posts Slider */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mb-16"
+          >
+            <h2 className="font-bold text-2xl dark:text-gray-200 mb-6">
               Featured Posts
             </h2>
-            <Link
-              href="/blog/featured"
-              className="flex items-center text-blue-600 dark:text-blue-400 hover:underline"
+            <Swiper
+              slidesPerView={"auto"}
+              freeMode={true}
+              spaceBetween={24}
+              modules={[FreeMode]}
+              className="featured-swiper"
+              breakpoints={{
+                320: { slidesPerView: 1.2, spaceBetween: 16 },
+                480: { slidesPerView: 1.5, spaceBetween: 16 },
+                640: { slidesPerView: 2.2, spaceBetween: 20 },
+                768: { slidesPerView: 2.5, spaceBetween: 24 },
+                1024: { slidesPerView: 3.5, spaceBetween: 24 },
+                1280: { slidesPerView: 4, spaceBetween: 24 },
+              }}
             >
-              View all <FaArrowRight className="ml-1" />
-            </Link>
-          </div>
-
-          <Swiper
-            slidesPerView={"auto"}
-            freeMode={true}
-            spaceBetween={24}
-            modules={[FreeMode, Autoplay]}
-            autoplay={{
-              delay: 5000,
-              disableOnInteraction: false,
-            }}
-            className="featured-swiper"
-            breakpoints={{
-              320: { slidesPerView: 1.2, spaceBetween: 16 },
-              480: { slidesPerView: 1.5, spaceBetween: 16 },
-              640: { slidesPerView: 2.2, spaceBetween: 20 },
-              768: { slidesPerView: 2.5, spaceBetween: 24 },
-              1024: { slidesPerView: 3.5, spaceBetween: 24 },
-              1280: { slidesPerView: 4, spaceBetween: 24 },
-            }}
-          >
-            {loading ? (
-              <Spinner />
-            ) : (
-              sliderPubData.map((project, index) => (
-                <SwiperSlide
-                  key={project._id}
-                  className="!w-[300px] sm:!w-[320px] lg:!w-[340px]"
-                >
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="w-full h-full flex flex-col group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+              {loading ? (
+                <Spinner />
+              ) : (
+                sliderPubData.map((project, index) => (
+                  <SwiperSlide
+                    key={project._id}
+                    className="!w-[280px] sm:!w-[300px]"
                   >
-                    {/* Featured Badge */}
-                    <div className="absolute top-4 left-4 z-10 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md">
-                      Featured
-                    </div>
-
-                    {/* Bookmark Button */}
-                    <button className="absolute top-4 right-4 z-10 p-2 bg-white/80 dark:bg-gray-800/80 rounded-full backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-colors shadow-sm">
-                      <FiBookmark className="text-gray-700 dark:text-gray-300" />
-                    </button>
-
-                    <Link
-                      href={`/projects/${project.slug}`}
-                      className="relative block aspect-[4/3]"
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      className="w-full h-full flex flex-col group border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
                     >
-                      <Image
-                        src={project.images[0]}
-                        alt={project.title}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                    </Link>
+                      <Link
+                        href={`/projects/${project.slug}`}
+                        className="relative block aspect-[4/3]"
+                      >
+                        <Image
+                          src={project.images[0]}
+                          alt={project.title}
+                          fill
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                        {/* Category Badge - Bottom Left */}
+                        {project.projectcategory?.length > 0 && (
+                          <div className="absolute bottom-3 left-3 z-10">
+                            <div className="flex flex-wrap gap-2">
+                              {project.projectcategory
+                                .slice(0, 2)
+                                .map((cat, index) => (
+                                  <Link
+                                    key={index}
+                                    href={`/project/category/${cat}`}
+                                    className={`px-3 py-1 text-xs font-medium rounded-full ${
+                                      tagColors[index % tagColors.length]
+                                    } backdrop-blur-sm hover:scale-105 transition-transform shadow-sm`}
+                                  >
+                                    {cat}
+                                  </Link>
+                                ))}
+                            </div>
+                          </div>
+                        )}
+                      </Link>
 
-                    <div className="p-5 bg-white dark:bg-gray-800 flex-grow flex flex-col">
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        {project.projectcategory
-                          ?.slice(0, 2)
-                          .map((cat, index) => (
-                            <Link
-                              key={index}
-                              href={`/project/category/${cat}`}
-                              className={`px-3 py-1 text-xs font-medium rounded-full ${
-                                tagColors[index % tagColors.length]
-                              } backdrop-blur-sm hover:scale-105 transition-transform shadow-sm`}
-                            >
-                              {cat}
-                            </Link>
-                          ))}
-                      </div>
+                      <div className="p-4 flex-grow flex flex-col">
+                        <h2 className="text-lg font-semibold text-gray-900 dark:text-white line-clamp-2 mb-2">
+                          <Link
+                            href={`/project/${project.slug}`}
+                            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                          >
+                            {project.title}
+                          </Link>
+                        </h2>
 
-                      <h2 className="text-xl font-bold text-gray-900 dark:text-white line-clamp-2 mb-3">
-                        <Link
-                          href={`/project/${project.slug}`}
-                          className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                        >
-                          {project.title}
-                        </Link>
-                      </h2>
-
-                      <p className="text-gray-600 dark:text-gray-300 line-clamp-2 mb-4">
-                        {project.excerpt ||
-                          project.description?.substring(0, 100)}
-                        ...
-                      </p>
-
-                      <div className="mt-auto flex items-center justify-between">
-                        <div className="flex items-center space-x-2">
-                          <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm">
+                        <div className="mt-auto flex items-center space-x-2">
+                          <div className="relative w-8 h-8 rounded-full overflow-hidden border border-gray-200 dark:border-gray-700">
                             <Image
                               src="/pp.jpg"
                               alt="Author"
@@ -277,125 +250,93 @@ export default function Projects() {
                             />
                           </div>
                           <span className="text-sm text-gray-600 dark:text-gray-400">
-                            Inkvision
+                            By Inkvision
                           </span>
                         </div>
-
-                        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                          <FaCalendarAlt className="mr-1" />
-                          {new Date(project.createdAt).toLocaleDateString(
-                            "en-US",
-                            { month: "short", day: "numeric" }
-                          )}
-                        </div>
                       </div>
-                    </div>
-                  </motion.div>
-                </SwiperSlide>
-              ))
-            )}
-          </Swiper>
-        </motion.section>
+                    </motion.div>
+                  </SwiperSlide>
+                ))
+              )}
+            </Swiper>
+          </motion.div>
 
-        {/* Latest Blog Posts */}
-        <motion.section
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mt-12"
-        >
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-              <FiBookmark className="text-blue-500" />
-              Latest Articles
+          {/* Latest Blog Posts */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mt-8"
+          >
+            <h2 className="font-bold text-2xl dark:text-gray-200 mb-6">
+              Latest Projects
             </h2>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => paginate(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
-              >
-                <FaChevronLeft />
-              </button>
-              <button
-                onClick={() => paginate(currentPage + 1)}
-                disabled={currentBlogs.length < perPage}
-                className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
-              >
-                <FaChevronRight />
-              </button>
-            </div>
-          </div>
 
-          {loading ? (
-            <div className="flex justify-center py-16">
+            {loading ? (
               <Spinner />
-            </div>
-          ) : publishedData.length > 0 ? (
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="show"
-              className="grid gap-12"
-            >
-              {currentBlogs.map((project, index) => (
-                <motion.article
-                  key={project._id}
-                  variants={itemVariants}
-                  className="group relative"
-                >
-                  <div className="flex flex-col lg:flex-row gap-8">
-                    <Link
-                      href={`/projects/${project.slug}`}
-                      className="lg:w-2/5 xl:w-1/3 flex-shrink-0"
-                    >
-                      <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        className="relative aspect-video rounded-xl overflow-hidden shadow-lg"
+            ) : publishedData.length > 0 ? (
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="show"
+                className="grid gap-8"
+              >
+                {currentBlogs.map((project, index) => (
+                  <motion.article
+                    key={project._id}
+                    variants={itemVariants}
+                    className="border-b pb-8 border-gray-200 dark:border-gray-700 last:border-0"
+                  >
+                    <div className="flex flex-col md:flex-row gap-6">
+                      <Link
+                        href={`/projects/${project.slug}`}
+                        className="md:w-1/3 lg:w-1/4 flex-shrink-0"
                       >
-                        <Image
-                          src={project.images[0]}
-                          alt={project.title}
-                          fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      </motion.div>
-                    </Link>
-                    <div className="lg:flex-grow">
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {project.projectcategory
-                          ?.slice(0, 3)
-                          .map((cat, index) => (
-                            <Link
-                              key={index}
-                              href={`/project/category/${cat}`}
-                              className={`px-3 py-1 text-xs font-medium rounded-full ${
-                                tagColors[index % tagColors.length]
-                              } hover:scale-105 transition-transform shadow-sm flex items-center gap-1`}
-                            >
-                              <FaTags className="opacity-70" />
-                              {cat}
-                            </Link>
-                          ))}
-                      </div>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-                        <Link
-                          href={`/projects/${project.slug}`}
-                          className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                        <motion.div
+                          whileHover={{ scale: 1.02 }}
+                          title={project.title}
+                          className="relative aspect-video rounded-lg overflow-hidden shadow-sm"
                         >
-                          {project.title}
-                        </Link>
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-400 mb-5 line-clamp-2">
-                        {project.excerpt ||
-                          project.description?.substring(0, 200)}
-                        ...
-                      </p>
-                      <div className="flex items-center justify-between">
+                          <Image
+                            src={project.images[0]}
+                            alt={project.title}
+                            fill
+                            className="object-cover"
+                          />
+                        </motion.div>
+                      </Link>
+                      <div className="md:flex-grow">
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          {project.projectcategory
+                            ?.slice(0, 3)
+                            .map((cat, index) => (
+                              <Link
+                                key={index}
+                                href={`/project/category/${cat}`}
+                                className={`px-3 py-1 text-xs font-medium rounded-full ${
+                                  tagColors[index % tagColors.length]
+                                } hover:scale-105 transition-transform shadow-sm`}
+                              >
+                                {cat}
+                              </Link>
+                            ))}
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                          <Link
+                            href={`/projects/${project.slug}`}
+                            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                          >
+                            {project.title}
+                          </Link>
+                        </h3>
+                        <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                          {project.excerpt ||
+                            project.description?.substring(0, 180)}
+                          ...
+                        </p>
                         <div className="flex items-center space-x-3">
-                          <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm">
+                          <div className="relative w-8 h-8 rounded-full overflow-hidden border border-gray-200 dark:border-gray-700">
                             <Image
                               src="/pp.jpg"
                               alt="Author"
@@ -403,54 +344,22 @@ export default function Projects() {
                               className="object-cover"
                             />
                           </div>
-                          <div>
-                            <span className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                              Inkvision
-                            </span>
-                            <span className="block text-xs text-gray-500 dark:text-gray-400 flex items-center">
-                              <FaCalendarAlt className="mr-1" />
-                              {new Date(project.createdAt).toLocaleDateString(
-                                "en-US",
-                                {
-                                  year: "numeric",
-                                  month: "long",
-                                  day: "numeric",
-                                }
-                              )}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <button className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                            <FiBookmark />
-                          </button>
-                          <button className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                            <FiShare2 />
-                          </button>
+                          <span className="text-sm text-gray-600 dark:text-gray-400">
+                            By Inkvision •{" "}
+                            {new Date(project.createdAt).toLocaleDateString()}
+                          </span>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </motion.article>
-              ))}
-            </motion.div>
-          ) : (
-            <div className="text-center py-16">
-              <h3 className="text-xl font-medium text-gray-600 dark:text-gray-400 mb-4">
-                {searchQuery
-                  ? "No articles found matching your search"
-                  : "No articles published yet"}
-              </h3>
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery("")}
-                  className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors shadow-md hover:shadow-lg"
-                >
-                  Clear search
-                </button>
-              )}
-            </div>
-          )}
+                  </motion.article>
+                ))}
+              </motion.div>
+            ) : (
+              <p className="text-gray-600 dark:text-gray-400 text-center py-12">
+                No project posts found.
+              </p>
+            )}
+          </motion.div>
 
           {/* Pagination */}
           {publishedData.length > 0 && (
@@ -459,23 +368,22 @@ export default function Projects() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="flex justify-center mt-12"
+              className="flex justify-center mt-8"
             >
-              <nav className="flex items-center gap-1">
+              <nav className="flex items-center gap-2">
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={() => paginate(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className="px-4 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
+                  className="px-4 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <FaChevronLeft className="text-sm" />
                   Previous
                 </motion.button>
 
                 {pageNumbers
                   .slice(
-                    Math.max(currentPage - 2, 0),
-                    Math.min(currentPage + 1, pageNumbers.length)
+                    Math.max(currentPage - 3, 0),
+                    Math.min(currentPage + 2, pageNumbers.length)
                   )
                   .map((number) => (
                     <motion.button
@@ -496,30 +404,28 @@ export default function Projects() {
                   whileTap={{ scale: 0.95 }}
                   onClick={() => paginate(currentPage + 1)}
                   disabled={currentBlogs.length < perPage}
-                  className="px-4 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
+                  className="px-4 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next
-                  <FaChevronRight className="text-sm" />
                 </motion.button>
               </nav>
             </motion.div>
           )}
-        </motion.section>
 
-        {/* Popular Tags */}
-        <motion.section
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mt-20"
-        >
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-8 shadow-inner">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
-              <FaTags className="text-blue-500" />
-              Popular Topics
+          <hr className="my-8 border-gray-200 dark:border-gray-700" />
+
+          {/* Popular Tags */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mt-8"
+          >
+            <h2 className="font-bold text-2xl dark:text-gray-200 mb-6">
+              Popular Tags
             </h2>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2">
               {allTags.slice(0, 15).map((tag, index) => (
                 <motion.div
                   key={index}
@@ -530,53 +436,21 @@ export default function Projects() {
                   transition={{ delay: index * 0.05 }}
                 >
                   <Link
-                    href={`/project/category/${tag}`}
+                    href={`/projects/category/${tag}`}
                     className={`px-4 py-2 rounded-full ${
                       tagColors[index % tagColors.length]
-                    } hover:shadow-md transition-all text-sm font-medium flex items-center gap-2`}
+                    } hover:shadow-md transition-all text-sm font-medium flex items-center gap-1`}
                   >
                     {tag}
-                    <span className="text-xs bg-white/30 dark:bg-black/30 px-2 py-0.5 rounded-full">
-                      {tagCounts[tag]}
+                    <span className="text-xs opacity-80">
+                      ({tagCounts[tag]})
                     </span>
                   </Link>
                 </motion.div>
               ))}
             </div>
-          </div>
-        </motion.section>
-
-        {/* Newsletter CTA */}
-        <motion.section
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mt-20 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl p-8 md:p-12 text-white shadow-xl"
-        >
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Stay Updated with Our Latest Articles
-            </h2>
-            <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-              Subscribe to our newsletter and get the best writing tips
-              delivered straight to your inbox.
-            </p>
-            <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <Input
-                type="email"
-                placeholder="Your email address"
-                className="flex-grow rounded-lg border-white/30 bg-white/20 text-white placeholder-blue-200 focus:ring-2 focus:ring-white focus:border-transparent"
-              />
-              <Button
-                type="submit"
-                className="bg-white text-blue-600 hover:bg-gray-100 hover:text-blue-700 rounded-lg shadow-md"
-              >
-                Subscribe
-              </Button>
-            </form>
-          </div>
-        </motion.section>
+          </motion.div>
+        </div>
       </main>
     </div>
   );

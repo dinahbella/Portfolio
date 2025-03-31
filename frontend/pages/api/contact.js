@@ -10,7 +10,7 @@ export default async function handle(req, res) {
     if (method === "POST") {
       const {
         name,
-        iname,
+        lname,
         email,
         phone,
         company,
@@ -28,7 +28,7 @@ export default async function handle(req, res) {
       // Create a new contact
       const contactDoc = await Contact.create({
         name,
-        iname,
+        lname,
         email,
         phone,
         company,
@@ -56,7 +56,7 @@ export default async function handle(req, res) {
       const {
         _id,
         name,
-        iname,
+        lname,
         email,
         phone,
         company,
@@ -76,7 +76,7 @@ export default async function handle(req, res) {
         _id,
         {
           name,
-          iname,
+          lname,
           email,
           phone,
           company,
