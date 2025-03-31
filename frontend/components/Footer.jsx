@@ -14,10 +14,10 @@ export default function Footer() {
         <div className="flex flex-wrap dark:text-gray-800 font-bold justify-center md:justify-start gap-4 text-gray-300 text-sm">
           {[
             { href: "/services", label: "Services" },
-            { href: "/works", label: "Works" },
+            { href: "#works", label: "Works" },
             { href: "/resume", label: "Resume" },
-            { href: "/testimonials", label: "Testimonials" },
-            { href: "/skills", label: "Skills" },
+            { href: "#testimonials", label: "Testimonials" },
+            { href: "#skills", label: "Skills" },
             { href: "/contact", label: "Contact" },
           ].map((item) => (
             <Link

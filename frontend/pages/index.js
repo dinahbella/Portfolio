@@ -10,6 +10,8 @@ import Experience from "@/components/Experience";
 import Skills from "@/components/Skills";
 import Spinner from "@/components/Spinner";
 import Spinner2 from "@/components/Spinner2";
+import Testimonials from "@/components/Testimonials";
+import { GrLinkNext } from "react-icons/gr";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -226,11 +228,12 @@ export default function Home() {
         className="p-5"
       >
         <motion.h1
-          className="text-3xl text-center font-bold bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text"
+          id="works"
+          className=" text-3xl text-center font-bold bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text"
           whileHover={{ scaleX: 1.1 }}
           transition={{ duration: 0.5 }}
         >
-          Our Recent Works
+          Our Recent Projects
         </motion.h1>
       </motion.div>
 
@@ -261,62 +264,100 @@ export default function Home() {
       </motion.div>
 
       <motion.div
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 max-w-6xl mx-auto"
+        className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 px-4 sm:px-6 max-w-7xl mx-auto"
         initial="hidden"
         animate="visible"
         variants={containerVariants}
       >
         {loading ? (
-          <motion.p
-            className="col-span-full text-center"
+          <motion.div
+            className="col-span-full flex flex-col items-center justify-center py-12"
             variants={itemVariants}
           >
-            <div>
-              {" "}
-              <Spinner />
-              <h1>Loading...</h1>
-            </div>
-          </motion.p>
+            <Spinner size="lg" />
+            <motion.h1
+              className="mt-4 text-lg font-medium text-gray-600 dark:text-gray-300"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              Loading projects...
+            </motion.h1>
+          </motion.div>
         ) : (
-          <AnimatePresence>
-            {filteredProjects.slice(0, 5).map((project, index) => (
+          <AnimatePresence mode="wait">
+            {filteredProjects.slice(0, 4).map((project, index) => (
               <motion.div
                 key={project.id}
                 variants={itemVariants}
                 custom={index}
+                initial="hidden"
+                animate="visible"
+                exit={{ opacity: 0, scale: 0.9 }}
                 whileHover={{
-                  y: -10,
-                  transition: { duration: 1.3 },
+                  y: -8,
+                  transition: { duration: 0.3, type: "spring", stiffness: 300 },
                 }}
                 className="relative group"
+                layout
               >
                 <motion.div
-                  className="relative group"
+                  className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
                   whileHover={{ scale: 1.03 }}
                 >
                   <Image
                     src={project.images[0]}
                     alt={project.title}
-                    width={200}
-                    height={200}
-                    className="w-full h-[200px] sm:h-[250px] md:h-[300px] object-cover rounded-lg shadow-xl border border-transparent transition-all duration-300 group-hover:opacity-75 group-hover:border-blue-600"
+                    width={400}
+                    height={400}
+                    className="w-full h-48 sm:h-56 md:h-64 lg:h-72 object-cover transition-transform duration-300 group-hover:scale-105"
+                    priority={index < 2} // Only prioritize first 2 images
                   />
-                  <motion.span
-                    className="absolute bottom-0 text-center left-0 w-full bg-gradient-to-r from-blue-500 to-indigo-800 px-3 py-1 sm:px-4 sm:py-2 rounded-b-lg text-white text-xs sm:text-sm opacity-0 group-hover:opacity-100"
-                    initial={{ opacity: 0, y: 10 }}
+
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                  <motion.div
+                    className="absolute bottom-0 left-0 w-full p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    initial={{ y: 20 }}
                     whileHover={{
-                      opacity: 1,
                       y: 0,
-                      transition: { delay: 0 },
+                      transition: { delay: 0.1 },
                     }}
                   >
-                    {project.title}
-                  </motion.span>
+                    <h3 className="text-sm sm:text-base font-semibold line-clamp-2">
+                      {project.title}
+                    </h3>
+                    {project.category && (
+                      <span className="inline-block mt-1 px-2 py-1 text-xs bg-blue-600 rounded-md">
+                        {project.category}
+                      </span>
+                    )}
+                  </motion.div>
                 </motion.div>
               </motion.div>
             ))}
           </AnimatePresence>
         )}
+
+        {/* See All Projects Button */}
+        <motion.div
+          className="col-span-full mt-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          <Link href="/projects" passHref>
+            <motion.div
+              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 flex justify-center items-center gap-2 rounded-xl max-w-xs mx-auto transition-colors duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              View All Projects
+              <GrLinkNext className="text-xl" />
+            </motion.div>
+          </Link>
+        </motion.div>
       </motion.div>
 
       <Experience />
@@ -362,7 +403,7 @@ export default function Home() {
           </motion.p>
         ) : Array.isArray(filteredBlogs) && filteredBlogs.length > 0 ? (
           <AnimatePresence>
-            {filteredBlogs.slice(0, 5).map((blog, index) => (
+            {filteredBlogs.slice(0, 4).map((blog, index) => (
               <Link key={blog.id} href={`/blogs/${blog.slug}`} passHref>
                 <motion.div
                   variants={itemVariants}
@@ -419,6 +460,9 @@ export default function Home() {
           </motion.div>
         )}
       </motion.div>
+      <div>
+        <Testimonials />
+      </div>
     </div>
   );
 }
