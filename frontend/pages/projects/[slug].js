@@ -12,7 +12,7 @@ import { FaFacebook, FaLinkedin } from "react-icons/fa";
 import Link from "next/link";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { toast } from "sonner";
-import BlogSearch from "@/components/BlogSearch";
+import projectSearch from "@/components/projectSearch";
 import useFetchData from "@/hooks/useFetchData";
 
 // Animation variants
@@ -53,7 +53,7 @@ export default function ProjectSlug() {
   const router = useRouter();
   const { slug } = router.query;
   const [copied, setCopied] = useState(false);
-  const [blogData, setBlogData] = useState({ blog: {}, comments: [] });
+  const [projectData, setprojectData] = useState({ project: {}, comments: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editingCommentId, setEditingCommentId] = useState(null);
@@ -69,29 +69,29 @@ export default function ProjectSlug() {
   });
   const replyFormRef = useRef(null);
   const [shareUrl, setShareUrl] = useState("");
-  const { alldata } = useFetchData("/api/blogs");
+  const { alldata } = useFetchData("/api/projects");
   useEffect(() => {
-    const fetchBlogData = async () => {
+    const fetchprojectData = async () => {
       if (!slug) return;
 
       try {
         setLoading(true);
-        const response = await axios.get(`/api/blogs/${slug}`);
-        setBlogData(response.data);
+        const response = await axios.get(`/api/projects/${slug}`);
+        setprojectData(response.data);
       } catch (error) {
-        console.error("Error fetching blog:", error);
-        setError("Failed to fetch blog data. Please try again later.");
+        console.error("Error fetching project:", error);
+        setError("Failed to fetch project data. Please try again later.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBlogData();
+    fetchprojectData();
   }, [slug]);
 
   useEffect(() => {
     if (typeof window !== "undefined" && slug) {
-      setShareUrl(`${window.location.origin}/blogs/${slug}`);
+      setShareUrl(`${window.location.origin}/projects/${slug}`);
     }
   }, [slug]);
 
@@ -129,7 +129,7 @@ export default function ProjectSlug() {
         content: editingContent.trim(),
       });
 
-      setBlogData((prevData) => {
+      setprojectData((prevData) => {
         const updateComment = (comments) =>
           comments.map((c) => {
             if (c._id === editingCommentId) {
@@ -159,7 +159,7 @@ export default function ProjectSlug() {
     try {
       await axios.delete(`/api/comments/${commentId}`);
 
-      setBlogData((prevData) => {
+      setprojectData((prevData) => {
         const removeComment = (comments) =>
           comments
             .filter((c) => c._id !== commentId)
@@ -195,7 +195,7 @@ export default function ProjectSlug() {
     }
 
     try {
-      const response = await axios.post(`/api/blogs/${slug}`, {
+      const response = await axios.post(`/api/projects/${slug}`, {
         ...newComment,
         name: newComment.name.trim(),
         email: newComment.email.trim(),
@@ -205,7 +205,7 @@ export default function ProjectSlug() {
 
       const newPostedComment = response.data;
 
-      setBlogData((prevData) => {
+      setprojectData((prevData) => {
         if (newComment.parent) {
           const addReply = (comments) =>
             comments.map((comment) => {
@@ -436,23 +436,24 @@ export default function ProjectSlug() {
   return (
     <>
       <Head>
-        <title>{blogData.blog.title || "Blog Post"} | Inkvision</title>
+        <title>{projectData.project.title || "project Post"} | Inkvision</title>
         <meta
           name="description"
           content={
-            blogData.blog.description || "Read this interesting blog post"
+            projectData.project.description ||
+            "Read this interesting project post"
           }
         />
         <meta
           property="og:title"
-          content={blogData.blog.title || "Blog Post"}
+          content={projectData.project.title || "project Post"}
         />
         <meta
           property="og:description"
-          content={blogData.blog.description || ""}
+          content={projectData.project.description || ""}
         />
-        {blogData.blog.images?.[0] && (
-          <meta property="og:image" content={blogData.blog.images[0]} />
+        {projectData.project.images?.[0] && (
+          <meta property="og:image" content={projectData.project.images[0]} />
         )}
       </Head>
 
@@ -465,13 +466,13 @@ export default function ProjectSlug() {
           className="lg:col-span-2 min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300"
         >
           <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
-            {/* Blog Header */}
+            {/* project Header */}
             <motion.article variants={slideUp} className="mb-12">
-              {blogData.blog.images?.[0] && (
+              {projectData.project.images?.[0] && (
                 <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-lg mb-8">
                   <Image
-                    src={blogData.blog.images[0]}
-                    alt={blogData.blog.title || "Blog cover"}
+                    src={projectData.project.images[0]}
+                    alt={projectData.project.title || "project cover"}
                     fill
                     className="object-cover"
                     priority
@@ -498,7 +499,7 @@ export default function ProjectSlug() {
                       />
                     </div>
                     <span className="text-gray-700 dark:text-gray-300">
-                      By {blogData.blog.author || "Inkvision"}
+                      By {projectData.project.author || "Inkvision"}
                     </span>
                   </motion.div>
 
@@ -507,8 +508,8 @@ export default function ProjectSlug() {
                     className="flex items-center gap-2 text-gray-600 dark:text-gray-400"
                   >
                     <Calendar1Icon className="w-5 h-5" />
-                    <time dateTime={blogData.blog.createdAt}>
-                      {formatDate(blogData.blog.createdAt)}
+                    <time dateTime={projectData.project.createdAt}>
+                      {formatDate(projectData.project.createdAt)}
                     </time>
                   </motion.div>
 
@@ -517,7 +518,7 @@ export default function ProjectSlug() {
                     className="flex items-center gap-2 text-gray-600 dark:text-gray-400"
                   >
                     <MessageSquare className="w-5 h-5" />
-                    <span>{blogData.comments?.length || 0} Comments</span>
+                    <span>{projectData.comments?.length || 0} Comments</span>
                   </motion.div>
                 </div>
 
@@ -540,7 +541,7 @@ export default function ProjectSlug() {
                   <motion.div variants={slideUp}>
                     <button
                       onClick={handleCopyUrl}
-                      aria-label="Copy blog URL"
+                      aria-label="Copy project URL"
                       className="flex items-center gap-2 p-2 hover:text-blue-500 transition-colors"
                     >
                       <BsCopy className="text-xl" />
@@ -558,19 +559,21 @@ export default function ProjectSlug() {
                 </div>
               </motion.div>
 
-              {blogData.blog.blogcategory?.length > 0 && (
+              {projectData.project.projectcategory?.length > 0 && (
                 <motion.div
                   variants={slideUp}
                   className="flex flex-wrap gap-2 mb-6"
                 >
-                  {blogData.blog.blogcategory.map((category, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100"
-                    >
-                      {category}
-                    </span>
-                  ))}
+                  {projectData.project.projectcategory.map(
+                    (category, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100"
+                      >
+                        {category}
+                      </span>
+                    )
+                  )}
                 </motion.div>
               )}
 
@@ -578,22 +581,22 @@ export default function ProjectSlug() {
                 variants={slideUp}
                 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4"
               >
-                {blogData.blog.title}
+                {projectData.project.title}
               </motion.h1>
 
               <motion.p
                 variants={slideUp}
                 className="text-xl text-gray-600 dark:text-gray-300 mb-6"
               >
-                {blogData.blog.description}
+                {projectData.project.description}
               </motion.p>
             </motion.article>
 
-            {/* Blog Content */}
+            {/* project Content */}
             <motion.section
               variants={slideUp}
               className="prose dark:prose-invert max-w-none mb-16"
-              dangerouslySetInnerHTML={{ __html: blogData.blog.content }}
+              dangerouslySetInnerHTML={{ __html: projectData.project.content }}
             />
 
             {/* Comments Section */}
@@ -602,7 +605,7 @@ export default function ProjectSlug() {
               className="mt-16 pt-8 border-t border-gray-300 dark:border-gray-700"
             >
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                Comments ({blogData.comments?.length || 0})
+                Comments ({projectData.comments?.length || 0})
               </h2>
 
               {/* Comment Form */}
@@ -712,8 +715,8 @@ export default function ProjectSlug() {
                 animate="visible"
                 className="space-y-6"
               >
-                {blogData.comments?.length > 0 ? (
-                  renderComments(blogData.comments)
+                {projectData.comments?.length > 0 ? (
+                  renderComments(projectData.comments)
                 ) : (
                   <motion.p
                     variants={slideUp}
@@ -738,7 +741,7 @@ export default function ProjectSlug() {
                   Tags:
                 </h2>
                 <div className="flex flex-wrap gap-2">
-                  {blogData.blog.tags?.map((tag, index) => {
+                  {projectData.project.tags?.map((tag, index) => {
                     const colorClasses = [
                       "bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 text-blue-800 dark:text-blue-100",
                       "bg-green-100 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-800 text-green-800 dark:text-green-100",
@@ -760,7 +763,7 @@ export default function ProjectSlug() {
                         whileTap={{ scale: 0.95 }}
                       >
                         <Link
-                          href={`/blog/tag/${tag
+                          href={`/project/tag/${tag
                             .toLowerCase()
                             .replace(/\s+/g, "-")}`}
                           className={`inline-block px-3 py-1 text-sm font-medium rounded-full transition-colors duration-200 ${colorClass}`}
@@ -785,7 +788,7 @@ export default function ProjectSlug() {
             </h3>
             <input
               type="text"
-              placeholder="Search blog..."
+              placeholder="Search project..."
               onClick={handleSearchOpen}
               className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
@@ -796,30 +799,30 @@ export default function ProjectSlug() {
               Recent Posts
             </h3>
             <div className="space-y-4">
-              {alldata.slice(0, 3).map((blog) => (
+              {alldata.slice(0, 3).map((project) => (
                 <Link
-                  key={blog._id}
-                  href={`/blogs/${blog.slug}`}
+                  key={project._id}
+                  href={`/projects/${project.slug}`}
                   className="flex items-start gap-4 p-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
                 >
-                  {/* Blog Image */}
+                  {/* project Image */}
                   <div className="w-16 h-16 rounded-md overflow-hidden bg-gray-200 dark:bg-gray-700">
                     <Image
-                      src={blog.images[0]}
-                      alt={blog.title}
+                      src={project.images[0]}
+                      alt={project.title}
                       width={64}
                       height={64}
                       className="object-cover w-full h-full"
                     />
                   </div>
 
-                  {/* Blog Content */}
+                  {/* project Content */}
                   <div className="flex-1">
                     <h4 className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                      {blog.title}
+                      {project.title}
                     </h4>
                     <p className="text-xs text-gray-500 dark:text-gray-400">
-                      {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                      {new Date(project.createdAt).toLocaleDateString("en-US", {
                         month: "long",
                         day: "numeric",
                         year: "numeric",
@@ -828,7 +831,7 @@ export default function ProjectSlug() {
 
                     {/* Tags */}
                     <div className="mt-1 flex flex-wrap gap-2">
-                      {blog.tags.map((cat, index) => (
+                      {project.tags.map((cat, index) => (
                         <span
                           key={index}
                           className="text-xs bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full"
@@ -843,23 +846,23 @@ export default function ProjectSlug() {
             </div>
           </div>
 
-          {searchInput ? <BlogSearch cls={handleSearchClose} /> : null}
+          {searchInput ? <projectSearch cls={handleSearchClose} /> : null}
           {/* Categories Widget */}
           <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow">
             <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
               Categories
             </h3>
             <div className="space-y-2">
-              {blogData.blog.blogcategory?.map((category, index) => {
-                // Count blogs in this category
-                const categoryCount = alldata.filter((blog) =>
-                  blog.blogcategory?.some((cat) => cat === category)
+              {projectData.project.projectcategory?.map((category, index) => {
+                // Count projects in this category
+                const categoryCount = alldata.filter((project) =>
+                  project.projectcategory?.some((cat) => cat === category)
                 ).length;
 
                 return (
                   <Link
                     key={index}
-                    href={`/blogs/category/${category}`
+                    href={`/projects/category/${category}`
                       .toLowerCase()
                       .replace(/\s+/g, "-")}
                     className="flex justify-between items-center px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
@@ -867,8 +870,9 @@ export default function ProjectSlug() {
                     <span>{category}</span>
                     <span className="text-xs bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded-full">
                       {
-                        alldata.filter((ab) => ab.blogcategory[0] === category)
-                          .length
+                        alldata.filter(
+                          (ab) => ab.projectcategory[0] === category
+                        ).length
                       }{" "}
                     </span>
                   </Link>
