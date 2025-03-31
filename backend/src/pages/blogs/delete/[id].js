@@ -6,43 +6,43 @@ import { BsPostcard } from "react-icons/bs";
 import Spinner from "../../../components/Spinner";
 import { toast } from "sonner";
 
-export default function DeleteProject() {
+export default function DeleteBlog() {
   const router = useRouter();
   const { id } = router.query;
-  const [projectInfo, setProjectInfo] = useState(null);
+  const [BlogInfo, setBlogInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!id) return;
 
-    const fetchProject = async () => {
+    const fetchBlog = async () => {
       try {
-        const { data } = await axios.get(`/api/project?id=${id}`);
-        setProjectInfo(data);
+        const { data } = await axios.get(`/api/blogs?id=${id}`);
+        setBlogInfo(data);
       } catch (error) {
-        console.error("Error fetching project:", error);
-        setError("Failed to fetch project details.");
+        console.error("Error fetching Blog:", error);
+        setError("Failed to fetch Blog details.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchProject();
+    fetchBlog();
   }, [id]);
 
   const goBack = () => {
-    router.push("/projects/allprojects");
+    router.push("/blogs");
   };
 
-  const deleteProject = async () => {
+  const deleteBlog = async () => {
     try {
-      await axios.delete(`/api/project?id=${id}`);
-      toast.success("Project deleted successfully");
+      await axios.delete(`/api/blogs?id=${id}`);
+      toast.success("Blog deleted successfully");
       goBack();
     } catch (error) {
-      console.error("Error deleting project:", error);
-      toast.error("Failed to delete project.");
+      console.error("Error deleting Blog:", error);
+      toast.error("Failed to delete Blog.");
     }
   };
 
@@ -64,11 +64,11 @@ export default function DeleteProject() {
     );
   }
 
-  if (!projectInfo) {
+  if (!BlogInfo) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded max-w-md mx-auto">
-          No project found.
+          No Blog found.
         </div>
       </div>
     );
@@ -77,7 +77,7 @@ export default function DeleteProject() {
   return (
     <>
       <Head>
-        <title>Delete Project</title>
+        <title>Delete Blog</title>
       </Head>
       <div className="min-h-screen ">
         {/* Header */}
@@ -86,14 +86,13 @@ export default function DeleteProject() {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <h1 className="text-2xl font-bold ">
-                  Delete{" "}
-                  <span className="text-red-600">{projectInfo.title}</span>
+                  Delete <span className="text-red-600">{BlogInfo.title}</span>
                 </h1>
               </div>
               <div className="flex items-center text-sm ">
                 <BsPostcard className="mr-2" />
                 <span>/</span>
-                <span className="ml-2">Delete Project</span>
+                <span className="ml-2">Delete Blog</span>
               </div>
             </div>
           </div>
@@ -121,8 +120,8 @@ export default function DeleteProject() {
               <h2 className="mt-6 text-2xl font-bold ">Are you sure?</h2>
               <p className="mt-4 ">
                 You're about to permanently delete "
-                <span className="font-semibold">{projectInfo.title}</span>".
-                This action cannot be undone.
+                <span className="font-semibold">{BlogInfo.title}</span>". This
+                action cannot be undone.
               </p>
             </div>
 
@@ -134,10 +133,10 @@ export default function DeleteProject() {
                 Cancel
               </button>
               <button
-                onClick={deleteProject}
+                onClick={deleteBlog}
                 className="px-6 py-3 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
               >
-                Delete Project
+                Delete Blog
               </button>
             </div>
           </div>
