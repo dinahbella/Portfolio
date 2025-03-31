@@ -3,126 +3,149 @@ import useFetchData from "@/hooks/useFetchData";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
+
 export default function Category() {
   const router = useRouter();
   const { category } = router.query;
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(7);
   const [searchQuery, setSearchQuery] = useState("");
-  const { alldata, loading } = useFetchData(
+  const { alldata, loading, error } = useFetchData(
     `/api/blogs?blogcategory=${category}`
   );
 
-  const filterdblogs = alldata
-    .filter((item) => item.category === item.category)
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .slice(0, 20);
-  const blogcategoryData = [...filterdblogs].reverse();
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-  const allblog = alldata.length;
+  // Memoized filtered and sorted blogs
+  const filteredBlogs = useMemo(() => {
+    if (!alldata) return [];
+    
+    return alldata
+      .filter((item) => item.status === "publish")
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, 20);
+  }, [alldata]);
 
-  const indexOfFirstblog = (currentPage - 1) * perPage;
-  const indexOfLastblog = currentPage * perPage;
+  // Pagination logic
+  const indexOfFirstBlog = (currentPage - 1) * perPage;
+  const indexOfLastBlog = currentPage * perPage;
+  const currentBlogs = filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog);
+  const totalPages = Math.ceil(filteredBlogs.length / perPage);
 
-  const currentBlogs = filterdblogs.slice(indexOfFirstblog, indexOfLastblog);
+  // Generate page numbers
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-  const pubishedData = currentBlogs.filter((ab) => ab.status === "publish");
-  const pageNumbers = [];
-
-  for (let i = 1; i <= Math.ceil(allblog / perPage); i++) {
-    pageNumbers.push(i);
+  if (error) {
+    return <div className="error-message">Error loading blogs: {error.message}</div>;
   }
 
   return (
     <>
       <Head>
-        <title>Blog Category Page</title>
+        <title>{category ? `${category} Articles` : "Blog Category"} | Your Site Name</title>
+        <meta name="description" content={`Browse all articles in the ${category} category`} />
       </Head>
-      <div className="blogCategory">
-        <section className="tophero">
+      
+      <div className="blog-category">
+        <section className="hero-section">
           <div className="container">
-            <div className="toptitle">
-              <div className="toptitlecont flex">
-                <h1>
-                  Category <span>{category}</span>
-                </h1>
-              </div>
+            <div className="title-container">
+              <h1 className="category-title">
+                Category: <span>{category || "Loading..."}</span>
+              </h1>
             </div>
           </div>
         </section>
-        <section>
+
+        <section className="articles-section">
           <div className="container">
-            <hr />{" "}
-            <div>
-              <div className="fetitle">
-                <h3>
-                  {category} <span>Articles:</span>
-                </h3>
+            <hr className="divider" />
+            <div className="articles-container">
+              <div className="section-title">
+                <h2>
+                  {category} <span>Articles</span>
+                </h2>
               </div>
-              <div className="latestposts">
-                {loading ? (
+              
+              {loading ? (
+                <div className="loading-container">
                   <Spinner />
-                ) : (
-                  <>
-                    {pubishedData.map((blog) => {
-                      return (
-                        <div key={blog._id}>
-                          <div>
-                            <Link href={`/blogs/${blog.slug}`}>
-                              <Image
-                                src={blog.images[0]}
-                                alt={blog.title}
-                                width={200}
-                                height={200}
-                              />
-                            </Link>
-                            <div className="tags">
-                              {blog.blogcategory.map((cat) => {
-                                return (
-                                  <Link
-                                    href={`/blog/category${cat}`}
-                                    className="ai"
-                                  >
-                                    <span>{cat}</span>
-                                  </Link>
-                                );
-                              })}
+                </div>
+              ) : (
+                <div className="articles-grid">
+                  {currentBlogs.length > 0 ? (
+                    currentBlogs.map((blog) => (
+                      <article key={blog._id} className="blog-card">
+                        <div className="image-container">
+                          <Link href={`/blogs/${blog.slug}`} passHref>
+                            <Image
+                              src={blog.images?.[0] || "/default-blog.jpg"}
+                              alt={blog.title}
+                              width={400}
+                              height={250}
+                              className="blog-image"
+                              priority={false}
+                            />
+                          </Link>
+                          
+                          {blog.blogcategory?.length > 0 && (
+                            <div className="tags-container">
+                              {blog.blogcategory.map((cat, index) => (
+                                <Link
+                                  key={index}
+                                  href={`/blog/category/${encodeURIComponent(cat.toLowerCase())}`}
+                                  className="category-tag"
+                                >
+                                  {cat}
+                                </Link>
+                              ))}
                             </div>
-                          </div>
-                          <div className="postInfo">
-                            <h3>
-                              <Link href={`/blogs/${blog.slug}`}>
-                                {blog.title}
-                              </Link>
-                            </h3>
-                            <p>
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Inventore sed nihil est nemo nostrum
-                              voluptatibus quia asperiores. Eius aliquid minima
-                              deserunt aspernatur, facere eveniet, at, debitis
-                              dolorem magni consequatur atque!
-                            </p>
-                            <h4 className="flex">
-                              <Image
-                                src={"/pp.jpg"}
-                                alt="photo"
-                                width={50}
-                                height={50}
-                                className="rounded-full"
-                              />{" "}
-                              <span>by Inkvision</span>
-                            </h4>
+                          )}
+                        </div>
+
+                        <div className="blog-content">
+                          <h3 className="blog-title">
+                            <Link href={`/blogs/${blog.slug}`}>
+                              {blog.title}
+                            </Link>
+                          </h3>
+                          
+                          <p className="blog-excerpt">
+                            {blog.description || blog.content?.substring(0, 150) + "..."}
+                          </p>
+
+                          <div className="author-info">
+                            <Image
+                              src={blog.authorImage || "/pp.jpg"}
+                              alt={blog.author || "Author"}
+                              width={40}
+                              height={40}
+                              className="author-avatar"
+                            />
+                            <span>by {blog.author || "Inkvision"}</span>
                           </div>
                         </div>
-                      );
-                    })}
-                  </>
-                )}
-              </div>
+                      </article>
+                    ))
+                  ) : (
+                    <p className="no-articles">No articles found in this category</p>
+                  )}
+                </div>
+              )}
+
+              {totalPages > 1 && (
+                <div className="pagination">
+                  {pageNumbers.map((number) => (
+                    <button
+                      key={number}
+                      onClick={() => paginate(number)}
+                      className={`page-number ${currentPage === number ? "active" : ""}`}
+                    >
+                      {number}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </section>

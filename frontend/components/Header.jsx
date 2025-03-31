@@ -60,7 +60,7 @@ export default function Header() {
           >
             {[
               { href: "/", label: "Home" },
-              { href: "/projects", label: "Projects" },
+              // { href: "/projects", label: "Projects" },
               { href: "/blogs", label: "Blogs" },
               { href: "/photos", label: "Photos" },
               { href: "/services", label: "Services" },
