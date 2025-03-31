@@ -2,19 +2,8 @@
 import React, { useState } from "react";
 import { FaImages } from "react-icons/fa6";
 import { Search } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { MdEdit } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
+import { MdEdit, MdDelete } from "react-icons/md";
 import Link from "next/link";
 import useFetchData from "@/hooks/useFetchData";
 import Image from "next/image";
@@ -25,7 +14,6 @@ export default function Index() {
   const [searchQuery, setSearchQuery] = useState("");
   const { alldata, loading } = useFetchData("/api/project");
 
-  // Filter projects based on search query and published status
   const filteredprojects =
     searchQuery.trim() === ""
       ? alldata
@@ -38,126 +26,72 @@ export default function Index() {
   );
 
   return (
-    <div>
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 gap-3 sm:gap-0">
-        {/* Title */}
-        <h2 className="text-xl sm:text-2xl text-blue-600 font-semibold">
-          All Published projects
+    <div className="p-4">
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <h2 className="text-2xl text-blue-600 font-semibold">
+          All Published Projects
         </h2>
-
-        {/* Breadcrumb */}
         <div className="text-blue-600 flex items-center gap-2">
-          <BsPostcardFill className="text-lg sm:text-xl text-blue-600" />
+          <BsPostcardFill className="text-xl" />
           <span>/</span>
           <span>All Projects</span>
         </div>
       </div>
 
       {/* Search Bar */}
-      <div className="flex items-center p-1 m-3 gap-3 w-full sm:w-auto border border-gray-300 rounded-xl shadow-lg">
+      <div className="flex items-center p-2 my-4 gap-3 w-full sm:w-96 border border-gray-300 rounded-xl shadow-lg">
         <Search className="w-5 h-5 ml-2 text-blue-500" />
         <input
           type="search"
           placeholder="Search..."
-          className="w-full sm:w-64 px-2 py-2 outline-none bg-transparent"
+          className="w-full px-2 py-2 outline-none bg-transparent"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
 
-      {/* Table */}
-      <div className="rounded-xl border shadow-2xl p-3 bg-white dark:bg-gray-800 overflow-x-auto">
-        <Table className="min-w-[600px] w-full">
-          <TableCaption className="text-lg font-medium mb-4 dark:text-gray-200">
-            A list of your recent projects.
-          </TableCaption>
-          <TableHeader>
-            <TableRow className="bg-blue-300 hover:bg-blue-600 dark:bg-blue-700">
-              <TableHead className="w-[100px] font-bold text-xl text-gray-800 dark:text-gray-200 p-5">
-                #
-              </TableHead>
-              <TableHead className="font-bold text-xl text-gray-800 dark:text-gray-200">
-                Image
-              </TableHead>
-              <TableHead className="font-bold text-xl text-gray-800 dark:text-gray-200">
-                Title
-              </TableHead>
-              <TableHead className="font-bold text-xl text-gray-800 dark:text-gray-200">
-                Edit
-              </TableHead>
-              <TableHead className="text-right font-bold text-xl text-gray-800 dark:text-gray-200">
-                Delete
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {loading ? (
-              <TableRow>
-                <TableCell colSpan={5} className="text-center p-4">
-                  <Spinner />
-                </TableCell>
-              </TableRow>
-            ) : publishedprojects.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={5} className="text-center p-4">
-                  <h2 className="font-bold"> No project available.</h2>
-                </TableCell>
-              </TableRow>
-            ) : (
-              publishedprojects.map((project, index) => (
-                <TableRow
-                  key={project._id}
-                  className="hover:bg-blue-300 dark:hover:bg-blue-600"
-                >
-                  <TableCell className="font-medium p-4 text-gray-800 dark:text-gray-200">
-                    {index + 1}
-                  </TableCell>
-                  <TableCell className="text-gray-800 dark:text-gray-200">
-                    <Image
-                      src={project.images[0]}
-                      width={100}
-                      height={100}
-                      alt="project"
-                      className="w-16 h-16 object-cover rounded-lg"
-                    />
-                  </TableCell>
-                  <TableCell className="text-gray-800 dark:text-gray-200">
-                    {project.title}
-                  </TableCell>
-                  <TableCell className="text-gray-800 dark:text-gray-200">
-                    <Link href={`/projects/edit/${project._id}`}>
-                      <Button className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600">
-                        <MdEdit className="mr-2" />
-                        Edit
-                      </Button>
-                    </Link>
-                  </TableCell>
-                  <TableCell className="text-right text-gray-800 dark:text-gray-200">
-                    <Link href={`/projects/delete/${project._id}`}>
-                      <Button className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">
-                        <MdDelete className="mr-2" />
-                        Delete
-                      </Button>
-                    </Link>
-                  </TableCell>
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-          <TableFooter>
-            <TableRow className="bg-blue-300 dark:bg-blue-700">
-              <TableCell
-                colSpan={4}
-                className="font-bold p-4 text-xl text-gray-800 dark:text-gray-200"
-              >
-                Total
-              </TableCell>
-              <TableCell className="text-xl text-right font-bold text-gray-800 dark:text-gray-200">
-                {publishedprojects.length} projects
-              </TableCell>
-            </TableRow>
-          </TableFooter>
-        </Table>
+      {/* Cards Section */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {loading ? (
+          <div className="col-span-full flex justify-center">
+            <Spinner />
+          </div>
+        ) : publishedprojects.length === 0 ? (
+          <div className="col-span-full text-center">
+            <h2 className="font-bold">No projects available.</h2>
+          </div>
+        ) : (
+          publishedprojects.map((project) => (
+            <div
+              key={project._id}
+              className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 flex flex-col gap-3"
+            >
+              <Image
+                src={project.images[0]}
+                width={200}
+                height={150}
+                alt="project"
+                className="w-full h-40 object-cover rounded-lg"
+              />
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                {project.title}
+              </h3>
+              <div className="flex justify-between mt-auto">
+                <Link href={`/projects/edit/${project._id}`}>
+                  <Button className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600 flex items-center gap-2">
+                    <MdEdit /> Edit
+                  </Button>
+                </Link>
+                <Link href={`/projects/delete/${project._id}`}>
+                  <Button className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 flex items-center gap-2">
+                    <MdDelete /> Delete
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
