@@ -116,9 +116,8 @@ export default function Category() {
                           <Image
                             src={blog.authorImage || "/pp.jpg"}
                             alt={blog.author || "Author"}
-                            width={32}
-                            height={32}
-                            className="rounded-full"
+                            fill
+                            className="object-cover"
                           />
                           <span className="text-sm text-gray-700 dark:text-gray-400">
                             by {blog.author || "Inkvision"}
