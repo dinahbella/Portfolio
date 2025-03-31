@@ -35,7 +35,6 @@ export default function AddBlog({ id }) {
   const fileInputRef = React.useRef(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [client, setClient] = useState("");
   const [blogcategory, setBlogcategory] = useState("");
   const [tags, setTags] = useState("");
   const [slug, setSlug] = useState("");
@@ -54,7 +53,6 @@ export default function AddBlog({ id }) {
         slug,
         description,
         images,
-        client,
         blogcategory,
         tags,
         status,
@@ -227,104 +225,8 @@ export default function AddBlog({ id }) {
                   />
                 </div>
 
-                {/* Image Upload */}
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label className="font-medium text-gray-700 dark:text-gray-300">
-                      Blog Images
-                    </Label>
-                    <div className="flex items-center gap-4">
-                      <label className="cursor-pointer">
-                        <div className="flex items-center justify-center px-4 py-2 border-2 border-dashed border-blue-400 rounded-lg bg-blue-50 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-gray-700 transition-colors">
-                          <FaPlus className="mr-2 text-blue-600" />
-                          <span className="text-blue-600 font-medium">
-                            Upload Images
-                          </span>
-                          <input
-                            type="file"
-                            className="hidden"
-                            accept="image/*"
-                            multiple
-                            onChange={handleImageUpload}
-                            ref={fileInputRef}
-                          />
-                        </div>
-                      </label>
-                      {isUploading && (
-                        <div className="flex items-center">
-                          <Spinner size="sm" />
-                          <span className="ml-2 text-sm text-gray-500">
-                            Uploading...
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Image Gallery */}
-                  <AnimatePresence>
-                    {images.length > 0 && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="mt-4"
-                      >
-                        <Label className="font-medium text-gray-700 dark:text-gray-300">
-                          Image Preview (Drag to reorder)
-                        </Label>
-                        <ReactSortable
-                          list={images}
-                          setList={updateImageOrder}
-                          animation={200}
-                          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 mt-2"
-                        >
-                          {images.map((link, index) => (
-                            <motion.div
-                              key={index}
-                              initial={{ opacity: 0, scale: 0.9 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              exit={{ opacity: 0, scale: 0.9 }}
-                              className="relative aspect-square rounded-lg overflow-hidden shadow-md border border-gray-200 dark:border-gray-700"
-                            >
-                              <img
-                                src={link}
-                                alt={`Preview ${index + 1}`}
-                                className="w-full h-full object-cover"
-                              />
-                              <button
-                                type="button"
-                                onClick={() => handleDeleteImage(index)}
-                                className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors"
-                              >
-                                <FaTrashAlt className="w-3 h-3" />
-                              </button>
-                            </motion.div>
-                          ))}
-                        </ReactSortable>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
                 {/* Client & Category Row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label
-                      htmlFor="client"
-                      className="font-medium text-gray-700 dark:text-gray-300"
-                    >
-                      Client Name
-                    </Label>
-                    <Input
-                      id="client"
-                      placeholder="Client or organization"
-                      value={client}
-                      onChange={(e) => setClient(e.target.value)}
-                      className="focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-
                   <div className="space-y-2">
                     <Label
                       htmlFor="category"
@@ -352,6 +254,85 @@ export default function AddBlog({ id }) {
                         </SelectItem>
                       </SelectContent>
                     </Select>
+                  </div>
+                  {/* Image Upload */}
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label className="font-medium text-gray-700 dark:text-gray-300">
+                        Blog Images
+                      </Label>
+                      <div className="flex items-center gap-4">
+                        <label className="cursor-pointer">
+                          <div className="flex items-center justify-center px-4 py-2 border-2 border-dashed border-blue-400 rounded-lg bg-blue-50 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-gray-700 transition-colors">
+                            <FaPlus className="mr-2 text-blue-600" />
+                            <span className="text-blue-600 font-medium">
+                              Upload Images
+                            </span>
+                            <input
+                              type="file"
+                              className="hidden"
+                              accept="image/*"
+                              multiple
+                              onChange={handleImageUpload}
+                              ref={fileInputRef}
+                            />
+                          </div>
+                        </label>
+                        {isUploading && (
+                          <div className="flex items-center">
+                            <Spinner size="sm" />
+                            <span className="ml-2 text-sm text-gray-500">
+                              Uploading...
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Image Gallery */}
+                    <AnimatePresence>
+                      {images.length > 0 && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="mt-4"
+                        >
+                          <Label className="font-medium text-gray-700 dark:text-gray-300">
+                            Image Preview (Drag to reorder)
+                          </Label>
+                          <ReactSortable
+                            list={images}
+                            setList={updateImageOrder}
+                            animation={200}
+                            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 mt-2"
+                          >
+                            {images.map((link, index) => (
+                              <motion.div
+                                key={index}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                className="relative aspect-square rounded-lg overflow-hidden shadow-md border border-gray-200 dark:border-gray-700"
+                              >
+                                <img
+                                  src={link}
+                                  alt={`Preview ${index + 1}`}
+                                  className="w-full h-full object-cover"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteImage(index)}
+                                  className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors"
+                                >
+                                  <FaTrashAlt className="w-3 h-3" />
+                                </button>
+                              </motion.div>
+                            ))}
+                          </ReactSortable>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </div>
 
