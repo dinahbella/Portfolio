@@ -56,7 +56,7 @@ const fadeIn = {
   },
 };
 
-export default function PhotoGallery() {
+export default function aiBookcover() {
   const { alldata = [], loading, error } = useFetchData("/api/photo");
 
   return (
