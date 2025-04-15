@@ -57,7 +57,7 @@ const fadeIn = {
 };
 
 export default function aiBookcover() {
-  const { alldata = [], loading, error } = useFetchData("/api/photo");
+  const { alldata = [], loading, error } = useFetchData("/api/aiphoto");
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
@@ -98,8 +98,8 @@ export default function aiBookcover() {
               className="text-gray-700 dark:text-gray-300 mb-8 text-lg"
               variants={fadeIn}
             >
-              Explore our collection of stunning book covers designed with
-              passion and precision for authors worldwide.
+              "Discover our captivating collection of visually striking book
+              covers, uniquely crafted using advanced AI technology."{" "}
             </motion.p>
             <motion.div
               variants={fadeIn}

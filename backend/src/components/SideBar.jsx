@@ -112,7 +112,7 @@ export default function SideSheet() {
                 />
                 <MenuItem
                   href="/projects/draftproject"
-                  label="Add Project"
+                  label="Draft Project"
                   icon={<BsFillPostcardFill className="w-5 h-5" />}
                   activeItem={activeItem}
                   setActiveItem={setActiveItem}
@@ -179,15 +179,15 @@ function MenuItem({ href, label, icon, activeItem, setActiveItem }) {
       onClick={() => setActiveItem(label)}
       className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-sm font-medium ${
         isActive
-          ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+          ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400"
           : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
       }`}
     >
       <span
         className={`${
           isActive
-            ? "text-blue-500 dark:text-blue-400"
-            : "text-gray-500 dark:text-gray-400"
+            ? "text-blue-700 dark:text-blue-400"
+            : "text-gray-600 dark:text-gray-400"
         }`}
       >
         {icon}
