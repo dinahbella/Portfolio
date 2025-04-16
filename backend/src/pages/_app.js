@@ -1,5 +1,6 @@
 import { ThemeProvider } from "@/components/Provider";
 import SideBar from "@/components/SideBar";
+import { Toaster } from "@/components/ui/sonner";
 import "@/styles/globals.css";
 
 export default function App({ Component, pageProps }) {
@@ -13,6 +14,7 @@ export default function App({ Component, pageProps }) {
       >
         <SideBar />
         <Component {...pageProps} />
+        <Toaster />
       </ThemeProvider>
     </>
   );

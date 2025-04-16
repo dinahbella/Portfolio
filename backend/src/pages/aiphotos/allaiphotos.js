@@ -12,7 +12,7 @@ import { BsPostcardFill } from "react-icons/bs";
 
 export default function PhotoGallery() {
   const [searchQuery, setSearchQuery] = useState("");
-  const { alldata, loading } = useFetchData("/api/photos");
+  const { alldata, loading } = useFetchData("/api/aiphoto");
 
   // Filter photos based on search query
   const filteredPhotos =
@@ -52,7 +52,7 @@ export default function PhotoGallery() {
           <div className="flex items-center gap-2 mt-1 text-blue-600 dark:text-blue-300">
             <BsPostcardFill className="text-lg" />
             <span>/</span>
-            <span>All Photos</span>
+            <span>All Ai Photos</span>
           </div>
         </div>
 
@@ -181,7 +181,7 @@ export default function PhotoGallery() {
         </div>
         <Link href={"/photos/addphoto"}>
           <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-            Upload New Photo
+            Upload New Ai Photo
           </Button>
         </Link>
       </motion.div>

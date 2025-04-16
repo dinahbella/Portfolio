@@ -11,4 +11,4 @@ const AiPhotoSchema = new Schema(
 );
 
 export const AiPhoto =
-  models.Photo || model("AiPhoto", AiPhotoSchema, "aiphotos");
+  models.AiPhoto || model("AiPhoto", AiPhotoSchema, "aiphotos");

@@ -164,7 +164,14 @@ export default function SideSheet() {
                   setActiveItem={setActiveItem}
                 />
                 <MenuItem
-                  href="/photos/addaiphoto"
+                  href="/aiphotos/allaiphotos"
+                  label="All Ai Photos"
+                  icon={<IoImage className="w-5 h-5" />}
+                  activeItem={activeItem}
+                  setActiveItem={setActiveItem}
+                />
+                <MenuItem
+                  href="/aiphotos/addaiphoto"
                   label="Add Ai Photo"
                   icon={<CiImageOn className="w-5 h-5" />}
                   activeItem={activeItem}

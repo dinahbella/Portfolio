@@ -18,23 +18,23 @@ export default async function handle(req, res) {
             .json({ error: "Missing required fields: title and images" });
         }
 
-        // Create a new photo
-        const photoDoc = await AiPhoto.create({ title, images });
-        return res.status(201).json(photoDoc);
+        // Create a new aiphoto
+        const aiphotoDoc = await AiPhoto.create({ title, images });
+        return res.status(201).json(aiphotoDoc);
       }
 
       case "GET": {
         if (req.query?.id) {
-          // Fetch a single photo by ID
-          const photo = await AiPhoto.findById(req.query.id);
-          if (!photo) {
-            return res.status(404).json({ error: "Photo not found" });
+          // Fetch a single aiphoto by ID
+          const aiphoto = await AiPhoto.findById(req.query.id);
+          if (!aiphoto) {
+            return res.status(404).json({ error: "aiphoto not found" });
           }
-          return res.json(photo);
+          return res.json(aiphoto);
         } else {
-          // Fetch all photos, sorted by newest first
-          const photos = await AiPhoto.find().sort({ createdAt: -1 });
-          return res.json(photos);
+          // Fetch all aiphotos, sorted by newest first
+          const aiphotos = await AiPhoto.find().sort({ createdAt: -1 });
+          return res.json(aiphotos);
         }
       }
 
@@ -48,30 +48,30 @@ export default async function handle(req, res) {
             .json({ error: "Missing required fields: _id, title, and images" });
         }
 
-        // Update the photo
-        const updatedPhoto = await AiPhoto.findByIdAndUpdate(
+        // Update the aiphoto
+        const updatedaiphoto = await AiPhoto.findByIdAndUpdate(
           _id,
           { title, images },
           { new: true } // Return the updated document
         );
 
-        if (!updatedPhoto) {
-          return res.status(404).json({ error: "Photo not found" });
+        if (!updatedaiphoto) {
+          return res.status(404).json({ error: "aiphoto not found" });
         }
 
-        return res.json(updatedPhoto);
+        return res.json(updatedaiphoto);
       }
 
       case "DELETE": {
         if (req.query?.id) {
-          // Delete the photo
-          const deletedPhoto = await AiPhoto.findByIdAndDelete(req.query.id);
-          if (!deletedPhoto) {
-            return res.status(404).json({ error: "Photo not found" });
+          // Delete the aiphoto
+          const deletedaiphoto = await AiPhoto.findByIdAndDelete(req.query.id);
+          if (!deletedaiphoto) {
+            return res.status(404).json({ error: "aiphoto not found" });
           }
           return res.json({ success: true });
         } else {
-          return res.status(400).json({ error: "Missing photo ID" });
+          return res.status(400).json({ error: "Missing aiphoto ID" });
         }
       }
 

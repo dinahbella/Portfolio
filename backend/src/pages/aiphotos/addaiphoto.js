@@ -17,22 +17,45 @@ import { FaPlusSquare } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function AddPhoto({ id }) {
-  const [images, setImages] = React.useState([]);
-  const [uploadedFiles, setUploadedFiles] = React.useState([]); // For file input
-  const [isUploading, setIsUploading] = React.useState(false);
+  const [images, setImages] = useState([]);
+  const [uploadedFiles, setUploadedFiles] = useState([]); // For file input
+  const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = React.useRef(null); // Ref for the file input
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const [slug, setSlug] = useState("");
 
   const router = useRouter();
-  const [redirect, setRedirect] = React.useState(false); // Tracks if redirect is needed
+  const [redirect, setRedirect] = useState(false); // Tracks if redirect is needed
+
+  useEffect(() => {
+    if (id) {
+      // Fetch existing photo data if editing
+      axios
+        .get(`/api/aiphoto?id=${id}`)
+        .then((response) => {
+          const photoData = response.data;
+          setTitle(photoData.title);
+          setSlug(photoData.slug);
+          setImages(photoData.images || []);
+        })
+        .catch((error) => {
+          console.error("Error fetching photo data:", error);
+          toast.error("Failed to load photo data");
+        });
+    }
+  }, [id]);
 
   async function createPhoto(e) {
     e.preventDefault();
+    if (!title || !slug) {
+      toast.error("Title and slug are required");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -54,38 +77,54 @@ export default function AddPhoto({ id }) {
       setRedirect(true);
     } catch (error) {
       console.error("Error saving photo:", error);
-      toast.error("Failed to save photo");
+      toast.error(error.response?.data?.message || "Failed to save photo");
     } finally {
       setLoading(false);
     }
   }
 
   if (redirect) {
-    router.push("/photos/allphotos");
+    router.push("/aiphotos/allaiphotos");
     return null;
   }
 
   // Handle image upload
   const handleImageUpload = async (ev) => {
     const files = ev.target?.files;
-    if (files && files.length > 0) {
+    if (files?.length > 0) {
       setIsUploading(true);
+      setUploadedFiles(Array.from(files)); // Store the files
 
-      const uploadImageQueue = [];
-      for (const file of files) {
-        const formData = new FormData();
-        formData.append("file", file);
+      try {
+        const uploadImageQueue = [];
+        const newImages = [];
 
-        uploadImageQueue.push(
-          axios.post("/api/upload", formData).then((res) => {
-            setImages((oldImages) => [...oldImages, ...res.data.links]);
-          })
-        );
+        for (const file of files) {
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const uploadPromise = axios
+            .post("/api/upload", formData)
+            .then((res) => {
+              newImages.push(...res.data.links);
+            })
+            .catch((err) => {
+              console.error("Upload failed for file:", file.name, err);
+              toast.error(`Failed to upload ${file.name}`);
+            });
+
+          uploadImageQueue.push(uploadPromise);
+        }
+
+        await Promise.all(uploadImageQueue);
+        setImages((prev) => [...prev, ...newImages]);
+        toast.success("Images uploaded successfully");
+      } catch (error) {
+        console.error("Error uploading images:", error);
+        toast.error("Some images failed to upload");
+      } finally {
+        setIsUploading(false);
       }
-
-      await Promise.all(uploadImageQueue);
-      setIsUploading(false);
-      toast.success("Images uploaded successfully");
     } else {
       toast.error("No files selected");
     }
@@ -93,11 +132,13 @@ export default function AddPhoto({ id }) {
 
   // Handle image deletion
   const handleDeleteImage = (index) => {
-    // Remove the image from the preview
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-    // Remove the file from the uploadedFiles state
-    setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-    // Update the file input's value
+    setImages((prev) => prev.filter((_, i) => i !== index));
+    setUploadedFiles((prev) => {
+      const newFiles = [...prev];
+      newFiles.splice(index, 1);
+      return newFiles;
+    });
+
     if (fileInputRef.current) {
       const dataTransfer = new DataTransfer();
       uploadedFiles.forEach((file, i) => {
@@ -117,12 +158,10 @@ export default function AddPhoto({ id }) {
   return (
     <div>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 gap-3 sm:gap-0">
-        {/* Title */}
         <h2 className="text-xl sm:text-2xl text-blue-600 font-semibold">
           Add Photos
         </h2>
 
-        {/* Breadcrumb */}
         <div className="text-blue-600 flex items-center gap-2">
           <FaPlusSquare className="text-lg sm:text-xl text-blue-600" />
           <span>/</span>
@@ -133,16 +172,15 @@ export default function AddPhoto({ id }) {
         <Card className="w-full max-w-4xl rounded-2xl shadow-xl p-4 sm:p-6 bg-blue-600/15">
           <CardHeader>
             <CardTitle className="text-center text-2xl sm:text-3xl">
-              Add New Ai Photo
+              {id ? "Edit AI Photo" : "Add New AI Photo"}
             </CardTitle>
             <CardDescription className="text-center">
-              Create New Photo
+              {id ? "Edit your photo" : "Create new photo"}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={createPhoto}>
               <div className="grid w-full items-center gap-4">
-                {/* Title */}
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="title" className="font-bold text-md">
                     Title
@@ -154,6 +192,7 @@ export default function AddPhoto({ id }) {
                     className="shadow-lg"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -171,27 +210,25 @@ export default function AddPhoto({ id }) {
                     required
                   />
                 </div>
-                {/* Image Upload */}
+
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="image" className="font-bold text-md">
                     Image
                   </Label>
                   <Input
                     id="image"
-                    placeholder="Upload images"
                     className="shadow-lg"
                     type="file"
                     accept="image/*"
                     multiple
                     onChange={handleImageUpload}
-                    ref={fileInputRef} // Add ref to the file input
+                    ref={fileInputRef}
                   />
                   <div className="w-100 mt-1 flex flex-left">
                     {isUploading && <Spinner />}
                   </div>
                 </div>
 
-                {/* Image Previews */}
                 {images.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     <ReactSortable
@@ -226,7 +263,7 @@ export default function AddPhoto({ id }) {
                 <Button
                   type="submit"
                   className="bg-blue-500 mt-2 hover:bg-blue-800 w-full font-medium text-lg p-2"
-                  disabled={loading}
+                  disabled={loading || isUploading}
                 >
                   {loading ? "Saving..." : "Save Photo"}
                 </Button>
