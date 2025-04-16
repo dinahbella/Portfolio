@@ -5,15 +5,33 @@ import { generateReferralCode } from "@/utills/generateReferralCode";
 export default async function handler(req, res) {
   await connectDB();
 
-  if (req.method === "POST") {
-    const { referrerName, referrerEmail, referrerPhone } = req.body;
+  const { method } = req;
+
+  // GET: Fetch all referrers
+  if (method === "GET") {
+    try {
+      const allReferrals = await Referral.find({}).sort({ createdAt: -1 });
+      return res.status(200).json(allReferrals);
+    } catch (err) {
+      console.error("Error fetching referrals:", err);
+      return res.status(500).json({ message: "Failed to fetch referrals." });
+    }
+  }
+
+  // POST: Create a new referrer
+  if (method === "POST") {
+    const {
+      referrerName,
+      referrerEmail,
+      referrerPhone,
+      referralCode: customCode,
+    } = req.body;
 
     if (!referrerName || !referrerEmail || !referrerPhone) {
-      return res.status(400).json({ message: "Referrer name is required." });
+      return res.status(400).json({ message: "All fields are required." });
     }
 
-    const referralCode =
-      req.body.referralCode || generateReferralCode(referrerName);
+    const referralCode = customCode || generateReferralCode(referrerName);
 
     try {
       const existing = await Referral.findOne({ referralCode });
@@ -25,9 +43,9 @@ export default async function handler(req, res) {
 
       const newReferrer = new Referral({
         referrerName,
-        referralCode,
-        referrerPhone,
         referrerEmail,
+        referrerPhone,
+        referralCode,
       });
 
       await newReferrer.save();
@@ -37,15 +55,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ message: "Server error." });
     }
   }
-  // Add this to the top of your POST handler:
-  if (req.method === "GET") {
-    try {
-      const allReferrals = await Referral.find({}).sort({ createdAt: -1 });
-      return res.status(200).json(allReferrals);
-    } catch (err) {
-      return res.status(500).json({ message: "Failed to fetch referrals." });
-    }
-  }
 
+  // Fallback for unsupported methods
   return res.status(405).json({ message: "Method not allowed" });
 }
