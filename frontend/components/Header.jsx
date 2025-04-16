@@ -26,7 +26,7 @@ export default function Header() {
     { href: "/photos", label: "Photos" },
     { href: "/services", label: "Services" },
     { href: "/contacts", label: "Contacts" },
-    { href: "/referal", label: "Referal" },
+    { href: "/referral", label: "Referral" },
   ];
 
   return (

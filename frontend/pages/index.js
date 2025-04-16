@@ -1,28 +1,29 @@
+import Head from "next/head";
 import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { SlCalender } from "react-icons/sl";
-import Link from "next/link";
+import { GrLinkNext } from "react-icons/gr";
+
+import { Geist, Geist_Mono } from "next/font/google";
+
 import Num from "@/components/Num";
 import Services from "@/components/Services";
 import Experience from "@/components/Experience";
 import Skills from "@/components/Skills";
 import Spinner from "@/components/Spinner";
-import Spinner2 from "@/components/Spinner2";
 import Testimonials from "@/components/Testimonials";
-import { GrLinkNext } from "react-icons/gr";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
-
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
+// Animation Variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -43,19 +44,6 @@ const itemVariants = {
       duration: 0.8,
       ease: "easeOut",
     },
-  },
-};
-
-const hoverVariants = {
-  hover: {
-    scale: 1.05,
-    transition: {
-      duration: 0.3,
-      ease: "easeOut",
-    },
-  },
-  tap: {
-    scale: 0.98,
   },
 };
 
@@ -93,253 +81,191 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (selectedCategory === "All") {
-      setFilteredProjects(
-        alldata.filter((project) => project.status === "publish")
-      );
-    } else {
-      setFilteredProjects(
-        alldata.filter(
-          (project) =>
-            project.status === "publish" &&
-            project.projectcategory?.[0] === selectedCategory
-        )
-      );
-    }
+    const filtered =
+      selectedCategory === "All"
+        ? alldata.filter((p) => p.status === "publish")
+        : alldata.filter(
+            (p) =>
+              p.status === "publish" &&
+              p.projectcategory?.[0] === selectedCategory
+          );
+
+    setFilteredProjects(filtered);
   }, [selectedCategory, alldata]);
 
   useEffect(() => {
-    if (selectedCategory === "All") {
-      setFilteredBlogs(allwork.filter((blog) => blog.status === "publish"));
-    } else {
-      setFilteredBlogs(
-        allwork.filter(
-          (blog) =>
-            blog.status === "publish" &&
-            blog.projectcategory?.[0] === selectedCategory
-        )
-      );
-    }
+    const filtered =
+      selectedCategory === "All"
+        ? allwork.filter((b) => b.status === "publish")
+        : allwork.filter(
+            (b) =>
+              b.status === "publish" &&
+              b.projectcategory?.[0] === selectedCategory
+          );
+
+    setFilteredBlogs(filtered);
   }, [selectedCategory, allwork]);
 
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-  };
-
-  const formatDate = (date) => {
-    if (!date || isNaN(new Date(date).getTime())) {
-      return "Invalid date";
-    }
-    const options = {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      hour12: true,
-    };
-    return new Intl.DateTimeFormat("en-US", options).format(new Date(date));
-  };
-
   return (
-    <div className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
-      {/* Main Content */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-        className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center p-8"
-      >
-        <motion.div variants={itemVariants} className="space-y-6">
-          <motion.h3
-            whileHover={{ scale: 1.02 }}
-            className="text-2xl font-bold text-gray-800 dark:text-gray-200"
-          >
-            I am Shella Tams
-          </motion.h3>
+    <>
+      <Head>
+        <title>Shella Tams — Writer + Designer</title>
+        <meta
+          name="description"
+          content="Portfolio of Shella Tams, a dark, mysterious, and immersive storyteller."
+        />
+      </Head>
 
-          <motion.h1
-            className="text-5xl font-bold bg-gradient-to-r from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text"
-            animate={{
-              backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-            }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          >
-            Writer + Designer
-          </motion.h1>
+      <div className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
+        {/* HERO SECTION */}
+        <motion.section
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+          className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center px-6 py-12"
+        >
+          <motion.div variants={itemVariants} className="space-y-6">
+            <motion.h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300">
+              I am Shella Tams
+            </motion.h3>
 
-          <motion.p
-            className="text-md text-gray-700 leading-relaxed dark:text-gray-200"
-            whileHover={{
-              scale: 1.01,
-              transition: { duration: 0.3 },
-            }}
-          >
-            Shella is a passionate storyteller who explores all genres, weaving
-            captivating narratives that transport readers into different worlds.
-            With a love for crafting compelling characters and immersive plots,
-            Shella brings stories to life—whether through thrilling mysteries,
-            heartfelt romances, epic fantasies, or thought-provoking dramas.
-            Always eager to push creative boundaries, Shella continues to write
-            stories that entertain, inspire, and leave a lasting impact.
-          </motion.p>
-        </motion.div>
+            <motion.h1
+              className="text-5xl font-extrabold bg-gradient-to-r from-blue-500 via-teal-500 to-indigo-600 text-transparent bg-clip-text"
+              animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+            >
+              Writer + Designer
+            </motion.h1>
 
-        <motion.div variants={itemVariants} className="space-y-6">
+            <motion.p className="text-base leading-relaxed text-gray-600 dark:text-gray-300">
+              Shella is a passionate storyteller who explores all genres,
+              weaving captivating narratives that transport readers into
+              different worlds. With a love for crafting compelling characters
+              and immersive plots, Shella brings stories to life through
+              thrilling mysteries, heartfelt romances, and thought-provoking
+              dramas.
+            </motion.p>
+          </motion.div>
+
           <motion.div
             className="flex justify-center"
+            variants={itemVariants}
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
           >
             <motion.div
               initial={{ rotate: 4 }}
-              animate={{
-                rotate: [4, -4, 4],
-                transition: {
-                  duration: 8,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                },
+              animate={{ rotate: [4, -4, 4] }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                repeatType: "reverse",
               }}
-              className="rounded-3xl border-5 shadow-xl ml-5 bg-gradient-to-tl from-blue-500 via-teal-600 to-indigo-800 p-1"
+              className="rounded-3xl shadow-2xl border-4 p-1 bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800"
             >
               <Image
                 src="/pp.jpg"
                 alt="Shella Tams"
                 width={240}
-                height={200}
-                className="rounded-3xl"
+                height={240}
+                className="rounded-3xl object-cover"
               />
             </motion.div>
           </motion.div>
-        </motion.div>
-      </motion.div>
+        </motion.section>
 
-      <Num />
-      <Services />
+        <Num />
+        <Services />
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8 }}
-        className="p-5"
-      >
-        <motion.h1
-          id="works"
-          className=" text-3xl text-center font-bold bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text"
-          whileHover={{ scaleX: 1.1 }}
-          transition={{ duration: 0.5 }}
+        {/* PROJECT SECTION */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="p-5"
         >
-          Our Recent Projects
-        </motion.h1>
-      </motion.div>
-
-      <motion.div
-        className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 px-4 sm:px-6 max-w-7xl mx-auto"
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-      >
-        {loading ? (
-          <motion.div
-            className="col-span-full flex flex-col items-center justify-center py-12"
-            variants={itemVariants}
+          <motion.h1
+            id="works"
+            className="text-3xl text-center font-bold bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text"
           >
-            <Spinner size="lg" />
-            <motion.h1
-              className="mt-4 text-lg font-medium text-gray-600 dark:text-gray-300"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
+            Our Recent Projects
+          </motion.h1>
+        </motion.div>
+
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-6 max-w-7xl mx-auto"
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+        >
+          {loading ? (
+            <motion.div
+              className="col-span-full flex flex-col items-center justify-center py-12"
+              variants={itemVariants}
             >
-              Loading projects...
-            </motion.h1>
-          </motion.div>
-        ) : (
-          <AnimatePresence mode="wait">
-            {filteredProjects.slice(0, 4).map((project, index) => (
-              <motion.div
-                key={project.id}
-                variants={itemVariants}
-                custom={index}
-                initial="hidden"
-                animate="visible"
-                exit={{ opacity: 0, scale: 0.9 }}
-                whileHover={{
-                  y: -8,
-                  transition: { duration: 0.3, type: "spring", stiffness: 300 },
-                }}
-                className="relative group"
-                layout
-              >
+              <Spinner size="lg" />
+              <motion.p className="mt-4 text-gray-500">
+                Loading projects...
+              </motion.p>
+            </motion.div>
+          ) : (
+            <AnimatePresence mode="wait">
+              {filteredProjects.slice(0, 4).map((project, index) => (
                 <motion.div
-                  className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
-                  whileHover={{ scale: 1.03 }}
+                  key={project.id}
+                  variants={itemVariants}
+                  className="relative group"
+                  layout
                 >
-                  <Image
-                    src={project.images[0]}
-                    alt={project.title}
-                    width={400}
-                    height={400}
-                    className="w-full h-48 sm:h-56 md:h-64 lg:h-72 object-cover transition-transform duration-300 group-hover:scale-105"
-                    priority={index < 2} // Only prioritize first 2 images
-                  />
-
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
                   <motion.div
-                    className="absolute bottom-0 left-0 w-full p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    initial={{ y: 20 }}
-                    whileHover={{
-                      y: 0,
-                      transition: { delay: 0.1 },
-                    }}
+                    className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow"
+                    whileHover={{ scale: 1.03 }}
                   >
-                    <h3 className="text-sm sm:text-base font-semibold line-clamp-2">
-                      {project.title}
-                    </h3>
-                    {project.category && (
-                      <span className="inline-block mt-1 px-2 py-1 text-xs bg-blue-600 rounded-md">
-                        {project.category}
-                      </span>
-                    )}
+                    <Image
+                      src={project.images?.[0]}
+                      alt={project.title}
+                      width={400}
+                      height={300}
+                      className="w-full h-56 object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+                      priority={index < 2}
+                    />
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition" />
+                    <motion.div className="absolute bottom-0 p-4 text-white">
+                      <h3 className="text-lg font-semibold">{project.title}</h3>
+                      {project.category && (
+                        <span className="text-xs bg-blue-600 px-2 py-1 rounded mt-1 inline-block">
+                          {project.category}
+                        </span>
+                      )}
+                    </motion.div>
                   </motion.div>
                 </motion.div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        )}
+              ))}
+            </AnimatePresence>
+          )}
+        </motion.div>
 
-        {/* See All Projects Button */}
         <motion.div
-          className="col-span-full mt-8"
+          className="text-center mt-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.3 }}
         >
-          <Link href="/projects" passHref>
+          <Link href="/projects">
             <motion.div
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 flex justify-center items-center gap-2 rounded-xl max-w-xs mx-auto transition-colors duration-300"
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              View All Projects
-              <GrLinkNext className="text-xl" />
+              View All Projects <GrLinkNext className="text-lg" />
             </motion.div>
           </Link>
         </motion.div>
-      </motion.div>
 
-      <Experience />
-      <Skills />
-
-      <div>
+        <Experience />
+        <Skills />
         <Testimonials />
       </div>
-    </div>
+    </>
   );
 }
