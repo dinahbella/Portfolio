@@ -1,14 +1,14 @@
 import connectDB from "@/lib/mongodb";
 import Referral from "@/models/Referral";
-import { generateReferralCode } from "@/utills/generateReferralCode.js";
+import { generateReferralCode } from "../../../utills/generateReferralCode";
 
 export default async function handler(req, res) {
   await connectDB();
 
   if (req.method === "POST") {
-    const { referrerName } = req.body;
+    const { referrerName, referrerEmail, referrerPhone } = req.body;
 
-    if (!referrerName) {
+    if (!referrerName || !referrerEmail || !referrerPhone) {
       return res.status(400).json({ message: "Referrer name is required." });
     }
 
@@ -26,6 +26,8 @@ export default async function handler(req, res) {
       const newReferrer = new Referral({
         referrerName,
         referralCode,
+        referrerPhone,
+        referrerEmail,
       });
 
       await newReferrer.save();
@@ -33,6 +35,15 @@ export default async function handler(req, res) {
     } catch (error) {
       console.error("Error creating referrer:", error);
       return res.status(500).json({ message: "Server error." });
+    }
+  }
+  // Add this to the top of your POST handler:
+  if (req.method === "GET") {
+    try {
+      const allReferrals = await Referral.find({}).sort({ createdAt: -1 });
+      return res.status(200).json(allReferrals);
+    } catch (err) {
+      return res.status(500).json({ message: "Failed to fetch referrals." });
     }
   }
 

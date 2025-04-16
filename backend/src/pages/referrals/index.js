@@ -35,7 +35,9 @@ export default function ReferralsPage() {
               key={ref._id}
               className="p-4 bg-gray-100 rounded shadow-sm border"
             >
-              <p className="font-semibold text-lg">{ref.referrerName}</p>
+              <p className="font-semibold text-xl text-blue-600">
+                {ref.referrerName}
+              </p>
               <p className="text-sm text-gray-600">
                 Code: <span className="font-mono">{ref.referralCode}</span>
               </p>

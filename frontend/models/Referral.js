@@ -6,7 +6,14 @@ const ReferralSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
+    referrerEmail: {
+      type: String,
+      required: true,
+    },
+    referrerPhone: {
+      type: Number,
+      required: true,
+    },
     referralCode: {
       type: String,
       required: true,
