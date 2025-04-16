@@ -1,47 +1,58 @@
 import connectDB from "@/lib/mongodb";
-import Referral from "@/models/Referral";
+import Referred from "@/models/Referred";
 
 export default async function handler(req, res) {
   await connectDB();
 
-  if (req.method === "POST") {
-    const { referralCode, name, email, note } = req.body;
+  const { method } = req;
 
-    if (!referralCode || !name || !email) {
-      return res.status(400).json({ message: "Missing required fields." });
+  if (method === "GET") {
+    try {
+      const allReferred = await Referred.find({}).sort({ createdAt: -1 });
+      return res.status(200).json(allReferred);
+    } catch (err) {
+      console.error("Error fetching referrals:", err);
+      return res.status(500).json({ message: "Failed to fetch referrals." });
+    }
+  }
+
+  if (method === "POST") {
+    const { name, email, phone, note, referralSource } = req.body;
+
+    // Basic validation
+    if (!name || !email) {
+      return res
+        .status(400)
+        .json({ message: "Name and email are required fields." });
     }
 
     try {
-      const referrer = await Referral.findOne({ referralCode });
-
-      if (!referrer) {
-        return res.status(404).json({ message: "Invalid referral code." });
+      // Check if same note (referral code) already exists
+      if (note) {
+        const existing = await Referred.findOne({ note });
+        if (existing) {
+          return res.status(400).json({
+            message: "This referral note or code already exists.",
+          });
+        }
       }
 
-      // Prevent duplicate by email
-      const alreadyReferred = referrer.referredPeople.some(
-        (person) => person.email === email
-      );
-      if (alreadyReferred) {
-        return res
-          .status(409)
-          .json({ message: "This email has already been referred." });
-      }
-
-      // Push referred person
-      referrer.referredPeople.push({ name, email, note });
-      referrer.totalReferrals += 1;
-      await referrer.save();
-
-      return res.status(200).json({
-        message: "Referral logged successfully.",
-        referrer,
+      const newReferred = new Referred({
+        name,
+        email,
+        phone,
+        note,
+        referralSource,
       });
+
+      await newReferred.save();
+      return res.status(201).json(newReferred);
     } catch (error) {
-      console.error("Referral error:", error);
+      console.error("Error creating referral:", error);
       return res.status(500).json({ message: "Server error." });
     }
   }
 
+  // Handle unsupported methods
   return res.status(405).json({ message: "Method not allowed" });
 }

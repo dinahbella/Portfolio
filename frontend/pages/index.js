@@ -3,7 +3,13 @@ import { motion } from "framer-motion";
 
 export default function WelcomeReferral() {
   const [wasReferred, setWasReferred] = useState(null);
-  const [form, setForm] = useState({ name: "", email: "", referralCode: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    note: "",
+    referralSource: "friend", // default or change as needed
+  });
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
@@ -26,6 +32,7 @@ export default function WelcomeReferral() {
       }
     } catch (err) {
       console.error(err);
+      alert("Something went wrong.");
     }
   };
 
@@ -96,15 +103,43 @@ export default function WelcomeReferral() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Referral Code
+                Phone (optional)
               </label>
               <input
-                name="referralCode"
-                value={form.referralCode}
+                type="tel"
+                name="phone"
+                value={form.phone}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded dark:bg-gray-800 dark:text-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Referral Code / Note
+              </label>
+              <input
+                name="note"
+                value={form.note}
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-2 border rounded dark:bg-gray-800 dark:text-white"
               />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Referral Source
+              </label>
+              <select
+                name="referralSource"
+                value={form.referralSource}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded dark:bg-gray-800 dark:text-white"
+              >
+                <option value="friend">Friend</option>
+                <option value="social">Social Media</option>
+                <option value="website">Website</option>
+                <option value="other">Other</option>
+              </select>
             </div>
             <button
               type="submit"
