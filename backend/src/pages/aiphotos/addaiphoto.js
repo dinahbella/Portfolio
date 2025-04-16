@@ -159,13 +159,13 @@ export default function AddPhoto({ id }) {
     <div>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 gap-3 sm:gap-0">
         <h2 className="text-xl sm:text-2xl text-blue-600 font-semibold">
-          Add Photos
+          Add Ai Photos
         </h2>
 
         <div className="text-blue-600 flex items-center gap-2">
           <FaPlusSquare className="text-lg sm:text-xl text-blue-600" />
           <span>/</span>
-          <span>Add Photos</span>
+          <span>Add Ai Photos</span>
         </div>
       </div>
       <div className="flex justify-center p-4 sm:p-6 md:p-8">

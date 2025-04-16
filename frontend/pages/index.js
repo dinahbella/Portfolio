@@ -238,32 +238,6 @@ export default function Home() {
       </motion.div>
 
       <motion.div
-        className="flex w-full justify-center gap-8 items-center p-5"
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-      >
-        {categories.map((category, index) => (
-          <motion.button
-            key={category}
-            onClick={() => handleCategoryChange(category)}
-            className={`w-full sm:w-auto p-4 sm:px-6 py-2 sm:py-3 shadow-xl font-bold text-blue-600 rounded-2xl text-center 
-            ${
-              selectedCategory === category
-                ? "bg-gradient-to-bl from-blue-500 via-teal-600 to-indigo-800 text-white"
-                : "bg-white hover:bg-gradient-to-r from-blue-500 to-indigo-800 hover:text-white"
-            }`}
-            variants={itemVariants}
-            whileHover="hover"
-            whileTap="tap"
-            custom={index}
-          >
-            {category}
-          </motion.button>
-        ))}
-      </motion.div>
-
-      <motion.div
         className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 px-4 sm:px-6 max-w-7xl mx-auto"
         initial="hidden"
         animate="visible"
@@ -363,103 +337,6 @@ export default function Home() {
       <Experience />
       <Skills />
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8 }}
-        className="p-5"
-      >
-        <motion.h1
-          className="text-3xl text-center font-bold bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text"
-          whileHover={{ scaleX: 1.1 }}
-          transition={{ duration: 0.8 }}
-        >
-          Our Recent Blogs
-        </motion.h1>
-        <p className="text-center font-mono text-gray-700 dark:text-gray-200">
-          The blog aims to educate, inspire, and support both aspiring and
-          professional writers while establishing the company as an authority in
-          the writing and content creation space.
-        </p>
-      </motion.div>
-
-      <motion.div
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 max-w-6xl mx-auto p-4"
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-      >
-        {loading ? (
-          <motion.p
-            className="col-span-full text-center"
-            variants={itemVariants}
-          >
-            <div>
-              {" "}
-              <Spinner2 />
-              <h1>Loading...</h1>
-            </div>
-          </motion.p>
-        ) : Array.isArray(filteredBlogs) && filteredBlogs.length > 0 ? (
-          <AnimatePresence>
-            {filteredBlogs.slice(0, 4).map((blog, index) => (
-              <Link key={blog.id} href={`/blogs/${blog.slug}`} passHref>
-                <motion.div
-                  variants={itemVariants}
-                  custom={index}
-                  whileHover={{
-                    y: -5,
-                    transition: { duration: 0.4, ease: "easeOut" },
-                  }}
-                  className="relative"
-                >
-                  <motion.div
-                    className="relative group overflow-hidden rounded-lg shadow-lg border border-transparent"
-                    whileHover={{ scale: 1.03 }}
-                  >
-                    <Image
-                      src={blog.images[0]}
-                      alt={blog.title}
-                      width={300}
-                      height={300}
-                      className="w-full h-[200px] sm:h-[250px] md:h-[300px] object-cover rounded-lg transition-all duration-300 group-hover:opacity-80 group-hover:border-blue-600"
-                    />
-                    <motion.span
-                      className="absolute bottom-0 left-0 w-full bg-gradient-to-r from-blue-500 to-indigo-800 px-3 py-2 text-white text-xs sm:text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      initial={{ opacity: 0, y: 10 }}
-                      whileHover={{
-                        opacity: 1,
-                        y: 0,
-                        transition: { duration: 0.3 },
-                      }}
-                    >
-                      <div className="flex flex-col items-center text-center gap-1 sm:gap-[2px]">
-                        <div className="flex items-center gap-1 sm:gap-2">
-                          <SlCalender className="text-base sm:text-lg" />
-                          <span className="text-[10px] sm:text-xs">
-                            {formatDate(blog.createdAt)}
-                          </span>
-                        </div>
-                        <h2 className="text-xs sm:text-sm font-medium">
-                          {blog.title}
-                        </h2>
-                      </div>
-                    </motion.span>
-                  </motion.div>
-                </motion.div>
-              </Link>
-            ))}
-          </AnimatePresence>
-        ) : (
-          <motion.div
-            className="col-span-full text-center py-3 font-bold text-gray-700 dark:text-gray-200"
-            variants={itemVariants}
-          >
-            No blogs available.
-          </motion.div>
-        )}
-      </motion.div>
       <div>
         <Testimonials />
       </div>
