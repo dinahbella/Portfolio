@@ -12,6 +12,7 @@ import { CiImageOn } from "react-icons/ci";
 import { IoImage } from "react-icons/io5";
 import { BsFillPostcardFill } from "react-icons/bs";
 import { motion, AnimatePresence } from "framer-motion";
+import { RiBringToFront } from "react-icons/ri";
 
 export default function SideSheet() {
   const [open, setOpen] = useState(false);
@@ -191,6 +192,13 @@ export default function SideSheet() {
                   href="/settings"
                   label="Settings"
                   icon={<Settings2 className="w-5 h-5" />}
+                  activeItem={activeItem}
+                  setActiveItem={setActiveItem}
+                />
+                <MenuItem
+                  href="/referrals"
+                  label="Referrals"
+                  icon={<RiBringToFront className="w-5 h-5" />}
                   activeItem={activeItem}
                   setActiveItem={setActiveItem}
                 />
