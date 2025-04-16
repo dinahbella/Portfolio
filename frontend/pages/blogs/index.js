@@ -11,6 +11,8 @@ import Spinner from "@/components/Spinner";
 import useFetchData from "@/hooks/useFetchData";
 import Link from "next/link";
 import Image from "next/image";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -87,6 +89,8 @@ export default function Blogs() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+      <Header />
+
       <Head>
         <title>Blogs</title>
         <meta
@@ -447,6 +451,7 @@ export default function Blogs() {
           </motion.div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

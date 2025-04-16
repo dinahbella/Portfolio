@@ -15,7 +15,6 @@ export default function App({ Component, pageProps }) {
         disableTransitionOnChange
       >
         {" "}
-        <Header />
         <main>
           <Component {...pageProps} />
         </main>
@@ -37,7 +36,6 @@ export default function App({ Component, pageProps }) {
           },
         }}
       />{" "}
-      <Footer />
     </div>
   );
 }

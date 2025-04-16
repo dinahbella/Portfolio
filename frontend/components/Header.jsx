@@ -21,7 +21,7 @@ export default function Header() {
   }, [router]);
 
   const navItems = [
-    { href: "/", label: "Home" },
+    { href: "/home", label: "Home" },
     { href: "/blogs", label: "Blogs" },
     { href: "/photos", label: "Photos" },
     { href: "/services", label: "Services" },

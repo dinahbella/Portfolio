@@ -33,6 +33,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -143,6 +145,7 @@ const Contact = () => {
 
   return (
     <>
+      <Header />
       <Head>
         <title>Contact Us | Inkvision</title>
         <meta
@@ -516,6 +519,7 @@ const Contact = () => {
             </motion.div>
           </div>
         </motion.div>
+        <Footer />
       </div>
     </>
   );

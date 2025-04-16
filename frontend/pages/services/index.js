@@ -11,6 +11,8 @@ import {
 import { GiSpellBook, GiCommercialAirplane } from "react-icons/gi";
 import { BsGraphUp, BsChatSquareQuote } from "react-icons/bs";
 import Link from "next/link";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 
 const services = [
   {
@@ -114,6 +116,7 @@ const services = [
 export default function Services() {
   return (
     <>
+      <Header />
       <Head>
         <title>Our Services | Inkvision</title>
         <meta
@@ -283,6 +286,7 @@ export default function Services() {
             </Link>
           </motion.div>
         </div>
+        <Footer />
       </div>
     </>
   );

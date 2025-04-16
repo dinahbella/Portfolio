@@ -6,6 +6,8 @@ import Link from "next/link";
 import React from "react";
 import useFetchData from "@/hooks/useFetchData";
 import Spinner from "@/components/Spinner";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const featuredPhotos = [
   { id: 1, src: "/img1.jpg", alt: "Creative photography", category: "Fiction" },
@@ -61,6 +63,7 @@ export default function aiBookcover() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+      <Header />
       <Head>
         <title>Inkvision: Book Cover Designs</title>
         <meta
@@ -287,6 +290,7 @@ export default function aiBookcover() {
           </motion.div>
         </motion.section>
       </main>
+      <Footer />
     </div>
   );
 }
