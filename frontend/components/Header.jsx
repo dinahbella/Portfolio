@@ -38,7 +38,7 @@ export default function Header() {
         <meta name="description" content="Welcome to Dinah's website" />
       </Head>
 
-      <header className="sticky top-0 z-50 w-full p-6 shadow-lg bg-gradient-to-r from-blue-600 via-teal-500 to-indigo-800 ">
+      <header className="sticky top-0 z-50 w-full p-6 shadow-lg bg-gradient-to-r from-blue-700 via-teal-600 to-indigo-900 ">
         <div className="container mx-auto flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center">

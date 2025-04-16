@@ -1,5 +1,5 @@
-import { Photo } from "@/models/Photo";
 import connectDB from "@/lib/mongodb";
+import { AiPhoto } from "@/models/AiPhoto";
 
 export default async function handle(req, res) {
   await connectDB();
@@ -19,21 +19,21 @@ export default async function handle(req, res) {
         }
 
         // Create a new photo
-        const photoDoc = await Photo.create({ title, images });
+        const photoDoc = await AiPhoto.create({ title, images });
         return res.status(201).json(photoDoc);
       }
 
       case "GET": {
         if (req.query?.id) {
           // Fetch a single photo by ID
-          const photo = await Photo.findById(req.query.id);
+          const photo = await AiPhoto.findById(req.query.id);
           if (!photo) {
             return res.status(404).json({ error: "Photo not found" });
           }
           return res.json(photo);
         } else {
           // Fetch all photos, sorted by newest first
-          const photos = await Photo.find().sort({ createdAt: -1 });
+          const photos = await AiPhoto.find().sort({ createdAt: -1 });
           return res.json(photos);
         }
       }
@@ -42,14 +42,14 @@ export default async function handle(req, res) {
         const { _id, title, slug, images } = req.body;
 
         // Validate required fields
-        if (!_id || !title || !images) {
+        if (!_id || !title || !images || !slug) {
           return res
             .status(400)
             .json({ error: "Missing required fields: _id, title, and images" });
         }
 
         // Update the photo
-        const updatedPhoto = await Photo.findByIdAndUpdate(
+        const updatedPhoto = await AiPhoto.findByIdAndUpdate(
           _id,
           { title, images },
           { new: true } // Return the updated document
@@ -65,7 +65,7 @@ export default async function handle(req, res) {
       case "DELETE": {
         if (req.query?.id) {
           // Delete the photo
-          const deletedPhoto = await Photo.findByIdAndDelete(req.query.id);
+          const deletedPhoto = await AiPhoto.findByIdAndDelete(req.query.id);
           if (!deletedPhoto) {
             return res.status(404).json({ error: "Photo not found" });
           }

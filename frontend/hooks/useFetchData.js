@@ -9,12 +9,15 @@ function useFetchData(apiEndpoint) {
     const fetchAllData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(apiEndpoint);
+        const response = await fetch(apiEndpoint, {
+          headers: {
+            Accept: "application/json", // Explicitly request JSON
+          },
+        });
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-
         const data = await response.json();
         setAlldata(data);
         setError(null);

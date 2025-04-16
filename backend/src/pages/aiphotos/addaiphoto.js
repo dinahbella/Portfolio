@@ -5,20 +5,11 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import Spinner from "@/components/Spinner";
 import { FaTrashAlt } from "react-icons/fa";
 import { ReactSortable } from "react-sortablejs";
@@ -29,12 +20,13 @@ import { toast } from "sonner";
 import { useState } from "react";
 
 export default function AddPhoto({ id }) {
-  const [images, setImages] = React.useState([]); // For image previews
+  const [images, setImages] = React.useState([]);
   const [uploadedFiles, setUploadedFiles] = React.useState([]); // For file input
   const [isUploading, setIsUploading] = React.useState(false);
   const fileInputRef = React.useRef(null); // Ref for the file input
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
+  const [slug, setSlug] = useState("");
 
   const router = useRouter();
   const [redirect, setRedirect] = React.useState(false); // Tracks if redirect is needed
@@ -46,15 +38,16 @@ export default function AddPhoto({ id }) {
     try {
       const data = {
         title,
+        slug,
         images,
       };
 
       // Check if it's an update or a new project
       if (id) {
-        await axios.put("/api/photos", { ...data, id });
+        await axios.put("/api/aiphoto", { ...data, id });
         toast.success("Photo updated successfully");
       } else {
-        await axios.post("/api/photos", data);
+        await axios.post("/api/aiphoto", data);
         toast.success("Photo created successfully");
       }
 
@@ -140,7 +133,7 @@ export default function AddPhoto({ id }) {
         <Card className="w-full max-w-4xl rounded-2xl shadow-xl p-4 sm:p-6 bg-blue-600/15">
           <CardHeader>
             <CardTitle className="text-center text-2xl sm:text-3xl">
-              Add Photo
+              Add New Ai Photo
             </CardTitle>
             <CardDescription className="text-center">
               Create New Photo
@@ -164,6 +157,20 @@ export default function AddPhoto({ id }) {
                   />
                 </div>
 
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="slug" className="font-bold text-md">
+                    Slug
+                  </Label>
+                  <Input
+                    id="slug"
+                    type="text"
+                    placeholder="example-of-slug"
+                    className="shadow-lg"
+                    value={slug}
+                    onChange={(e) => setSlug(e.target.value)}
+                    required
+                  />
+                </div>
                 {/* Image Upload */}
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="image" className="font-bold text-md">
