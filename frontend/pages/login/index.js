@@ -51,7 +51,7 @@ export default function Login() {
       }
 
       toast.success("Login successful");
-      router.push("/photos/allphotos");
+      router.push("/admin/blogs");
     } catch (error) {
       toast.error(error.message || "An error occurred during login");
       console.error("Login error:", error);
