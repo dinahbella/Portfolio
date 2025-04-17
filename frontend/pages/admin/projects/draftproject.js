@@ -12,7 +12,7 @@ import SideSheet from "@/components/SideBar";
 
 export default function DraftProjectsGallery() {
   const [searchQuery, setSearchQuery] = useState("");
-  const { alldata, loading } = useFetchData("/api/project");
+  const { alldata, loading } = useFetchData("/api/projects");
 
   // Filter and sort draft projects
   const filteredProjects = (alldata || [])

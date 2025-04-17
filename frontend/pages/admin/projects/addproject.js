@@ -62,10 +62,10 @@ export default function AddProject({ id }) {
       };
 
       if (id) {
-        await axios.put("/api/project", { ...data, id });
+        await axios.put("/api/projects", { ...data, id });
         toast.success("Project updated successfully");
       } else {
-        await axios.post("/api/project", data);
+        await axios.post("/api/projects", data);
         toast.success("Project created successfully");
       }
 

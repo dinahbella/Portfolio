@@ -13,7 +13,7 @@ import SideSheet from "@/components/SideBar";
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState("");
-  const { alldata, loading } = useFetchData("/api/project");
+  const { alldata, loading } = useFetchData("/api/projects");
 
   const filteredprojects =
     searchQuery.trim() === ""
