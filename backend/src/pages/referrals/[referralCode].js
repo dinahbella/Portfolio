@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FiUsers } from "react-icons/fi";
-import { Tooltip } from "react-tooltip";
 
 export default function ReferralDetailsPage() {
   const router = useRouter();

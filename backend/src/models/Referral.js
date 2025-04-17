@@ -13,14 +13,6 @@ const ReferralSchema = new mongoose.Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: "Referred",
         },
-        referredName: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Referred",
-        },
-        referredEmail: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Referred",
-        },
         date: {
           type: Date,
           default: Date.now,

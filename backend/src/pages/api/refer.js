@@ -5,7 +5,6 @@ import Referral from "@/models/Referral";
 export default async function handler(req, res) {
   await connectDB();
 
-  // === POST: Create referred user ===
   if (req.method === "POST") {
     const { name, email, referredBy } = req.body;
 
@@ -14,7 +13,6 @@ export default async function handler(req, res) {
     }
 
     try {
-      // Create referred user
       const referred = await Referred.create({
         name,
         email,
@@ -22,7 +20,6 @@ export default async function handler(req, res) {
         status: "pending",
       });
 
-      // Push to Referral.referredPeople
       const updatedReferral = await Referral.findOneAndUpdate(
         { referralCode: referredBy },
         {
@@ -53,7 +50,6 @@ export default async function handler(req, res) {
     }
   }
 
-  // === GET: Fetch all referred users ===
   if (req.method === "GET") {
     try {
       const referredUsers = await Referred.find({})
@@ -67,6 +63,5 @@ export default async function handler(req, res) {
     }
   }
 
-  // === METHOD NOT ALLOWED ===
-  res.status(405).json({ message: "Method not allowed" });
+  return res.status(405).json({ message: "Method not allowed" });
 }
