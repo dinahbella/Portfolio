@@ -50,13 +50,8 @@ export default function Login() {
         throw new Error(data.message || "Authentication failed");
       }
 
-      // Store token in localStorage if using JWT
-      // if (data.token) {
-      //   localStorage.setItem("authToken", data.token);
-      // }
-
       toast.success("Login successful");
-      window.location.href = "http://localhost:3001/admin";
+      router.push("/photos/allphotos");
     } catch (error) {
       toast.error(error.message || "An error occurred during login");
       console.error("Login error:", error);
