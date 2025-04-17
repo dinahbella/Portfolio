@@ -2,28 +2,25 @@ import mongoose from "mongoose";
 
 const ReferralSchema = new mongoose.Schema(
   {
-    referrerName: {
-      type: String,
-      required: true,
-    },
-    referrerEmail: {
-      type: String,
-      required: true,
-    },
-    referrerPhone: {
-      type: Number,
-      required: true,
-    },
-    referralCode: {
-      type: String,
-      required: true,
-      unique: true,
-    },
+    referrerName: { type: String, required: true },
+    referrerEmail: { type: String, required: true },
+    referrerPhone: { type: Number, required: true },
+    referralCode: { type: String, required: true, unique: true },
 
     referredPeople: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Referred",
+        referredId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Referred",
+        },
+        referredName: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Referred",
+        },
+        referredEmail: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Referred",
+        },
         date: {
           type: Date,
           default: Date.now,
@@ -31,15 +28,8 @@ const ReferralSchema = new mongoose.Schema(
       },
     ],
 
-    totalReferrals: {
-      type: Number,
-      default: 0,
-    },
-
-    rewardsEarned: {
-      type: Number,
-      default: 0,
-    },
+    totalReferrals: { type: Number, default: 0 },
+    rewardsEarned: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

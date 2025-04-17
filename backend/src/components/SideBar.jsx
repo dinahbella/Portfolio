@@ -196,7 +196,7 @@ export default function SideSheet() {
                   setActiveItem={setActiveItem}
                 />
                 <MenuItem
-                  href="/referrals"
+                  href="/referrall"
                   label="Referrals"
                   icon={<RiBringToFront className="w-5 h-5" />}
                   activeItem={activeItem}

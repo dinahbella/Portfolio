@@ -58,6 +58,7 @@ const ReferredSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Referral",
     },
+    referredBy: { type: String }, // or ObjectId if using relational refs
   },
   {
     timestamps: true,
