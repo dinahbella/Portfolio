@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "sonner";
 import { useState, useEffect } from "react";
+import SideSheet from "@/components/SideBar";
 
 export default function AddPhoto({ id }) {
   const [images, setImages] = useState([]);
@@ -157,6 +158,7 @@ export default function AddPhoto({ id }) {
 
   return (
     <div>
+      <SideSheet />
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 gap-3 sm:gap-0">
         <h2 className="text-xl sm:text-2xl text-blue-600 font-semibold">
           Add Ai Photos
