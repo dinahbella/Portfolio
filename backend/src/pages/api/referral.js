@@ -40,12 +40,19 @@ export default async function handler(req, res) {
   // Add this to the top of your POST handler:
   if (req.method === "GET") {
     try {
-      const allReferrals = await Referral.find({}).sort({ createdAt: -1 });
-      return res.status(200).json(allReferrals);
+      const allReferrals = await Referral.find({})
+        .sort({ createdAt: -1 })
+        .populate("referredPeople") // 👈 populate referred people
+        .lean();
+
+      const formatted = allReferrals.map((ref) => ({
+        ...ref,
+        totalReferrals: ref.referredPeople?.length || 0,
+      }));
+
+      return res.status(200).json(formatted);
     } catch (err) {
       return res.status(500).json({ message: "Failed to fetch referrals." });
     }
   }
-
-  return res.status(405).json({ message: "Method not allowed" });
 }

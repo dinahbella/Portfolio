@@ -54,6 +54,10 @@ const ReferredSchema = new mongoose.Schema(
       enum: ["website", "social", "friend", "other"],
       default: "other",
     },
+    referralId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Referral",
+    },
   },
   {
     timestamps: true,

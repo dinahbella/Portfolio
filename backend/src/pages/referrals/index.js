@@ -109,9 +109,14 @@ export default function ReferralsPage() {
         )}
         <div className="mt-10 text-center ">
           <Link href="/referral/referred">
-            <h3 className="inline-block text-lg  font-bold text-blue-600 dark:text-blue-400 hover:underline hover:text-blue-800 transition">
-              View All Referred People <ArrowRight />
-            </h3>
+            <div className="flex justify-center items-center gap-2 bg-blue-100 dark:bg-gray-700 text-blue-800 dark:text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-200 dark:hover:bg-gray-600 transition duration-300">
+              <h3 className="inline-block  text-lg  font-bold text-blue-800 dark:text-blue-400 hover:underline hover:text-blue-800 transition">
+                View All Referred People
+              </h3>
+              <span className="text-blue-800 dark:text-blue-400">
+                <ArrowRight />
+              </span>
+            </div>
           </Link>
         </div>
       </div>

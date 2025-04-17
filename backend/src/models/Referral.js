@@ -22,9 +22,8 @@ const ReferralSchema = new mongoose.Schema(
 
     referredPeople: [
       {
-        name: String,
-        email: String,
-        note: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Referred",
         date: {
           type: Date,
           default: Date.now,

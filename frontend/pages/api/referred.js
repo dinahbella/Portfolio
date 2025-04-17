@@ -27,16 +27,6 @@ export default async function handler(req, res) {
     }
 
     try {
-      // Check if same code (referral code) already exists
-      if (code) {
-        const existing = await Referred.findOne({ code });
-        if (existing) {
-          return res.status(400).json({
-            message: "This referral code or code already exists.",
-          });
-        }
-      }
-
       const newReferred = new Referred({
         name,
         email,
