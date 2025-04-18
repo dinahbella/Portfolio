@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { BsPostcard } from "react-icons/bs";
-import AddPhoto from "@/components/AddPhoto";
+import AddPhoto from "../addphoto";
 export default function EditPhoto() {
   const router = useRouter();
   const { id } = router.query;

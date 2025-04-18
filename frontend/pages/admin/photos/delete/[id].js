@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import { BsPostcard } from "react-icons/bs";
-import Spinner from "../../../components/Spinner";
+import Spinner from "@/components/Spinner";
 import { toast } from "sonner";
 
 export default function DeletePhoto() {
@@ -18,7 +18,7 @@ export default function DeletePhoto() {
 
     const fetchPhoto = async () => {
       try {
-        const { data } = await axios.get(`/api/photos?id=${id}`);
+        const { data } = await axios.get(`/api/photo?id=${id}`);
         setPhotoInfo(data);
       } catch (error) {
         console.error("Error fetching Photo:", error);
@@ -32,12 +32,12 @@ export default function DeletePhoto() {
   }, [id]);
 
   const goBack = () => {
-    router.push("/photos/allphotos");
+    router.push("/admin/photos/allphotos");
   };
 
   const deletePhoto = async () => {
     try {
-      await axios.delete(`/api/photos?id=${id}`);
+      await axios.delete(`/api/photo?id=${id}`);
       toast.success("Photo deleted successfully");
       goBack();
     } catch (error) {

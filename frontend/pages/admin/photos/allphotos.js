@@ -121,7 +121,7 @@ export default function PhotoGallery() {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
-                          <Link href={`/photos/edit/${photo._id}`}>
+                          <Link href={`/admin/photos/edit/${photo._id}`}>
                             <Button className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white">
                               <MdEdit />
                               Edit
@@ -133,7 +133,7 @@ export default function PhotoGallery() {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
-                          <Link href={`/photos/delete/${photo._id}`}>
+                          <Link href={`/admin/photos/delete/${photo._id}`}>
                             <Button className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white">
                               <MdDelete />
                               Delete
