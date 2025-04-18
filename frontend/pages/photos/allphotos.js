@@ -23,7 +23,7 @@ import { BsPostcardFill } from "react-icons/bs";
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState("");
-  const { alldata, loading } = useFetchData("/api/photos");
+  const { alldata, loading } = useFetchData("/api/photo");
 
   // Filter photos based on search query and published status
   const filteredphotos =
