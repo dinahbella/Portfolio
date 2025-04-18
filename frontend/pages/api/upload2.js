@@ -1,33 +1,23 @@
 import { promises as fs } from "fs";
 import path from "path";
 
-// Disable Next.js body parser to handle file uploads
+// Disable Next.js built-in body parser for file uploads
 export const config = {
   api: {
     bodyParser: false,
   },
 };
 
-// Helper to parse multipart form data
-const parseForm = async (req) => {
-  return new Promise(async (resolve, reject) => {
-    const formidable = (await import("formidable")).default;
-    const form = formidable({
-      multiples: true,
-      uploadDir: path.join(process.cwd(), "public", "uploads"),
-      keepExtensions: true,
-      filename: (name, ext, part) => {
-        const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-        return `${part.name || "file"}-${uniqueSuffix}${ext}`;
-      },
-    });
+const ALLOWED_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/gif",
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+];
 
-    form.parse(req, (err, fields, files) => {
-      if (err) return reject(err);
-      resolve({ fields, files });
-    });
-  });
-};
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -35,39 +25,51 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Parse the form data
-    const { files } = await parseForm(req);
+    const formidable = (await import("formidable")).default;
 
-    // Handle single file or multiple files
-    const fileList = Array.isArray(files.file) ? files.file : [files.file];
-    const uploadsDir = path.join(process.cwd(), "public", "uploads");
+    // Ensure the upload directory exists
+    const uploadDir = path.join(process.cwd(), "public", "uploads");
+    await fs.mkdir(uploadDir, { recursive: true });
 
-    // Ensure upload directory exists
-    try {
-      await fs.access(uploadsDir);
-    } catch {
-      await fs.mkdir(uploadsDir, { recursive: true });
-    }
+    const form = formidable({
+      multiples: true,
+      uploadDir,
+      keepExtensions: true,
+      maxFileSize: MAX_FILE_SIZE,
+      filename: (name, ext, part) => {
+        const timestamp = Date.now();
+        const randomStr = Math.random().toString(36).substring(2, 8);
+        const extension = path.extname(part.originalFilename || "");
+        const baseName = path.parse(part.originalFilename || "file").name;
+        return `${baseName}-${timestamp}-${randomStr}${extension}`;
+      },
+      filter: ({ mimetype }) => {
+        if (!ALLOWED_TYPES.includes(mimetype)) {
+          const error = new Error("File type not allowed");
+          error.statusCode = 400;
+          throw error;
+        }
+        return true;
+      },
+    });
 
-    // Process each file
-    const links = fileList
-      .map((file) => {
-        if (!file) return null;
+    const [fields, files] = await new Promise((resolve, reject) => {
+      form.parse(req, (err, fields, files) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve([fields, files]);
+      });
+    });
 
-        // Get the relative path from public directory
-        const relativePath = path.relative(
-          path.join(process.cwd(), "public"),
-          file.filepath
-        );
+    const uploadedFiles = Array.isArray(files.file) ? files.file : [files.file];
 
-        return {
-          name: file.originalFilename || "file",
-          url: `/${relativePath.replace(/\\/g, "/")}`,
-          size: file.size,
-          type: file.mimetype,
-        };
-      })
-      .filter(Boolean);
+    const links = uploadedFiles.map((file) => ({
+      name: file.originalFilename || "unknown",
+      url: `/uploads/${path.basename(file.filepath || file.path)}`,
+      size: file.size,
+      type: file.mimetype,
+    }));
 
     return res.status(200).json({
       success: true,
@@ -76,10 +78,9 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error("Upload error:", error);
-    return res.status(500).json({
+    return res.status(error.statusCode || 500).json({
       success: false,
-      error: "Failed to upload files",
-      details: error.message,
+      error: error.message || "Unexpected error during file upload",
     });
   }
 }

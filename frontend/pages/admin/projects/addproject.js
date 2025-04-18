@@ -140,8 +140,8 @@ export default function AddProject({ id }) {
       formData.append("file", files[0]);
 
       try {
-        const { data } = await axios.post("/api/upload", formData);
-        setFile(data.links[0]);
+        const { data } = await axios.post("/api/upload2", formData);
+        setFile(data.links[0].url);
         toast.success("File uploaded successfully");
       } catch (error) {
         console.error("Error uploading file:", error);
@@ -166,6 +166,8 @@ export default function AddProject({ id }) {
   };
 
   const updateImageOrder = (newList) => setImages(newList);
+  const fileUrl = typeof file === "string" ? file : file?.url;
+  const fileName = fileUrl?.split("/").pop();
 
   return (
     <>
@@ -390,12 +392,17 @@ export default function AddProject({ id }) {
                             <p className="text-sm text-gray-700 dark:text-gray-300">
                               Current file:{" "}
                               <a
-                                href={file}
+                                href={
+                                  typeof file === "string" ? file : file?.url
+                                }
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-blue-600 hover:underline"
+                                download
                               >
-                                {file.split("/").pop()}
+                                {(typeof file === "string" ? file : file?.url)
+                                  ?.split("/")
+                                  .pop()}
                               </a>
                             </p>
                           </div>
