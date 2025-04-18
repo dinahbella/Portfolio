@@ -81,12 +81,12 @@ export default function Index() {
                   {project.title}
                 </h3>
                 <div className="flex justify-between mt-auto">
-                  <Link href={`/projects/edit/${project._id}`}>
+                  <Link href={`/admin/projects/edit/${project._id}`}>
                     <Button className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600 flex items-center gap-2">
                       <MdEdit /> Edit
                     </Button>
                   </Link>
-                  <Link href={`/projects/delete/${project._id}`}>
+                  <Link href={`/admin/projects/delete/${project._id}`}>
                     <Button className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 flex items-center gap-2">
                       <MdDelete /> Delete
                     </Button>

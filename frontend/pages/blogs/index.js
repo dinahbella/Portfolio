@@ -110,7 +110,7 @@ export default function Blogs() {
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
               Welcome to{" "}
               <span className="font-bold bg-gradient-to-r from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text">
-                Dinah Blogs!
+                Inkvision Blogs!
               </span>
             </h1>
 
