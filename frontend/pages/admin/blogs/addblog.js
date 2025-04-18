@@ -77,7 +77,7 @@ export default function AddBlog({ id }) {
   }
 
   if (redirect) {
-    router.push("/blogs");
+    router.push("/admin/blogs");
     return null;
   }
 

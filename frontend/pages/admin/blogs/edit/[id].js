@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -20,16 +19,16 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { ReactSortable } from "react-sortablejs";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import { toast } from "sonner";
 import Spinner from "@/components/Spinner";
 import { FaTrashAlt, FaPlus } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SideSheet from "@/components/SideBar";
 
-export default function EditProject({
+export default function EditBlog({
   _id,
   title: existingTitle,
   slug: existingSlug,
@@ -37,10 +36,12 @@ export default function EditProject({
   file: existingFile,
   description: existingDescription,
   client: existingClient,
-  projectcategory: existingProjectcategory,
+  blogCategory: existingblogCategory,
   tags: existingTags,
   status: existingStatus,
 }) {
+  const searchParams = useSearchParams();
+  const blogId = searchParams.get("id"); // from ?id=xyz in URL
   const [uploadedFiles, setUploadedFiles] = React.useState([]);
   const [isUploading, setIsUploading] = React.useState(false);
   const fileInputRef = React.useRef(null);
@@ -51,15 +52,36 @@ export default function EditProject({
   const [images, setImages] = useState(existingImages || []);
   const [description, setDescription] = useState(existingDescription || "");
   const [client, setClient] = useState(existingClient || "");
-  const [projectcategory, setProjectcategory] = useState(
-    existingProjectcategory || ""
-  );
+  const [blogCategory, setblogCategory] = useState(existingblogCategory || "");
   const [tags, setTags] = useState(existingTags || "");
   const [status, setStatus] = useState(existingStatus || "");
   const router = useRouter();
   const [redirect, setRedirect] = React.useState(false);
 
-  async function saveProject(e) {
+  useEffect(() => {
+    if (blogId) {
+      axios
+        .get(`/api/blogs?id=${blogId}`)
+        .then((res) => {
+          const data = res.data;
+          setTitle(data.title || "");
+          setSlug(data.slug || "");
+          setDescription(data.description || "");
+          setImages(data.images || []);
+          setFile(data.file || "");
+          setClient(data.client || "");
+          setblogCategory(data.blogCategory || "");
+          setTags(data.tags || "");
+          setStatus(data.status || "draft");
+        })
+        .catch((err) => {
+          console.error("Failed to fetch blog:", err);
+          toast.error("Blog not found");
+        });
+    }
+  }, [blogId]);
+
+  async function saveBlog(e) {
     e.preventDefault();
     setLoading(true);
 
@@ -71,23 +93,23 @@ export default function EditProject({
         images,
         file,
         client,
-        projectcategory,
+        blogCategory,
         tags,
         status,
       };
 
       if (_id) {
         await axios.put("/api/blogs", { ...data, _id });
-        toast.success("Project updated successfully");
+        toast.success("Blog updated successfully");
       } else {
         await axios.post("/api/blogs", data);
-        toast.success("Project created successfully");
+        toast.success("Blog created successfully");
       }
 
       setRedirect(true);
     } catch (error) {
-      console.error("Error saving project:", error);
-      toast.error("Failed to save project");
+      console.error("Error saving Blog:", error);
+      toast.error("Failed to save Blog");
     } finally {
       setLoading(false);
     }
@@ -117,26 +139,6 @@ export default function EditProject({
       await Promise.all(uploadImageQueue);
       setIsUploading(false);
       toast.success("Images uploaded successfully");
-    }
-  };
-
-  const handleFileUpload = async (ev) => {
-    const files = ev.target?.files;
-    if (files?.length > 0) {
-      setIsUploading(true);
-      const formData = new FormData();
-      formData.append("file", files[0]);
-
-      try {
-        const { data } = await axios.post("/api/upload2", formData);
-        setFile(data.links[0]);
-        toast.success("File uploaded successfully");
-      } catch (error) {
-        console.error("Error uploading file:", error);
-        toast.error("Failed to upload file");
-      } finally {
-        setIsUploading(false);
-      }
     }
   };
 
@@ -178,13 +180,13 @@ export default function EditProject({
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.1 }}
               >
-                {_id ? "Edit Project" : "Add New Project"}
+                {_id ? "Edit Blog" : "Add New Blog"}
               </motion.h2>
               <div className="flex items-center gap-2 text-blue-600 dark:text-blue-300 mt-1">
                 <span className="text-sm">blogs</span>
                 <span>/</span>
                 <span className="text-sm font-medium">
-                  Edit Project Details
+                  {_id ? "Edit" : "Create"}
                 </span>
               </div>
             </div>
@@ -199,15 +201,15 @@ export default function EditProject({
             <Card className="w-full max-w-4xl mx-auto rounded-xl shadow-lg border-0 overflow-hidden">
               <CardHeader className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6">
                 <CardTitle className="text-2xl sm:text-3xl font-bold">
-                  Edit Project Details
+                  Edit Blog Details
                 </CardTitle>
                 <CardDescription className="text-blue-100">
-                  Update your project information
+                  Update your Blog information
                 </CardDescription>
               </CardHeader>
 
               <CardContent className="p-6">
-                <form onSubmit={saveProject} className="space-y-6">
+                <form onSubmit={saveBlog} className="space-y-6">
                   {/* Title & Slug Row */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
@@ -215,11 +217,11 @@ export default function EditProject({
                         htmlFor="title"
                         className="font-medium text-gray-700 dark:text-gray-300"
                       >
-                        Project Title *
+                        Blog Title *
                       </Label>
                       <Input
                         id="title"
-                        placeholder="Project name"
+                        placeholder="Blog name"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         className="focus:ring-2 focus:ring-blue-500"
@@ -236,7 +238,7 @@ export default function EditProject({
                       </Label>
                       <Input
                         id="slug"
-                        placeholder="project-slug"
+                        placeholder="Blog-slug"
                         value={slug}
                         onChange={(e) => setSlug(e.target.value)}
                         className="focus:ring-2 focus:ring-blue-500"
@@ -255,7 +257,7 @@ export default function EditProject({
                     </Label>
                     <Textarea
                       id="description"
-                      placeholder="Describe your project..."
+                      placeholder="Describe your Blog..."
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       className="min-h-[120px] focus:ring-2 focus:ring-blue-500"
@@ -268,7 +270,7 @@ export default function EditProject({
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label className="font-medium text-gray-700 dark:text-gray-300">
-                          Project Images
+                          Blog Images
                         </Label>
                         <div className="flex items-center gap-4">
                           <label className="cursor-pointer">
@@ -343,52 +345,6 @@ export default function EditProject({
                         )}
                       </AnimatePresence>
                     </div>
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label className="font-medium text-gray-700 dark:text-gray-300">
-                          Project File
-                        </Label>
-                        <div className="flex items-center gap-4">
-                          <label className="cursor-pointer">
-                            <div className="flex items-center justify-center px-4 py-2 border-2 border-dashed border-blue-400 rounded-lg bg-blue-50 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-gray-700 transition-colors">
-                              <FaPlus className="mr-2 text-blue-600" />
-                              <span className="text-blue-600 font-medium">
-                                Upload File
-                              </span>
-                              <input
-                                type="file"
-                                className="hidden"
-                                onChange={handleFileUpload}
-                              />
-                            </div>
-                          </label>
-                          {isUploading && (
-                            <div className="flex items-center">
-                              <Spinner size="sm" />
-                              <span className="ml-2 text-sm text-gray-500">
-                                Uploading...
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                        {file && (
-                          <div className="mt-2 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
-                            <p className="text-sm text-gray-700 dark:text-gray-300">
-                              Current file:{" "}
-                              <a
-                                href={file}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-600 hover:underline"
-                                download
-                              >
-                                {file.split("/").pop()}
-                              </a>
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
                   </div>
 
                   {/* Client & Category Row */}
@@ -414,11 +370,11 @@ export default function EditProject({
                         htmlFor="category"
                         className="font-medium text-gray-700 dark:text-gray-300"
                       >
-                        Project Category
+                        Blog Category
                       </Label>
                       <Select
-                        value={projectcategory}
-                        onValueChange={setProjectcategory}
+                        value={blogCategory}
+                        onValueChange={setblogCategory}
                       >
                         <SelectTrigger className="focus:ring-2 focus:ring-blue-500">
                           <SelectValue placeholder="Select category" />
@@ -500,7 +456,7 @@ export default function EditProject({
                           Updating...
                         </div>
                       ) : (
-                        <> Update Project</>
+                        <> Update Blog</>
                       )}
                     </Button>
                   </div>

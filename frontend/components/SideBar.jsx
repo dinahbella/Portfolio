@@ -55,6 +55,7 @@ export default function SideSheet() {
               </button>
             </SheetTrigger>
           </Sheet>
+
           <motion.h1
             className="text-xl font-bold flex items-center gap-1"
             initial={{ opacity: 0, x: -10 }}
@@ -65,6 +66,7 @@ export default function SideSheet() {
             <span className="text-blue-600 dark:text-blue-400">Panel</span>
           </motion.h1>
         </div>
+
         <div className="flex items-center gap-3">
           <ModeToggle />
         </div>
@@ -85,7 +87,7 @@ export default function SideSheet() {
               transition={{ delay: 0.1 }}
             >
               <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
-                Navigation
+                Admin Panel
               </h2>
             </motion.div>
 
