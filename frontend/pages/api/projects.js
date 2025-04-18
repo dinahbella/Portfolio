@@ -1,40 +1,35 @@
 import connectDB from "@/lib/mongodb";
-import { Project } from "@/models/Projects";
+import Project from "@/models/Projects";
 
 export default async function handler(req, res) {
   await connectDB();
 
   const { method, query, body } = req;
 
+  const generateSlug = (str) =>
+    str
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)+/g, "");
+
   try {
     switch (method) {
+      // GET: Fetch single or all
       case "GET": {
-        const { id, projectcategory, slug } = query;
-
-        if (id) {
-          const project = await Project.findById(id);
+        if (query?.id) {
+          const project = await Project.findById(query.id);
           if (!project) {
             return res.status(404).json({ error: "Project not found" });
           }
-          return res.json(project);
+          return res.status(200).json(project);
         }
 
-        if (projectcategory) {
-          const projects = await Project.find({ projectcategory }).sort({
-            createdAt: -1,
-          });
-          return res.json(projects);
-        }
-
-        if (slug) {
-          const projects = await Project.find({ slug }).sort({ createdAt: -1 });
-          return res.json(projects);
-        }
-
-        const allProjects = await Project.find().sort({ createdAt: -1 });
-        return res.json(allProjects);
+        const projects = await Project.find().sort({ createdAt: -1 });
+        return res.status(200).json(projects);
       }
 
+      // POST: Create new
       case "POST": {
         const {
           title,
@@ -49,24 +44,29 @@ export default async function handler(req, res) {
         } = body;
 
         if (!title || !description || !projectcategory) {
-          return res.status(400).json({ error: "Missing required fields" });
+          return res
+            .status(400)
+            .json({ error: "Title, description, and category are required" });
         }
 
-        const projectDoc = await Project.create({
+        const newProject = await Project.create({
           title,
-          slug,
+          slug: slug?.trim() || generateSlug(title),
           description,
-          images,
-          file,
-          client,
-          projectcategory,
-          tags,
-          status,
+          images: images || [],
+          file: file || "",
+          client: client || "",
+          projectcategory: Array.isArray(projectcategory)
+            ? projectcategory
+            : [projectcategory],
+          tags: Array.isArray(tags) ? tags : [tags],
+          status: status || "draft",
         });
 
-        return res.status(201).json(projectDoc);
+        return res.status(201).json(newProject);
       }
 
+      // PUT: Update existing
       case "PUT": {
         const {
           _id,
@@ -82,32 +82,37 @@ export default async function handler(req, res) {
         } = body;
 
         if (!_id || !title || !description || !projectcategory) {
-          return res.status(400).json({ error: "Missing required fields" });
+          return res
+            .status(400)
+            .json({ error: "Missing required fields for update" });
         }
 
-        const updatedProject = await Project.findByIdAndUpdate(
+        const updated = await Project.findByIdAndUpdate(
           _id,
           {
             title,
-            slug,
+            slug: slug?.trim() || generateSlug(title),
             description,
-            images,
-            file,
-            client,
-            projectcategory,
-            tags,
-            status,
+            images: images || [],
+            file: file || "",
+            client: client || "",
+            projectcategory: Array.isArray(projectcategory)
+              ? projectcategory
+              : [projectcategory],
+            tags: Array.isArray(tags) ? tags : [tags],
+            status: status || "draft",
           },
           { new: true }
         );
 
-        if (!updatedProject) {
+        if (!updated) {
           return res.status(404).json({ error: "Project not found" });
         }
 
-        return res.json(updatedProject);
+        return res.status(200).json(updated);
       }
 
+      // DELETE
       case "DELETE": {
         const { id } = query;
 
@@ -115,9 +120,8 @@ export default async function handler(req, res) {
           return res.status(400).json({ error: "Project ID is required" });
         }
 
-        const deletedProject = await Project.findByIdAndDelete(id);
-
-        if (!deletedProject) {
+        const deleted = await Project.findByIdAndDelete(id);
+        if (!deleted) {
           return res.status(404).json({ error: "Project not found" });
         }
 
@@ -127,13 +131,12 @@ export default async function handler(req, res) {
         });
       }
 
-      default: {
+      default:
         res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
         return res.status(405).json({ error: `Method ${method} not allowed` });
-      }
     }
   } catch (error) {
-    console.error("Error in Project API route:", error);
+    console.error("Project API error:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
 }

@@ -25,7 +25,7 @@ import { ReactSortable } from "react-sortablejs";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SideSheet from "@/components/SideBar";
 
@@ -34,6 +34,7 @@ export default function AddProject({ id }) {
   const [uploadedFiles, setUploadedFiles] = React.useState([]);
   const [isUploading, setIsUploading] = React.useState(false);
   const fileInputRef = React.useRef(null);
+  const fileInputRef2 = React.useRef(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [client, setClient] = useState("");
@@ -45,6 +46,30 @@ export default function AddProject({ id }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [redirect, setRedirect] = React.useState(false);
+
+  // Fetch project data if editing
+  useEffect(() => {
+    if (id) {
+      const fetchProject = async () => {
+        try {
+          const { data } = await axios.get(`/api/projects?id=${id}`);
+          setTitle(data.title);
+          setSlug(data.slug);
+          setDescription(data.description);
+          setImages(data.images || []);
+          setFile(data.file || "");
+          setClient(data.client || "");
+          setProjectcategory(data.projectcategory || "");
+          setTags(data.tags || "");
+          setStatus(data.status || "");
+        } catch (error) {
+          console.error("Error fetching project:", error);
+          toast.error("Failed to load project data");
+        }
+      };
+      fetchProject();
+    }
+  }, [id]);
 
   async function createProject(e) {
     e.preventDefault();
@@ -81,7 +106,7 @@ export default function AddProject({ id }) {
   }
 
   if (redirect) {
-    router.push("/projects/allprojects");
+    router.push("/admin/projects/allprojects");
     return null;
   }
 
@@ -107,6 +132,26 @@ export default function AddProject({ id }) {
     }
   };
 
+  const handleFileUpload = async (ev) => {
+    const files = ev.target?.files;
+    if (files?.length > 0) {
+      setIsUploading(true);
+      const formData = new FormData();
+      formData.append("file", files[0]);
+
+      try {
+        const { data } = await axios.post("/api/upload", formData);
+        setFile(data.links[0]);
+        toast.success("File uploaded successfully");
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        toast.error("Failed to upload file");
+      } finally {
+        setIsUploading(false);
+      }
+    }
+  };
+
   const handleDeleteImage = (index) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
     setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
@@ -121,10 +166,9 @@ export default function AddProject({ id }) {
   };
 
   const updateImageOrder = (newList) => setImages(newList);
-  const handleFileUpload = () => {};
+
   return (
     <>
-      {" "}
       <SideSheet />
       <motion.div
         initial={{ opacity: 0 }}
@@ -328,9 +372,7 @@ export default function AddProject({ id }) {
                               <input
                                 type="file"
                                 className="hidden"
-                                multiple
                                 onChange={handleFileUpload}
-                                ref={fileInputRef}
                               />
                             </div>
                           </label>
@@ -343,11 +385,25 @@ export default function AddProject({ id }) {
                             </div>
                           )}
                         </div>
+                        {file && (
+                          <div className="mt-2 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                            <p className="text-sm text-gray-700 dark:text-gray-300">
+                              Current file:{" "}
+                              <a
+                                href={file}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-600 hover:underline"
+                              >
+                                {file.split("/").pop()}
+                              </a>
+                            </p>
+                          </div>
+                        )}
                       </div>
-
-                      {/* Image Gallery */}
                     </div>
                   </div>
+
                   {/* Client & Category Row */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">

@@ -34,6 +34,7 @@ export default function EditProject({
   title: existingTitle,
   slug: existingSlug,
   images: existingImages,
+  file: existingFile,
   description: existingDescription,
   client: existingClient,
   projectcategory: existingProjectcategory,
@@ -45,6 +46,7 @@ export default function EditProject({
   const fileInputRef = React.useRef(null); // Ref for the file input
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState(existingTitle || "");
+  const [file, setFile] = useState(existingFile || null);
   const [slug, setSlug] = useState(existingSlug || "");
   const [images, setImages] = useState(existingImages || []);
   const [description, setDescription] = useState(existingDescription || "");
@@ -67,6 +69,7 @@ export default function EditProject({
         slug,
         description,
         images,
+        file,
         client,
         projectcategory,
         tags,
@@ -75,10 +78,10 @@ export default function EditProject({
 
       // Check if it's an update or a new project
       if (_id) {
-        await axios.put("/api/project", { ...data, _id });
+        await axios.put("/api/projects", { ...data, _id });
         toast.success("Project updated successfully");
       } else {
-        await axios.post("/api/project", data);
+        await axios.post("/api/projects", data);
         toast.success("Project created successfully");
       }
 
@@ -92,7 +95,7 @@ export default function EditProject({
   }
 
   if (redirect) {
-    router.push("/projects/allprojects");
+    router.push("/admin/projects/allprojects");
     return null;
   }
 
