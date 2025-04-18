@@ -23,6 +23,7 @@ export default function Header() {
   const navItems = [
     { href: "/home", label: "Home" },
     { href: "/blogs", label: "Blogs" },
+    { href: "/projects", label: "Projects" },
     { href: "/photos", label: "Photos" },
     { href: "/services", label: "Services" },
     { href: "/contacts", label: "Contacts" },
@@ -36,8 +37,8 @@ export default function Header() {
         <meta name="description" content="Welcome to Dinah's website" />
       </Head>
 
-      <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-gradient-to-r from-indigo-800 via-teal-700 to-blue-900 shadow-md">
-        <div className="container mx-auto px-4 py-6 flex items-center justify-between">
+      <header className="sticky top-0 z-50 w-full backdrop-blur bg-gradient-to-r from-indigo-800 via-teal-700 to-blue-900 shadow-md">
+        <div className="container mx-auto px-2 py-5 flex items-center justify-between">
           {/* Logo */}
           <Link
             href="/"
@@ -46,13 +47,13 @@ export default function Header() {
             Dinah
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center space-x-6">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center md:gap-4 lg:gap-7">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-white font-medium transition-colors text-base hover:text-blue-200 ${
+                className={`text-white font-medium transition-colors hover:text-blue-200 ${
                   isActive(item.href)
                     ? "underline underline-offset-4 decoration-2"
                     : ""
@@ -63,22 +64,23 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Actions */}
-          <div className="flex items-center space-x-4">
+          {/* Right Section: Actions */}
+          <div className="flex items-center space-x-1">
             <Link href="/login">
               <Button
                 variant="ghost"
-                className="hidden md:block text-white hover:bg-white/10 rounded-full px-5 py-2 font-medium transition"
+                className="hidden md:inline-block text-white hover:bg-white/10 rounded-full px-5 py-2 font-medium transition"
               >
                 Admin
               </Button>
             </Link>
+
             <ModeToggle className="hidden md:block text-white" />
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Menu Icon */}
             <button
               className="md:hidden text-white text-2xl"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onClick={() => setIsMenuOpen((prev) => !prev)}
               aria-label="Toggle navigation menu"
             >
               {isMenuOpen ? <FaTimes /> : <HiMenuAlt3 />}
@@ -88,7 +90,7 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-gradient-to-b from-blue-700 to-indigo-800 px-4 py-6 space-y-4 shadow-lg">
+          <div className="md:hidden bg-gradient-to-b from-blue-800 to-indigo-900 px-4 py-6 space-y-4 shadow-xl transition-all duration-300">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -103,6 +105,7 @@ export default function Header() {
                 {item.label}
               </Link>
             ))}
+
             <div className="flex items-center justify-between mt-4">
               <Link href="/login">
                 <Button

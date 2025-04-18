@@ -1,71 +1,95 @@
+"use client";
+
 import Link from "next/link";
 import React from "react";
 import { FaXTwitter, FaFacebook, FaLinkedin } from "react-icons/fa6";
+import { motion } from "framer-motion";
 
 export default function Footer() {
+  const navLinks = [
+    { href: "/services", label: "Services" },
+    { href: "#works", label: "Works" },
+    { href: "/resume", label: "Resume" },
+    { href: "#testimonials", label: "Testimonials" },
+    { href: "#skills", label: "Skills" },
+    { href: "/contact", label: "Contact" },
+  ];
+
   return (
-    <footer className="bg-gray-900 text-white py-6 px-4 shadow-xl dark:bg-gray-300">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+    <motion.footer
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="bg-gray-900 dark:bg-gray-300 text-white dark:text-gray-900 py-10 px-6"
+    >
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         {/* Logo */}
-        <div>
-          <h1 className="text-2xl font-bold dark:text-black">Logo</h1>
-        </div>
+        <motion.h1
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+          className="text-2xl font-bold tracking-wide dark:text-black"
+        >
+          YourLogo
+        </motion.h1>
 
-        <div className="flex flex-wrap dark:text-gray-800 font-bold justify-center md:justify-start gap-4 text-gray-300 text-sm">
-          {[
-            { href: "/services", label: "Services" },
-            { href: "#works", label: "Works" },
-            { href: "/resume", label: "Resume" },
-            { href: "#testimonials", label: "Testimonials" },
-            { href: "#skills", label: "Skills" },
-            { href: "/contact", label: "Contact" },
-          ].map((item) => (
-            <Link
+        {/* Navigation */}
+        <motion.div
+          className="flex flex-wrap justify-center gap-5 text-sm font-medium"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            visible: {
+              transition: {
+                staggerChildren: 0.05,
+              },
+            },
+          }}
+        >
+          {navLinks.map((item) => (
+            <motion.div
               key={item.href}
-              href={item.href}
-              className="relative hover:text-blue  transition duration-500 before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-white before:transition-all before:duration-300 hover:before:w-full"
+              variants={{
+                hidden: { opacity: 0, y: 10 },
+                visible: { opacity: 1, y: 0 },
+              }}
             >
-              {item.label}
-            </Link>
+              <Link
+                href={item.href}
+                className="relative text-gray-300 dark:text-gray-800 hover:text-blue-500 transition-all duration-300 before:absolute before:bottom-0 before:left-0 before:h-[2px] before:w-0 before:bg-blue-500 before:transition-all hover:before:w-full"
+              >
+                {item.label}
+              </Link>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Social Media Icons */}
-        <ul className="flex gap-4 dark:text-gray-800">
-          <li>
-            <a
-              href="#"
-              target="_blank"
-              className="hover:text-blue-500 transition "
+        {/* Social Media */}
+        <motion.ul
+          className="flex gap-5"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          {[FaXTwitter, FaFacebook, FaLinkedin].map((Icon, idx) => (
+            <motion.li
+              key={idx}
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.95 }}
+              className="text-gray-300 dark:text-gray-800 hover:text-blue-500 transition-colors"
             >
-              <FaXTwitter size={20} />
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              target="_blank"
-              className="hover:text-blue-600 transition"
-            >
-              <FaFacebook size={20} />
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              target="_blank"
-              className="hover:text-blue-400 transition"
-            >
-              <FaLinkedin size={20} />
-            </a>
-          </li>
-        </ul>
+              <a href="#" target="_blank" rel="noopener noreferrer">
+                <Icon size={20} />
+              </a>
+            </motion.li>
+          ))}
+        </motion.ul>
       </div>
 
       {/* Copyright */}
-      <div className="text-center font-bold text-gray-400 text-xs mt-6 dark:text-gray-800">
+      <div className="text-center text-xs text-gray-400 dark:text-gray-700 mt-8 font-semibold">
         © {new Date().getFullYear()} YourCompany. All rights reserved.
       </div>
-    </footer>
+    </motion.footer>
   );
 }
