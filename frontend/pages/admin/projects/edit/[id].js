@@ -27,6 +27,7 @@ import Spinner from "@/components/Spinner";
 import { FaTrashAlt, FaPlus } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import SideSheet from "@/components/SideBar";
 
 export default function EditProject({
   _id,
@@ -40,12 +41,12 @@ export default function EditProject({
   tags: existingTags,
   status: existingStatus,
 }) {
-  const [uploadedFiles, setUploadedFiles] = React.useState([]); // For file input
+  const [uploadedFiles, setUploadedFiles] = React.useState([]);
   const [isUploading, setIsUploading] = React.useState(false);
-  const fileInputRef = React.useRef(null); // Ref for the file input
+  const fileInputRef = React.useRef(null);
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState(existingTitle || "");
-  const [file, setFile] = useState(existingFile || null);
+  const [file, setFile] = useState(existingFile || "");
   const [slug, setSlug] = useState(existingSlug || "");
   const [images, setImages] = useState(existingImages || []);
   const [description, setDescription] = useState(existingDescription || "");
@@ -56,30 +57,46 @@ export default function EditProject({
   const [tags, setTags] = useState(existingTags || "");
   const [status, setStatus] = useState(existingStatus || "");
   const router = useRouter();
-  const [redirect, setRedirect] = React.useState(false); // Tracks if redirect is needed
+  const [redirect, setRedirect] = React.useState(false);
 
-  useEffect(() => {
-    if (id) {
-      const fetchProject = async () => {
-        try {
-          const { data } = await axios.get(`/api/projects?id=${id}`);
-          setTitle(data.title);
-          setSlug(data.slug);
-          setDescription(data.description);
-          setImages(data.images || []);
-          setFile(data.file || "");
-          setClient(data.client || "");
-          setProjectcategory(data.projectcategory || "");
-          setTags(data.tags || "");
-          setStatus(data.status || "");
-        } catch (error) {
-          console.error("Error fetching project:", error);
-          toast.error("Failed to load project data");
-        }
+  async function saveProject(e) {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const data = {
+        title,
+        slug,
+        description,
+        images,
+        file,
+        client,
+        projectcategory,
+        tags,
+        status,
       };
-      fetchProject();
+
+      if (_id) {
+        await axios.put("/api/projects", { ...data, _id });
+        toast.success("Project updated successfully");
+      } else {
+        await axios.post("/api/projects", data);
+        toast.success("Project created successfully");
+      }
+
+      setRedirect(true);
+    } catch (error) {
+      console.error("Error saving project:", error);
+      toast.error("Failed to save project");
+    } finally {
+      setLoading(false);
     }
-  }, [id]);
+  }
+
+  if (redirect) {
+    router.push("/admin/projects/allprojects");
+    return null;
+  }
 
   const handleImageUpload = async (ev) => {
     const files = ev.target?.files;
@@ -112,7 +129,7 @@ export default function EditProject({
 
       try {
         const { data } = await axios.post("/api/upload2", formData);
-        setFile(data.links[0].url);
+        setFile(data.links[0]);
         toast.success("File uploaded successfully");
       } catch (error) {
         console.error("Error uploading file:", error);
@@ -137,8 +154,6 @@ export default function EditProject({
   };
 
   const updateImageOrder = (newList) => setImages(newList);
-  const fileUrl = typeof file === "string" ? file : file?.url;
-  const fileName = fileUrl?.split("/").pop();
 
   return (
     <>
@@ -163,13 +178,13 @@ export default function EditProject({
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.1 }}
               >
-                {id ? "Edit Project" : "Add New Project"}
+                {_id ? "Edit Project" : "Add New Project"}
               </motion.h2>
               <div className="flex items-center gap-2 text-blue-600 dark:text-blue-300 mt-1">
                 <span className="text-sm">Projects</span>
                 <span>/</span>
                 <span className="text-sm font-medium">
-                  {id ? "Edit" : "Create"}
+                  Edit Project Details
                 </span>
               </div>
             </div>
@@ -184,17 +199,15 @@ export default function EditProject({
             <Card className="w-full max-w-4xl mx-auto rounded-xl shadow-lg border-0 overflow-hidden">
               <CardHeader className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6">
                 <CardTitle className="text-2xl sm:text-3xl font-bold">
-                  {id ? "Edit Project Details" : "Create New Project"}
+                  Edit Project Details
                 </CardTitle>
                 <CardDescription className="text-blue-100">
-                  {id
-                    ? "Update your project information"
-                    : "Fill in the details below to add a new project"}
+                  Update your project information
                 </CardDescription>
               </CardHeader>
 
               <CardContent className="p-6">
-                <form onSubmit={createProject} className="space-y-6">
+                <form onSubmit={saveProject} className="space-y-6">
                   {/* Title & Slug Row */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
@@ -363,17 +376,13 @@ export default function EditProject({
                             <p className="text-sm text-gray-700 dark:text-gray-300">
                               Current file:{" "}
                               <a
-                                href={
-                                  typeof file === "string" ? file : file?.url
-                                }
+                                href={file}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-blue-600 hover:underline"
                                 download
                               >
-                                {(typeof file === "string" ? file : file?.url)
-                                  ?.split("/")
-                                  .pop()}
+                                {file.split("/").pop()}
                               </a>
                             </p>
                           </div>
@@ -488,10 +497,10 @@ export default function EditProject({
                       {loading ? (
                         <div className="flex items-center">
                           <Spinner size="sm" className="mr-2" />
-                          {id ? "Updating..." : "Creating..."}
+                          Updating...
                         </div>
                       ) : (
-                        <>{id ? "Update Project" : "Create Project"}</>
+                        <> Update Project</>
                       )}
                     </Button>
                   </div>

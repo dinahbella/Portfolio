@@ -2,9 +2,8 @@ import Head from "next/head";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { SiBloglovin } from "react-icons/si";
 import { BsPostcard } from "react-icons/bs";
-import AddBlog from "../addblog";
+import AddPhoto from "../addphoto";
 
 export default function EditProduct() {
   const router = useRouter();

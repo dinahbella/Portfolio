@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import { BsPostcard } from "react-icons/bs";
-import Spinner from "../../../components/Spinner";
+import Spinner from "@/components/Spinner";
 import { toast } from "sonner";
 
 export default function DeleteBlog() {
@@ -32,7 +32,7 @@ export default function DeleteBlog() {
   }, [id]);
 
   const goBack = () => {
-    router.push("/blogs");
+    router.push("/admin/blogs");
   };
 
   const deleteBlog = async () => {

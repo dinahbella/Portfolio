@@ -3,9 +3,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import { BsPostcard } from "react-icons/bs";
-import Spinner from "../../../components/Spinner";
 import { toast } from "sonner";
-
+import Spinner from "@/components/Spinner";
 export default function DeleteProject() {
   const router = useRouter();
   const { id } = router.query;
@@ -18,7 +17,7 @@ export default function DeleteProject() {
 
     const fetchProject = async () => {
       try {
-        const { data } = await axios.get(`/api/project?id=${id}`);
+        const { data } = await axios.get(`/api/projects?id=${id}`);
         setProjectInfo(data);
       } catch (error) {
         console.error("Error fetching project:", error);
@@ -32,12 +31,12 @@ export default function DeleteProject() {
   }, [id]);
 
   const goBack = () => {
-    router.push("/projects/allprojects");
+    router.push("/admin/projects/allprojects");
   };
 
   const deleteProject = async () => {
     try {
-      await axios.delete(`/api/project?id=${id}`);
+      await axios.delete(`/api/projects?id=${id}`);
       toast.success("Project deleted successfully");
       goBack();
     } catch (error) {

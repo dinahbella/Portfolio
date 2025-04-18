@@ -11,14 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
+
 import Spinner from "@/components/Spinner";
 import { FaTrashAlt } from "react-icons/fa";
 import { ReactSortable } from "react-sortablejs";
@@ -54,10 +47,10 @@ export default function AddPhoto({ id }) {
 
       // Check if it's an update or a new project
       if (id) {
-        await axios.put("/api/photos", { ...data, id });
+        await axios.put("/api/photo", { ...data, id });
         toast.success("Photo updated successfully");
       } else {
-        await axios.post("/api/photos", data);
+        await axios.post("/api/photo", data);
         toast.success("Photo created successfully");
       }
 
@@ -71,7 +64,7 @@ export default function AddPhoto({ id }) {
   }
 
   if (redirect) {
-    router.push("/photos/allphotos");
+    router.push("/admin/photos/allphotos");
     return null;
   }
 

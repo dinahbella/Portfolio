@@ -13,7 +13,7 @@ import SideSheet from "@/components/SideBar";
 
 export default function PhotoGallery() {
   const [searchQuery, setSearchQuery] = useState("");
-  const { alldata, loading } = useFetchData("/api/photos");
+  const { alldata, loading } = useFetchData("/api/photo");
 
   // Filter photos based on search query
   const filteredPhotos =
