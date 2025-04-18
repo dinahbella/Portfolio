@@ -121,7 +121,7 @@ export default function PhotoGallery() {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
-                          <Link href={`/photos/edit/${photo._id}`}>
+                          <Link href={`/admin/aiphotos/edit/${photo._id}`}>
                             <Button className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white">
                               <MdEdit />
                               Edit
@@ -133,7 +133,7 @@ export default function PhotoGallery() {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
-                          <Link href={`/photos/delete/${photo._id}`}>
+                          <Link href={`/admin/aiphotos/delete/${photo._id}`}>
                             <Button className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white">
                               <MdDelete />
                               Delete
@@ -182,7 +182,7 @@ export default function PhotoGallery() {
           <div className="text-blue-800 dark:text-blue-200 font-medium">
             Showing {filteredPhotos.length} of {alldata?.length || 0} photos
           </div>
-          <Link href={"/photos/addphoto"}>
+          <Link href={"/admin/aiphotos/addaiphoto"}>
             <Button className="bg-blue-600 hover:bg-blue-700 text-white">
               Upload New Ai Photo
             </Button>

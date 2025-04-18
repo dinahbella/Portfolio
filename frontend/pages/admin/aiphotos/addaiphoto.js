@@ -20,7 +20,7 @@ import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import SideSheet from "@/components/SideBar";
 
-export default function AddPhoto({ id }) {
+export default function AddaiPhoto({ id }) {
   const [images, setImages] = useState([]);
   const [uploadedFiles, setUploadedFiles] = useState([]); // For file input
   const [isUploading, setIsUploading] = useState(false);
@@ -85,7 +85,7 @@ export default function AddPhoto({ id }) {
   }
 
   if (redirect) {
-    router.push("/aiphotos/allaiphotos");
+    router.push("/admin/aiphotos/allaiphotos");
     return null;
   }
 

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { SiBloglovin } from "react-icons/si";
 import { BsPostcard } from "react-icons/bs";
-import AddBlog from "../addblog";
+import AddaiPhoto from "../addaiphoto";
 
 export default function EditProduct() {
   const router = useRouter();
@@ -16,7 +16,7 @@ export default function EditProduct() {
 
     async function fetchBlog() {
       try {
-        const { data } = await axios.get(`/api/photos?id=${id}`);
+        const { data } = await axios.get(`/api/aiphoto?id=${id}`);
         setphotoInfo(data);
       } catch (error) {
         console.error("Error fetching blog:", error);
@@ -47,7 +47,7 @@ export default function EditProduct() {
             <BsPostcard /> <span>/</span> <span>Edit Blog</span>
           </div>
         </div>
-        <div className="mt-3">{photoInfo && <AddPhoto {...photoInfo} />}</div>
+        <div className="mt-3">{photoInfo && <AddaiPhoto {...photoInfo} />}</div>
       </div>
     </>
   );
