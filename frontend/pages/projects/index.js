@@ -11,6 +11,7 @@ import Spinner from "@/components/Spinner";
 import useFetchData from "@/hooks/useFetchData";
 import Link from "next/link";
 import Image from "next/image";
+import Header from "@/components/Header";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -96,7 +97,7 @@ export default function Blogs() {
           content="Explore our collection of writing tips, content strategies, and industry insights"
         />
       </Head>
-
+      <Header />
       <main className="container mx-auto px-4 py-8 md:py-12 lg:py-16">
         <div className="max-w-6xl mx-auto">
           <motion.div
@@ -108,7 +109,7 @@ export default function Blogs() {
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
               Welcome to{" "}
               <span className="font-bold bg-gradient-to-r from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text">
-                Dinah Blogs!
+                Inkvision Projects!
               </span>
             </h1>
 

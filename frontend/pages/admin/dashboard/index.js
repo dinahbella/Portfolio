@@ -67,7 +67,7 @@ export default function AdminDashboard() {
           await Promise.all([
             axios.get("/api/blogs"),
             axios.get("/api/projects"),
-            axios.get("/api/photos"),
+            axios.get("/api/photo"),
             axios.get("/api/contact"),
           ]);
 

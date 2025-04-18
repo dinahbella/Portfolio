@@ -4,6 +4,7 @@ const ProjectSchema = new Schema(
     title: { type: String },
     description: { type: String },
     images: [{ type: String }],
+    file: { type: String },
     client: { type: String },
     projectcategory: [{ type: String }],
     tags: [{ type: String }],
