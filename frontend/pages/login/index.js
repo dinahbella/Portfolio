@@ -35,7 +35,7 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,7 +51,7 @@ export default function Login() {
       }
 
       toast.success("Login successful");
-      router.push("/admin/blogs");
+      router.push("/admin/dashboard");
     } catch (error) {
       toast.error(error.message || "An error occurred during login");
       console.error("Login error:", error);

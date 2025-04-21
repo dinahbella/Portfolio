@@ -186,8 +186,8 @@ export default function Home() {
               <Image
                 src="/pp.jpg"
                 alt="Shella Tams"
-                width={240}
-                height={240}
+                width={340}
+                height={340}
                 className="rounded-3xl object-cover"
               />
             </motion.div>

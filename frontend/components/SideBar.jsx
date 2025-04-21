@@ -2,7 +2,15 @@
 
 import { useState } from "react";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
-import { Menu, X, FileText, Phone, Settings2, Home } from "lucide-react";
+import {
+  Menu,
+  X,
+  FileText,
+  Phone,
+  Settings2,
+  Home,
+  LogOut,
+} from "lucide-react";
 import Link from "next/link";
 import { ModeToggle } from "./Mode";
 import { FaFirstdraft } from "react-icons/fa";
@@ -13,6 +21,8 @@ import { IoImage } from "react-icons/io5";
 import { BsFillPostcardFill } from "react-icons/bs";
 import { motion, AnimatePresence } from "framer-motion";
 import { RiBringToFront } from "react-icons/ri";
+import Logout from "./Logout";
+import { Button } from "./ui/button";
 
 export default function SideSheet() {
   const [open, setOpen] = useState(false);
@@ -69,6 +79,10 @@ export default function SideSheet() {
 
         <div className="flex items-center gap-3">
           <ModeToggle />
+          <Button className="bg-blue-700 hover:bg-blue-900 text-white rounded-lg px-4 py-2 transition-colors duration-200 flex gap-2">
+            <LogOut className="w-4 h-4" />
+            <Logout />
+          </Button>
         </div>
       </header>
 

@@ -71,6 +71,7 @@ export default function PhotoGallery() {
           content="Explore our stunning book cover design portfolio"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
@@ -105,21 +106,13 @@ export default function PhotoGallery() {
               digital marketplace, readers make split-second decisions based on
               visual appeal alone. At Inkvision, we create eye-catching,
               genre-appropriate covers designed specifically to attract your
-              target audience. Our professional designers blend artistic vision
-              with marketing strategy to create covers that: Instantly
-              communicate your book's genre and tone Stand out in crowded online
-              marketplaces Look professional at both thumbnail and full size
-              Reflect the heart of your story Appeal directly to your ideal
-              readers Mockups for every book covers
+              target audience.
             </motion.p>
             <motion.div
               variants={fadeIn}
-              initial="hidden"
-              animate="show"
-              whileHover={{ scale: 1.02 }}
-              className="flex flex-col md:flex-row gap-4"
+              className="flex flex-col md:flex-row gap-4 items-center"
             >
-              <Link href="/photos#photosimages">
+              <Link href="/photos#photosimages" passHref legacyBehavior>
                 <Button
                   className="px-8 py-4 text-lg hover:bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 hover:text-white transition-all duration-300"
                   variant="outline"
@@ -127,9 +120,9 @@ export default function PhotoGallery() {
                   Featured Cover Designs
                 </Button>
               </Link>
-              Browse through our portfolio of recent cover designs. Each cover
-              is custom-created to match the author's vision and market
-              positioning.
+              <span className="text-gray-600 dark:text-gray-400 text-sm md:text-base">
+                Browse through our portfolio of recent cover designs
+              </span>
             </motion.div>
           </motion.div>
 
@@ -146,13 +139,13 @@ export default function PhotoGallery() {
                 }`}
                 whileHover={{ scale: 1.03 }}
               >
-                <div className="aspect-[3/4] overflow-hidden">
+                <div className="aspect-[3/4] w-full overflow-hidden">
                   <Image
                     src={photo.src}
                     alt={photo.alt}
                     fill
-                    priority={index < 2} // Prioritize loading first two images
-                    className="object-cover group-hover:grayscale group-hover:brightness-75 transition-all duration-500 ease-in-out"
+                    priority={index < 2}
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 </div>
@@ -185,12 +178,10 @@ export default function PhotoGallery() {
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
           className="py-12"
+          id="photosimages"
         >
           <motion.div variants={fadeIn} className="text-center mb-12">
-            <h3
-              className="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2"
-              id="photosimages"
-            >
+            <h3 className="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">
               <span className="text-blue-500 dark:text-blue-400">01/</span>OUR
               PORTFOLIO
             </h3>
@@ -236,7 +227,7 @@ export default function PhotoGallery() {
                   className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
                   whileHover={{ y: -5 }}
                 >
-                  <div className="aspect-[2/3] overflow-hidden">
+                  <div className="aspect-[2/3] w-full overflow-hidden">
                     <Image
                       src={photo.images[0] || "/placeholder.jpg"}
                       alt={photo.title || "Book cover"}
@@ -269,7 +260,6 @@ export default function PhotoGallery() {
         </motion.section>
 
         {/* CTA Section */}
-        {/* CTA Section */}
         <motion.section
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -280,17 +270,22 @@ export default function PhotoGallery() {
           <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
             Our Cover Design Process
           </h3>
-          <ul className="text-gray-700 dark:text-gray-300 text-lg max-w-3xl mx-auto mb-8 list-disc list-inside text-left md:text-center">
-            <li>
-              📝 Consultation: Discuss your vision, target audience, and genre
+          <ul className="text-gray-700 dark:text-gray-300 text-lg max-w-3xl mx-auto mb-8 space-y-2">
+            <li className="flex items-center justify-center md:justify-start gap-2">
+              <span className="text-blue-500">📝</span> Consultation: Discuss
+              your vision, target audience, and genre
             </li>
-            <li>
-              🎨 Concept Development: Our designers present initial mockups
+            <li className="flex items-center justify-center md:justify-start gap-2">
+              <span className="text-blue-500">🎨</span> Concept Development: Our
+              designers present initial mockups
             </li>
-            <li>✏️ Refinement: We collaborate to perfect the chosen design</li>
-            <li>
-              📦 Finalization: High-resolution assets delivered, ready to
-              publish
+            <li className="flex items-center justify-center md:justify-start gap-2">
+              <span className="text-blue-500">✏️</span> Refinement: We
+              collaborate to perfect the chosen design
+            </li>
+            <li className="flex items-center justify-center md:justify-start gap-2">
+              <span className="text-blue-500">📦</span> Finalization:
+              High-resolution assets delivered, ready to publish
             </li>
           </ul>
           <h4 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
