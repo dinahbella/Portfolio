@@ -1,7 +1,7 @@
 export default function handler(req, res) {
   const { username, password } = req.body;
 
-  if (username === "admin" && password === "password") {
+  if (username === "admin" && password === "secret") {
     res.setHeader("Set-Cookie", [
       "session=valid; HttpOnly; Path=/; Max-Age=3600; SameSite=Strict; Secure",
     ]);

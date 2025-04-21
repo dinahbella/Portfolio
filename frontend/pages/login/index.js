@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { toast } from "sonner";
@@ -17,13 +15,19 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -33,9 +37,11 @@ export default function Login() {
     try {
       const response = await fetch("/api/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include", // Ensure cookies are sent/received
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(formData),
+        credentials: "include",
       });
 
       const data = await response.json();
@@ -47,7 +53,7 @@ export default function Login() {
       toast.success("Login successful");
       router.push("/admin/dashboard");
     } catch (error) {
-      toast.error(error.message || "Login failed");
+      toast.error(error.message || "An error occurred during login");
       console.error("Login error:", error);
     } finally {
       setIsLoading(false);
@@ -93,8 +99,8 @@ export default function Login() {
               />
               <button
                 type="button"
+                className="absolute right-3 top-9 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-[38px] text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
               >
                 {showPassword ? (
                   <EyeOff className="h-5 w-5" />
