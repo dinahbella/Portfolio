@@ -1,6 +1,25 @@
 import connectDB from "@/lib/mongodb";
 import { Blog } from "@/models/Blogs";
-import cloudinary from "@/lib/cloudinary"; // Ensure this is configured
+import { v2 as cloudinary } from "cloudinary";
+
+// Cloudinary Config
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_KEY,
+  api_secret: process.env.CLOUD_SECRET,
+});
+
+// Extract Cloudinary public ID from full URL
+const extractPublicId = (url) => {
+  try {
+    const parts = url.split("/"); // e.g., uploads/image.jpg
+    const filename = parts[parts.length - 1].split(".")[0];
+    const folder = parts[parts.length - 2]; // assumes URL ends in /folder/filename.jpg
+    return `${folder}/${filename}`;
+  } catch (err) {
+    return null;
+  }
+};
 
 export default async function handler(req, res) {
   await connectDB();
@@ -58,7 +77,6 @@ export default async function handler(req, res) {
           return res.json(blogs);
         }
 
-        // Return all blogs
         const allBlogs = await Blog.find().sort({ createdAt: -1 });
         return res.json(allBlogs);
       }
@@ -82,15 +100,7 @@ export default async function handler(req, res) {
 
         const updatedBlog = await Blog.findByIdAndUpdate(
           _id,
-          {
-            title,
-            slug,
-            description,
-            images,
-            blogcategory,
-            tags,
-            status,
-          },
+          { title, slug, description, images, blogcategory, tags, status },
           { new: true }
         );
 
@@ -114,16 +124,20 @@ export default async function handler(req, res) {
           return res.status(404).json({ error: "Blog not found" });
         }
 
-        // Delete images from Cloudinary
+        // Delete all blog images from Cloudinary
         for (const imgUrl of blog.images || []) {
-          const publicId = imgUrl.split("/").pop().split(".")[0];
-          await cloudinary.uploader.destroy(`uploads/${publicId}`);
+          const publicId = extractPublicId(imgUrl);
+          if (publicId) {
+            await cloudinary.uploader.destroy(publicId);
+          }
         }
 
-        // Optional: Delete file from Cloudinary if present
+        // Optional: delete the blog.file from Cloudinary if present
         if (blog.file) {
-          const fileId = blog.file.split("/").pop().split(".")[0];
-          await cloudinary.uploader.destroy(`uploads/${fileId}`);
+          const filePublicId = extractPublicId(blog.file);
+          if (filePublicId) {
+            await cloudinary.uploader.destroy(filePublicId);
+          }
         }
 
         await blog.deleteOne();

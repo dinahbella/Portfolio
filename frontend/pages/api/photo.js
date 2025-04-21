@@ -1,5 +1,24 @@
 import connectDB from "@/lib/mongodb";
 import { Photo } from "@/models/Photo";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_KEY,
+  api_secret: process.env.CLOUD_SECRET,
+});
+
+const extractPublicId = (url) => {
+  try {
+    const parts = url.split("/");
+    const fileWithExtension = parts[parts.length - 1];
+    const publicId = fileWithExtension.split(".")[0];
+    const folder = parts[parts.length - 2];
+    return `${folder}/${publicId}`;
+  } catch {
+    return null;
+  }
+};
 
 export default async function handler(req, res) {
   await connectDB();
@@ -8,6 +27,7 @@ export default async function handler(req, res) {
 
   try {
     switch (method) {
+      // ========== GET ==========
       case "GET": {
         const { id, slug } = query;
 
@@ -28,6 +48,7 @@ export default async function handler(req, res) {
         return res.json(photos);
       }
 
+      // ========== POST ==========
       case "POST": {
         const { title, slug, images } = body;
 
@@ -41,6 +62,7 @@ export default async function handler(req, res) {
         return res.status(201).json(newPhoto);
       }
 
+      // ========== PUT ==========
       case "PUT": {
         const { _id, title, slug, images } = body;
 
@@ -62,6 +84,8 @@ export default async function handler(req, res) {
 
         return res.json(updatedPhoto);
       }
+
+      // ========== DELETE ==========
       case "DELETE": {
         const { id } = query;
 
@@ -74,16 +98,12 @@ export default async function handler(req, res) {
           return res.status(404).json({ error: "Photo not found" });
         }
 
-        // Optional: Delete images from Cloudinary if they were stored there
-        for (const imgUrl of photo.images) {
-          const publicId = imgUrl.split("/").pop().split(".")[0]; // extract publicId from URL
-          await cloudinary.uploader.destroy(`uploads/${publicId}`);
-        }
-
-        // Optional: Delete the file from Cloudinary
-        if (photo.file) {
-          const publicId = photo.file.split("/").pop().split(".")[0];
-          await cloudinary.uploader.destroy(`uploads/${publicId}`);
+        // Delete Cloudinary images
+        for (const imgUrl of photo.images || []) {
+          const publicId = extractPublicId(imgUrl);
+          if (publicId) {
+            await cloudinary.uploader.destroy(publicId);
+          }
         }
 
         await photo.deleteOne();
@@ -93,10 +113,10 @@ export default async function handler(req, res) {
           .json({ success: true, message: "Photo deleted successfully" });
       }
 
-      default: {
+      // ========== METHOD NOT ALLOWED ==========
+      default:
         res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
         return res.status(405).json({ error: `Method ${method} not allowed` });
-      }
     }
   } catch (error) {
     console.error("Photo API Error:", error);

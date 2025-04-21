@@ -1,18 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
-import {
-  Menu,
-  X,
-  FileText,
-  Phone,
-  Settings2,
-  Home,
-  LogOut,
-} from "lucide-react";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { ModeToggle } from "./Mode";
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
+import { Menu, X, FileText, Phone, Home } from "lucide-react";
 import { FaFirstdraft } from "react-icons/fa";
 import { AiOutlineProject } from "react-icons/ai";
 import { IoIosAddCircleOutline } from "react-icons/io";
@@ -21,12 +13,23 @@ import { IoImage } from "react-icons/io5";
 import { BsFillPostcardFill } from "react-icons/bs";
 import { motion, AnimatePresence } from "framer-motion";
 import { RiBringToFront } from "react-icons/ri";
+import { ModeToggle } from "./Mode";
 import Logout from "./Logout";
-import { Button } from "./ui/button";
 
 export default function SideSheet() {
   const [open, setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("Dashboard");
+  const pathname = usePathname();
+
+  useEffect(() => {
+    // Update active menu item based on current route
+    if (pathname.includes("dashboard")) setActiveItem("Dashboard");
+    else if (pathname.includes("blogs")) setActiveItem("All Blogs");
+    else if (pathname.includes("projects")) setActiveItem("All Projects");
+    else if (pathname.includes("photos")) setActiveItem("All Photos");
+    else if (pathname.includes("referrall")) setActiveItem("Referrals");
+    else if (pathname.includes("contact")) setActiveItem("Contact");
+  }, [pathname]);
 
   return (
     <>
@@ -64,17 +67,127 @@ export default function SideSheet() {
                 </AnimatePresence>
               </button>
             </SheetTrigger>
-          </Sheet>
 
-          <motion.h1
-            className="text-xl font-bold flex items-center gap-1"
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <span className="dark:text-white">Admin</span>
-            <span className="text-blue-600 dark:text-blue-400">Panel</span>
-          </motion.h1>
+            {/* Sidebar Sheet */}
+            <SheetContent
+              side="left"
+              className="bg-white dark:bg-gray-900 w-[280px] p-0 overflow-hidden"
+            >
+              <div className="h-full flex flex-col">
+                <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+                  <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
+                    Admin Panel
+                  </h2>
+                </div>
+
+                {/* Nav Menu */}
+                <nav className="flex-1 overflow-y-auto p-4 space-y-1">
+                  <MenuSection title="Dashboard">
+                    <MenuItem
+                      href="/admin/dashboard"
+                      label="Dashboard"
+                      icon={<Home className="w-5 h-5" />}
+                      activeItem={activeItem}
+                      setActiveItem={setActiveItem}
+                      closeSheet={() => setOpen(false)}
+                    />
+                  </MenuSection>
+
+                  <MenuSection title="Blog Management">
+                    <MenuItem
+                      href="/admin/blogs"
+                      label="All Blogs"
+                      icon={<FileText className="w-5 h-5" />}
+                      activeItem={activeItem}
+                      setActiveItem={setActiveItem}
+                      closeSheet={() => setOpen(false)}
+                    />
+                    <MenuItem
+                      href="/admin/blogs/addblog"
+                      label="Add Blog"
+                      icon={<IoIosAddCircleOutline className="w-5 h-5" />}
+                      activeItem={activeItem}
+                      setActiveItem={setActiveItem}
+                      closeSheet={() => setOpen(false)}
+                    />
+                    <MenuItem
+                      href="/admin/blogs/draftblog"
+                      label="Draft Blog"
+                      icon={<FaFirstdraft className="w-5 h-5" />}
+                      activeItem={activeItem}
+                      setActiveItem={setActiveItem}
+                      closeSheet={() => setOpen(false)}
+                    />
+                  </MenuSection>
+
+                  <MenuSection title="Project Management">
+                    <MenuItem
+                      href="/admin/projects/allprojects"
+                      label="All Projects"
+                      icon={<AiOutlineProject className="w-5 h-5" />}
+                      activeItem={activeItem}
+                      setActiveItem={setActiveItem}
+                      closeSheet={() => setOpen(false)}
+                    />
+                    <MenuItem
+                      href="/admin/projects/addproject"
+                      label="Add Project"
+                      icon={<BsFillPostcardFill className="w-5 h-5" />}
+                      activeItem={activeItem}
+                      setActiveItem={setActiveItem}
+                      closeSheet={() => setOpen(false)}
+                    />
+                    <MenuItem
+                      href="/admin/projects/draftproject"
+                      label="Draft Project"
+                      icon={<BsFillPostcardFill className="w-5 h-5" />}
+                      activeItem={activeItem}
+                      setActiveItem={setActiveItem}
+                      closeSheet={() => setOpen(false)}
+                    />
+                  </MenuSection>
+
+                  <MenuSection title="Media Management">
+                    <MenuItem
+                      href="/admin/photos/allphotos"
+                      label="All Photos"
+                      icon={<IoImage className="w-5 h-5" />}
+                      activeItem={activeItem}
+                      setActiveItem={setActiveItem}
+                      closeSheet={() => setOpen(false)}
+                    />
+                    <MenuItem
+                      href="/admin/photos/addphoto"
+                      label="Add Photo"
+                      icon={<CiImageOn className="w-5 h-5" />}
+                      activeItem={activeItem}
+                      setActiveItem={setActiveItem}
+                      closeSheet={() => setOpen(false)}
+                    />
+                  </MenuSection>
+
+                  <MenuSection title="Settings">
+                    <MenuItem
+                      href="/admin/contact"
+                      label="Contact"
+                      icon={<Phone className="w-5 h-5" />}
+                      activeItem={activeItem}
+                      setActiveItem={setActiveItem}
+                      closeSheet={() => setOpen(false)}
+                    />
+                    <MenuItem
+                      href="/admin/referrall"
+                      label="Referrals"
+                      icon={<RiBringToFront className="w-5 h-5" />}
+                      activeItem={activeItem}
+                      setActiveItem={setActiveItem}
+                      closeSheet={() => setOpen(false)}
+                    />
+                  </MenuSection>
+                </nav>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
 
         <div className="flex items-center gap-3">
@@ -82,140 +195,30 @@ export default function SideSheet() {
           <Logout />
         </div>
       </header>
-
-      {/* Sidebar Content */}
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent
-          side="left"
-          className="bg-white dark:bg-gray-900 w-[280px] p-0 overflow-hidden"
-        >
-          <div className="h-full flex flex-col">
-            {/* Sidebar Header */}
-            <motion.div
-              className="p-4 border-b border-gray-200 dark:border-gray-700"
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.1 }}
-            >
-              <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
-                Admin Panel
-              </h2>
-            </motion.div>
-
-            {/* Menu Items */}
-            <nav className="flex-1 overflow-y-auto p-4 space-y-1">
-              <MenuSection title="Dashboard">
-                <MenuItem
-                  href="/admin/dashboard"
-                  label="Dashboard"
-                  icon={<Home className="w-5 h-5" />}
-                  activeItem={activeItem}
-                  setActiveItem={setActiveItem}
-                />
-              </MenuSection>
-
-              <MenuSection title="Blog Management">
-                <MenuItem
-                  href="/admin/blogs"
-                  label="All Blogs"
-                  icon={<FileText className="w-5 h-5" />}
-                  activeItem={activeItem}
-                  setActiveItem={setActiveItem}
-                />
-                <MenuItem
-                  href="/admin/blogs/addblog"
-                  label="Add Blog"
-                  icon={<IoIosAddCircleOutline className="w-5 h-5" />}
-                  activeItem={activeItem}
-                  setActiveItem={setActiveItem}
-                />
-                <MenuItem
-                  href="/admin/blogs/draftblog"
-                  label="Draft Blog"
-                  icon={<FaFirstdraft className="w-5 h-5" />}
-                  activeItem={activeItem}
-                  setActiveItem={setActiveItem}
-                />
-              </MenuSection>
-
-              <MenuSection title="Project Management">
-                <MenuItem
-                  href="/admin/projects/allprojects"
-                  label="All Projects"
-                  icon={<AiOutlineProject className="w-5 h-5" />}
-                  activeItem={activeItem}
-                  setActiveItem={setActiveItem}
-                />
-                <MenuItem
-                  href="/admin/projects/addproject"
-                  label="Add Project"
-                  icon={<BsFillPostcardFill className="w-5 h-5" />}
-                  activeItem={activeItem}
-                  setActiveItem={setActiveItem}
-                />
-                <MenuItem
-                  href="/admin/projects/draftproject"
-                  label="Draft Project"
-                  icon={<BsFillPostcardFill className="w-5 h-5" />}
-                  activeItem={activeItem}
-                  setActiveItem={setActiveItem}
-                />
-              </MenuSection>
-
-              <MenuSection title="Media Management">
-                <MenuItem
-                  href="/admin/photos/allphotos"
-                  label="All Photos"
-                  icon={<IoImage className="w-5 h-5" />}
-                  activeItem={activeItem}
-                  setActiveItem={setActiveItem}
-                />
-                <MenuItem
-                  href="/admin/photos/addphoto"
-                  label="Add Photo"
-                  icon={<CiImageOn className="w-5 h-5" />}
-                  activeItem={activeItem}
-                  setActiveItem={setActiveItem}
-                />
-              </MenuSection>
-
-              <MenuSection title="Settings">
-                <MenuItem
-                  href="/admin/contact"
-                  label="Contact"
-                  icon={<Phone className="w-5 h-5" />}
-                  activeItem={activeItem}
-                  setActiveItem={setActiveItem}
-                />
-
-                <MenuItem
-                  href="/admin/referrall"
-                  label="Referrals"
-                  icon={<RiBringToFront className="w-5 h-5" />}
-                  activeItem={activeItem}
-                  setActiveItem={setActiveItem}
-                />
-              </MenuSection>
-            </nav>
-          </div>
-        </SheetContent>
-      </Sheet>
-
-      <main className="pt-16 px-4 pb-4 min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-        {/* Main Content */}
-      </main>
+      <main className="pt-12"></main>
     </>
   );
 }
 
-function MenuItem({ href, label, icon, activeItem, setActiveItem }) {
+// Reusable MenuItem
+function MenuItem({
+  href,
+  label,
+  icon,
+  activeItem,
+  setActiveItem,
+  closeSheet,
+}) {
   const isActive = activeItem === label;
 
   return (
     <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
       <Link
         href={href}
-        onClick={() => setActiveItem(label)}
+        onClick={() => {
+          setActiveItem(label);
+          closeSheet();
+        }}
         className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-sm font-medium ${
           isActive
             ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 shadow-sm"
@@ -244,6 +247,7 @@ function MenuItem({ href, label, icon, activeItem, setActiveItem }) {
   );
 }
 
+// Reusable MenuSection
 function MenuSection({ title, children }) {
   return (
     <motion.div
