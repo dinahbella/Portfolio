@@ -195,7 +195,7 @@ export default function SideSheet() {
           <Logout />
         </div>
       </header>
-      <main className="pt-12"></main>
+      <main className="pt-14"></main>
     </>
   );
 }

@@ -1,13 +1,13 @@
+"use client";
 import Head from "next/head";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { SiBloglovin } from "react-icons/si";
 import { BsPostcard } from "react-icons/bs";
-import AddBlog from "../addblog";
-import Spinner from "@/components/Spinner copy";
+import Spinner from "@/components/Spinner";
+import AddBlog from "@/components/AddBlog";
 
-export default function EditProduct() {
+export default function EditBlogPage() {
   const router = useRouter();
   const { id } = router.query;
   const [blogInfo, setBlogInfo] = useState(null);
@@ -29,7 +29,7 @@ export default function EditProduct() {
 
   if (!blogInfo) {
     return (
-      <div>
+      <div className="flex justify-center items-center h-screen">
         <Spinner />
       </div>
     );
@@ -52,7 +52,10 @@ export default function EditProduct() {
             <BsPostcard /> <span>/</span> <span>Edit Blog</span>
           </div>
         </div>
-        <div className="mt-3">{blogInfo && <AddBlog {...blogInfo} />}</div>
+
+        <div className="mt-3">
+          <AddBlog {...blogInfo} />
+        </div>
       </div>
     </>
   );
