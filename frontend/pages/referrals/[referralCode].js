@@ -50,7 +50,6 @@ export default function ReferralDetailsPage() {
 
     fetchData();
   }, [referralCode]);
-
   const toggleStatus = async (referralId, currentStatus) => {
     try {
       // Find the current status index
@@ -59,17 +58,26 @@ export default function ReferralDetailsPage() {
       const nextIndex = (currentIndex + 1) % statusOrder.length;
       const newStatus = statusOrder[nextIndex];
 
+      // Calculate potential reward points
+      let rewardPoints = 0;
+      if (newStatus === "contacted") rewardPoints = 10;
+      if (newStatus === "converted") rewardPoints = 20;
+
       // Optimistic UI update
       setReferralData((prev) => ({
         ...prev,
         referrals: prev.referrals.map((r) =>
           r._id === referralId ? { ...r, status: newStatus } : r
         ),
+        rewardsEarned:
+          rewardPoints > 0
+            ? (prev.rewardsEarned || 0) + rewardPoints
+            : prev.rewardsEarned,
       }));
 
       // API call to update status
       const res = await fetch(`/api/referrals/${referralCode}/update-status`, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -83,8 +91,16 @@ export default function ReferralDetailsPage() {
         throw new Error("Failed to update status");
       }
 
-      // Optional: refresh data to ensure consistency
-      // fetchData();
+      const data = await res.json();
+
+      // If the API returns different reward points than we calculated,
+      // we can update the rewardsEarned accordingly
+      if (data.rewardPoints !== rewardPoints) {
+        setReferralData((prev) => ({
+          ...prev,
+          rewardsEarned: (prev.rewardsEarned || 0) + (data.rewardPoints || 0),
+        }));
+      }
     } catch (err) {
       console.error("Error updating status:", err);
       // Revert optimistic update if error occurs
@@ -93,10 +109,10 @@ export default function ReferralDetailsPage() {
         referrals: prev.referrals.map((r) =>
           r._id === referralId ? { ...r, status: currentStatus } : r
         ),
+        // No need to revert rewardsEarned since it wouldn't have changed on the server
       }));
     }
   };
-
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">

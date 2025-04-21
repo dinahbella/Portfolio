@@ -62,18 +62,31 @@ export default async function handler(req, res) {
 
         return res.json(updatedPhoto);
       }
-
       case "DELETE": {
         const { id } = query;
 
         if (!id) {
-          return res.status(400).json({ error: "Missing photo ID" });
+          return res.status(400).json({ error: "Photo ID is required" });
         }
 
-        const deleted = await Photo.findByIdAndDelete(id);
-        if (!deleted) {
+        const photo = await Photo.findById(id);
+        if (!photo) {
           return res.status(404).json({ error: "Photo not found" });
         }
+
+        // Optional: Delete images from Cloudinary if they were stored there
+        for (const imgUrl of photo.images) {
+          const publicId = imgUrl.split("/").pop().split(".")[0]; // extract publicId from URL
+          await cloudinary.uploader.destroy(`uploads/${publicId}`);
+        }
+
+        // Optional: Delete the file from Cloudinary
+        if (photo.file) {
+          const publicId = photo.file.split("/").pop().split(".")[0];
+          await cloudinary.uploader.destroy(`uploads/${publicId}`);
+        }
+
+        await photo.deleteOne();
 
         return res
           .status(200)
