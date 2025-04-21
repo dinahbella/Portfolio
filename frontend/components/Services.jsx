@@ -17,11 +17,12 @@ export default function Services() {
           <div className="w-full p-2">
             {/* Description Section */}
             <p className="text-sm font-normal font-mono text-center p-2 text-wrap">
-              We have the ability to shape ideas into impactful words, whether
-              for businesses, individuals, or entertainment. Your work can
-              involve creating blog posts, articles, and website content that
-              inform and inspire, or developing fictional stories, scripts, and
-              poetry that transport audiences to different worlds.
+              We transform your ideas into captivating stories ready for
+              webnovels and Amazon publishing platforms. Our team excels in
+              creating engaging fiction that readers can't put down. Every
+              project receives our dedicated attention, ensuring quality
+              storytelling that captivates your target audience and keeps them
+              coming back for more.
             </p>
           </div>
         </motion.div>
@@ -36,22 +37,40 @@ export default function Services() {
           {/* Services Grid */}
           <div className="grid grid-cols-1 mb-4 sm:grid-cols-2 lg:grid-cols-3 gap-4 m-3">
             <div className=" hover:bg-gradient-to-bl bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
-              📖 Content Writing & Blogging
+              📚 Romance Writing
+              <p>
+                From sweet to steamy, we craft love stories that connect with
+                readers{" "}
+              </p>
             </div>
             <div className="  hover:bg-gradient-to-bl bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
-              📚 Creative Writing
+              📜 Series Development
+              <p>
+                Structured narratives designed for multiple episodes or books
+              </p>
             </div>
             <div className=" hover:bg-gradient-to-bl bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
-              📢 Copywriting & Marketing
+              📢 Platform-Optimized Content
+              <p>Stories formatted perfectly for webnovels and Amazon</p>
             </div>
             <div className=" hover:bg-gradient-to-bl bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
               📑 Editing & Proofreading
+              <p>Polishing your existing work to professional standards</p>
             </div>
             <div className="  hover:bg-gradient-to-bl bg-gradient-to-r from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
-              📜 Technical & Academic Writing
+              🎨 Book Cover Design{" "}
+              <p>
+                {" "}
+                Eye-catching covers that attract readers and complement your
+                story
+              </p>
             </div>
             <div className="  hover:bg-gradient-to-bl bg-gradient-to-r  from-blue-500 to-indigo-800 p-4 rounded-lg text-white font-mono text-center">
-              🎙 Scriptwriting & Speech Writing
+              🌎 World Creation Assistance
+              <p>
+                Detailed world-building guidance and development for your
+                fictional universe
+              </p>
             </div>
           </div>
         </motion.div>

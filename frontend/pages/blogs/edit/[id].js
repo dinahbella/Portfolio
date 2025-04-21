@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { SiBloglovin } from "react-icons/si";
 import { BsPostcard } from "react-icons/bs";
 import AddBlog from "../addblog";
+import Spinner from "@/components/Spinner copy";
 
 export default function EditProduct() {
   const router = useRouter();
@@ -27,7 +28,11 @@ export default function EditProduct() {
   }, [id]);
 
   if (!blogInfo) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <Spinner />
+      </div>
+    );
   }
 
   return (

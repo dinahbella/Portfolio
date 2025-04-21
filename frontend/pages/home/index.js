@@ -15,6 +15,7 @@ import Spinner from "@/components/Spinner";
 import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import Strength from "@/components/Strength";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -113,7 +114,7 @@ export default function Home() {
       <Header />
 
       <Head>
-        <title>Shella Tams — Writer + Designer</title>
+        <title>Inkvision— Writer + Designer</title>
         <meta
           name="description"
           content="Portfolio of Shella Tams, a dark, mysterious, and immersive storyteller."
@@ -130,24 +131,40 @@ export default function Home() {
         >
           <motion.div variants={itemVariants} className="space-y-6">
             <motion.h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300">
-              I am Shella Tams
+              About Inkvision
             </motion.h3>
 
             <motion.h1
-              className="text-5xl font-extrabold bg-gradient-to-r from-blue-500 via-teal-500 to-indigo-600 text-transparent bg-clip-text"
+              className="lg:text-5xl md:text-4xl sm:text-3xl font-extrabold bg-gradient-to-r from-blue-500 via-teal-500 to-indigo-600 text-transparent bg-clip-text"
               animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
               transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
             >
-              Writer + Designer
+              Professional Ghostwriting Team
             </motion.h1>
 
             <motion.p className="text-base leading-relaxed text-gray-600 dark:text-gray-300">
-              Shella is a passionate storyteller who explores all genres,
-              weaving captivating narratives that transport readers into
-              different worlds. With a love for crafting compelling characters
-              and immersive plots, Shella brings stories to life through
-              thrilling mysteries, heartfelt romances, and thought-provoking
-              dramas.
+              We're a team of experienced writers passionate about bringing your
+              stories to life.
+              <br />
+              <br />
+              At <strong>Inkvision</strong>, we specialize in creating engaging
+              content for webnovels and Amazon publishing platforms, with
+              particular expertise in:
+              <ul className="list-disc list-inside mt-2">
+                <li>Romance</li>
+                <li>Fantasy</li>
+                <li>Contemporary fiction</li>
+                <li>Similar reader-friendly genres</li>
+              </ul>
+              <br />
+              Our writers work closely with you to transform your ideas into
+              polished, professional stories that capture readers' attention and
+              keep them coming back for more.
+              <br />
+              <br />
+              Whether you're looking to launch a new series or expand your
+              existing catalog, <strong>Inkvision</strong> delivers quality
+              content that resonates with online readers.
             </motion.p>
           </motion.div>
 
@@ -180,94 +197,9 @@ export default function Home() {
         <Num />
         <Services />
 
-        {/* PROJECT SECTION */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="p-5"
-        >
-          <motion.h1
-            id="works"
-            className="text-3xl text-center font-bold bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text"
-          >
-            Our Recent Projects
-          </motion.h1>
-        </motion.div>
-
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-6 max-w-7xl mx-auto"
-          initial="hidden"
-          animate="visible"
-          variants={containerVariants}
-        >
-          {loading ? (
-            <motion.div
-              className="col-span-full flex flex-col items-center justify-center py-12"
-              variants={itemVariants}
-            >
-              <Spinner size="lg" />
-              <motion.p className="mt-4 text-gray-500">
-                Loading projects...
-              </motion.p>
-            </motion.div>
-          ) : (
-            <AnimatePresence mode="wait">
-              {filteredProjects.slice(0, 4).map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  variants={itemVariants}
-                  className="relative group"
-                  layout
-                >
-                  <motion.div
-                    className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow"
-                    whileHover={{ scale: 1.03 }}
-                  >
-                    <Image
-                      src={project.images?.[0]}
-                      alt={project.title}
-                      width={400}
-                      height={300}
-                      className="w-full h-56 object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
-                      priority={index < 2}
-                    />
-                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition" />
-                    <motion.div className="absolute bottom-0 p-4 text-white">
-                      <h3 className="text-lg font-semibold">{project.title}</h3>
-                      {project.category && (
-                        <span className="text-xs bg-blue-600 px-2 py-1 rounded mt-1 inline-block">
-                          {project.category}
-                        </span>
-                      )}
-                    </motion.div>
-                  </motion.div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          )}
-        </motion.div>
-
-        <motion.div
-          className="text-center mt-10"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          <Link href="/projects">
-            <motion.div
-              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              View All Projects <GrLinkNext className="text-lg" />
-            </motion.div>
-          </Link>
-        </motion.div>
-
         <Experience />
         <Skills />
+        <Strength />
         <Testimonials />
         <Footer />
       </div>

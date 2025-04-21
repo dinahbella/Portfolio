@@ -17,96 +17,96 @@ import Header from "@/components/Header";
 const services = [
   {
     id: 1,
-    title: "Creative & Story Writing",
+    title: "Book Writing & Development",
     icon: <FaPenFancy className="text-4xl text-indigo-500" />,
     points: [
-      "Short Stories & Fiction",
-      "Scripts for YouTube, Podcasts, or Skits",
-      "Ghostwriting for Books or eBooks",
-      "Comic Book/Graphic Novel Scripting",
+      "Crafting ideas for the beginning",
+      "Continuation for signed books",
+      "Series Continuation",
+      "Chapter-by-Chapter Development",
     ],
     description:
-      "Bring your ideas to life with compelling storytelling, scriptwriting, and fictional content that captivates readers and viewers.",
+      "Transform your concept into a fully-realized book with our expert ghostwriting service, crafted specifically for digital publishing success.",
     bgGradient:
       "from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/20",
     borderColor: "border-indigo-200 dark:border-indigo-700",
   },
   {
     id: 2,
-    title: "Content & SEO Writing",
+    title: "Book Design & Presentation",
     icon: <FaSearchDollar className="text-4xl text-emerald-500" />,
     points: [
-      "Blog Posts & Articles",
-      "Product Descriptions",
-      "Website Copywriting",
-      "Newsletter Content",
+      "Professional Book Covers",
+      "Chapter Structure Planning",
+      "Book Blurbs & Descriptions",
+      "Title & Subtitle Creation",
     ],
     description:
-      "Boost your brand visibility and engagement with SEO-optimized, audience-driven content tailored to your goals.",
+      "Capture reader attention with eye-catching, genre-appropriate design elements that help your book stand out in crowded marketplaces.",
     bgGradient:
       "from-emerald-50 to-teal-50 dark:from-emerald-900/30 dark:to-teal-900/20",
     borderColor: "border-emerald-200 dark:border-emerald-700",
   },
   {
     id: 3,
-    title: "Business & Branding Copy",
+    title: "Editing & Refinement",
     icon: <FaBusinessTime className="text-4xl text-amber-500" />,
     points: [
-      "Sales Copy / Ad Campaigns",
-      "Email Sequences",
-      "Landing Page Texts",
-      "Taglines & Brand Messaging",
+      "Developmental Editing",
+      "Copy Editing & Proofreading",
+      "Manuscript Revamping",
+      "Plot & Character Enhancement",
     ],
     description:
-      "Turn readers into buyers with persuasive, brand-aligned copy designed to convert and inspire action.",
+      " Polish your existing work to professional standards with comprehensive editing services that elevate your storytelling.",
     bgGradient:
       "from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/20",
     borderColor: "border-amber-200 dark:border-amber-700",
   },
   {
     id: 4,
-    title: "Academic & Technical Writing",
+    title: "Publication Support",
     icon: <GiSpellBook className="text-4xl text-blue-500" />,
     points: [
-      "Research Papers & Essays",
-      "Technical Documentation",
-      "White Papers & Reports",
-      "Instruction Manuals",
+      "Platform Selection Guidance",
+      "Publisher Submission Assistance",
+      "Contract Review Support",
+      "Author Profile Development ",
     ],
     description:
-      "Precision-crafted academic and technical content with rigorous research and clear communication.",
+      " Navigate the publishing landscape confidently with expert guidance on getting your work signed and distributed.",
     bgGradient:
       "from-blue-50 to-cyan-50 dark:from-blue-900/30 dark:to-cyan-900/20",
     borderColor: "border-blue-200 dark:border-blue-700",
   },
   {
     id: 5,
-    title: "Marketing Collateral",
+    title: "Creative Development",
     icon: <BsGraphUp className="text-4xl text-rose-500" />,
     points: [
-      "Brochures & Flyers",
-      "Press Releases",
-      "Social Media Content",
-      "Case Studies",
+      "World-Building Consultation",
+      "Character Profile Creation",
+      "Plot Outlining & Planning",
+      "Series Bible Development",
     ],
     description:
-      "Professionally crafted marketing materials that elevate your brand and drive results.",
+      "       Build strong foundations for your stories with detailed planning and creative development services that ensure consistency and depth.",
     bgGradient:
       "from-rose-50 to-pink-50 dark:from-rose-900/30 dark:to-pink-900/20",
     borderColor: "border-rose-200 dark:border-rose-700",
   },
   {
     id: 6,
-    title: "Speech & Presentation Writing",
+    title: "Author Career Support",
     icon: <BsChatSquareQuote className="text-4xl text-violet-500" />,
     points: [
-      "Keynote Speeches",
-      "Conference Presentations",
-      "Wedding Toasts",
-      "Award Acceptance Speeches",
+      "Publishing Strategy Consultation",
+      "Audience Building Tactics",
+      "Genre Trend Analysis",
+      "Book Marketing Guidance",
     ],
     description:
-      "Eloquent and impactful speeches tailored to your voice and occasion.",
+      " Develop your author career with strategic insights and practical advice tailored to today's digital publishing environment.",
     bgGradient:
       "from-violet-50 to-fuchsia-50 dark:from-violet-900/30 dark:to-fuchsia-900/20",
     borderColor: "border-violet-200 dark:border-violet-700",
@@ -270,10 +270,11 @@ export default function Services() {
             viewport={{ once: true }}
           >
             <h3 className="text-2xl font-bold mb-4">
-              Ready to elevate your content?
+              Ready to bring your story to life?
             </h3>
             <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
-              Let's discuss how we can craft the perfect words for your project.
+              Let's discuss how our ghostwriting team can turn your vision into
+              reality.
             </p>
             <Link href={"/contacts"}>
               <motion.button

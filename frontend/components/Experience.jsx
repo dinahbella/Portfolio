@@ -7,56 +7,59 @@ export default function Experience() {
   const experienceItems = [
     {
       id: 1,
-      period: "2020 - Present",
-      company: "DINAH SOLUTION",
-      role: "Fiction Writing",
+      period: "2 - 5 Years",
+      company: "Various Web Novel Platforms",
+      role: "Our writers are experienced professionals passionate about storytelling.",
     },
     {
       id: 2,
-      period: "2018 - 2020",
-      company: "XYZ COMPANY",
-      role: "Web Development",
+      period: "Signed Contracts",
+      company: "Webnovel, Dreame, etc.",
+      role: "All writers are verified and signed on global writing platforms.",
     },
     {
       id: 3,
-      period: "2016 - 2018",
-      company: "ABC AGENCY",
-      role: "Content Creation",
+      period: "Proven Writing History",
+      company: "Previous Works",
+      role: "Our writers have a consistent track record of delivering quality stories.",
     },
     {
       id: 4,
-      period: "2014 - 2016",
-      company: "FREELANCE",
-      role: "Creative Writing",
+      period: "Creative Excellence",
+      company: "Inkvision",
+      role: "We have a history of successful publications and reader engagement.",
     },
   ];
 
-  const educationItems = [
+  const assistanceItems = [
     {
       id: 1,
-      period: "2016 - 2018",
-      institution: "DI University of XYZ",
-      degree: "Bachelor's in Literature",
+      period: "Support Agent",
+      institution: "Yamini",
+      degree: "WhatsApp | Facebook",
     },
     {
       id: 2,
-      period: "2011 - 2015",
-      institution: "High School ABC",
-      degree: "Diploma in Arts",
+      period: "Support Agent",
+      institution: "Jane",
+      degree: "WhatsApp | Facebook",
     },
     {
       id: 3,
-      period: "2020 - Present",
-      institution: "Online Courses",
-      degree: "Advanced Writing Techniques",
+      period: "Support Agent",
+      institution: "Heppie",
+      degree: "WhatsApp | Facebook",
     },
     {
       id: 4,
-      period: "2019 - 2020",
-      institution: "Creative Writing Institute",
-      degree: "Professional Certification",
+      period: "Support Agent",
+      institution: "Tatiana",
+      degree: "WhatsApp | Facebook",
     },
   ];
+
+  const cardStyle =
+    "p-4 shadow-xl rounded-lg bg-[linear-gradient(to_bottom_right,rgba(59,130,246,0.3),rgba(34,197,94,0.3),rgba(79,70,229,0.3))] dark:bg-[linear-gradient(to_bottom_right,rgba(29,78,216,0.5),rgba(21,128,61,0.5),rgba(55,48,163,0.5))]";
 
   return (
     <div className="w-full px-4 py-8">
@@ -71,7 +74,7 @@ export default function Experience() {
           <div className="flex gap-3 justify-center lg:justify-start items-center hover:scale-105 transition-transform duration-300">
             <IoDiamondSharp className="text-3xl text-teal-500" />
             <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text">
-              Our Experience
+              Writers Qualification
             </h1>
           </div>
 
@@ -82,9 +85,7 @@ export default function Experience() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1.3, delay: index * 0.5 }}
-                className="p-4 shadow-xl rounded-lg 
-                bg-[linear-gradient(to_bottom_right,rgba(59,130,246,0.3),rgba(34,197,94,0.3),rgba(79,70,229,0.3))]
-                dark:bg-[linear-gradient(to_bottom_right,rgba(29,78,216,0.5),rgba(21,128,61,0.5),rgba(55,48,163,0.5))]"
+                className={cardStyle}
               >
                 <div>
                   <h2 className="font-bold text-lg text-blue-800 dark:text-blue-300">
@@ -102,30 +103,29 @@ export default function Experience() {
           </div>
         </motion.div>
 
-        {/* Education Section */}
+        {/* Assistance Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="space-y-6"
         >
-          <div className="flex gap-3 justify-center lg:justify-start items-center hover:scale-105 transition-transform duration-300">
+          <div className="flex flex-col lg:flex-row gap-3 justify-center lg:justify-start items-center hover:scale-105 transition-transform duration-300 text-center lg:text-left">
             <FaGraduationCap className="text-3xl text-teal-500" />
-            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-br from-blue-500 via-teal-600 to-inndigo-800 text-transparent bg-clip-text">
-              Education
+            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text">
+              Writers Assistance
+              <br className="hidden lg:block" />
             </h1>
           </div>
 
           <div className="space-y-4">
-            {educationItems.map((item, index) => (
+            {assistanceItems.map((item, index) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="p-4 shadow-xl rounded-lg 
-                bg-[linear-gradient(to_bottom_right,rgba(59,130,246,0.3),rgba(34,197,94,0.3),rgba(79,70,229,0.3))]
-                dark:bg-[linear-gradient(to_bottom_right,rgba(29,78,216,0.5),rgba(21,128,61,0.5),rgba(55,48,163,0.5))]"
+                className={cardStyle}
               >
                 <div>
                   <h2 className="font-bold text-lg text-blue-800 dark:text-blue-300">

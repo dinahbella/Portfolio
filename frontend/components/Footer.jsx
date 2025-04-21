@@ -15,6 +15,11 @@ export default function Footer() {
     { href: "/contact", label: "Contact" },
   ];
 
+  const linkVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
     <motion.footer
       initial={{ opacity: 0, y: 20 }}
@@ -28,7 +33,7 @@ export default function Footer() {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3 }}
-          className="text-2xl font-bold tracking-wide dark:text-black"
+          className="text-2xl font-bold tracking-wide"
         >
           YourLogo
         </motion.h1>
@@ -40,20 +45,12 @@ export default function Footer() {
           animate="visible"
           variants={{
             visible: {
-              transition: {
-                staggerChildren: 0.05,
-              },
+              transition: { staggerChildren: 0.05 },
             },
           }}
         >
           {navLinks.map((item) => (
-            <motion.div
-              key={item.href}
-              variants={{
-                hidden: { opacity: 0, y: 10 },
-                visible: { opacity: 1, y: 0 },
-              }}
-            >
+            <motion.div key={item.href} variants={linkVariants}>
               <Link
                 href={item.href}
                 className="relative text-gray-300 dark:text-gray-800 hover:text-blue-500 transition-all duration-300 before:absolute before:bottom-0 before:left-0 before:h-[2px] before:w-0 before:bg-blue-500 before:transition-all hover:before:w-full"
@@ -71,14 +68,23 @@ export default function Footer() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3 }}
         >
-          {[FaXTwitter, FaFacebook, FaLinkedin].map((Icon, idx) => (
+          {[
+            { Icon: FaXTwitter, label: "Twitter" },
+            { Icon: FaFacebook, label: "Facebook" },
+            { Icon: FaLinkedin, label: "LinkedIn" },
+          ].map(({ Icon, label }, idx) => (
             <motion.li
               key={idx}
               whileHover={{ scale: 1.15 }}
               whileTap={{ scale: 0.95 }}
               className="text-gray-300 dark:text-gray-800 hover:text-blue-500 transition-colors"
             >
-              <a href="#" target="_blank" rel="noopener noreferrer">
+              <a
+                href="#"
+                aria-label={label}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Icon size={20} />
               </a>
             </motion.li>

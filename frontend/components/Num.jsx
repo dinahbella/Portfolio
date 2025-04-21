@@ -13,7 +13,7 @@ export default function Num() {
         >
           {/* Year of Experience */}
           <div className="flex flex-col items-center gap-1">
-            <h2 className="font-bold text-3xl md:text-4xl">2 +</h2>
+            <h2 className="font-bold text-3xl md:text-4xl">6 +</h2>
             <p className="text-sm md:text-base">
               Years of <br /> Experience
             </p>

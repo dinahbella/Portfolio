@@ -89,20 +89,28 @@ export default function PhotoGallery() {
               className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-2"
               variants={fadeIn}
             >
-              GALLERY PHOTOS
+              Our Book Cover Portfolio
             </motion.h1>
             <motion.h1
               className="font-bold text-3xl md:text-4xl lg:text-5xl bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text mb-6"
               variants={fadeIn}
             >
-              Inkvision Book Covers
+              Captivating Covers That Sell Books
             </motion.h1>
             <motion.p
               className="text-gray-700 dark:text-gray-300 mb-8 text-lg"
               variants={fadeIn}
             >
-              Explore our collection of stunning book covers designed with
-              passion and precision for authors worldwide.
+              Your book's cover is its most powerful marketing tool. In today's
+              digital marketplace, readers make split-second decisions based on
+              visual appeal alone. At Inkvision, we create eye-catching,
+              genre-appropriate covers designed specifically to attract your
+              target audience. Our professional designers blend artistic vision
+              with marketing strategy to create covers that: Instantly
+              communicate your book's genre and tone Stand out in crowded online
+              marketplaces Look professional at both thumbnail and full size
+              Reflect the heart of your story Appeal directly to your ideal
+              readers Mockups for every book covers
             </motion.p>
             <motion.div
               variants={fadeIn}
@@ -116,18 +124,12 @@ export default function PhotoGallery() {
                   className="px-8 py-4 text-lg hover:bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 hover:text-white transition-all duration-300"
                   variant="outline"
                 >
-                  VIEW BOOKCOVERS
+                  Featured Cover Designs
                 </Button>
               </Link>
-
-              <Link href="/photos/aiBookcover">
-                <Button
-                  className="px-8 py-4 text-lg hover:bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 hover:text-white transition-all duration-300"
-                  variant="outline"
-                >
-                  VIEW AI BOOKCOVERS
-                </Button>
-              </Link>
+              Browse through our portfolio of recent cover designs. Each cover
+              is custom-created to match the author's vision and market
+              positioning.
             </motion.div>
           </motion.div>
 
@@ -267,16 +269,33 @@ export default function PhotoGallery() {
         </motion.section>
 
         {/* CTA Section */}
+        {/* CTA Section */}
         <motion.section
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="py-12 text-center"
+          className="py-16 px-4 text-center bg-gray-100 dark:bg-gray-800 rounded-xl mt-16"
         >
-          <h3 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
-            Ready to Transform Your Book Cover?
+          <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
+            Our Cover Design Process
           </h3>
+          <ul className="text-gray-700 dark:text-gray-300 text-lg max-w-3xl mx-auto mb-8 list-disc list-inside text-left md:text-center">
+            <li>
+              📝 Consultation: Discuss your vision, target audience, and genre
+            </li>
+            <li>
+              🎨 Concept Development: Our designers present initial mockups
+            </li>
+            <li>✏️ Refinement: We collaborate to perfect the chosen design</li>
+            <li>
+              📦 Finalization: High-resolution assets delivered, ready to
+              publish
+            </li>
+          </ul>
+          <h4 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
+            Ready to give your book the professional cover it deserves?
+          </h4>
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
