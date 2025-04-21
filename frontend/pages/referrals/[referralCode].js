@@ -13,6 +13,9 @@ const statusColors = {
   rejected: "bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-200",
 };
 
+// Define the order of status progression
+const statusOrder = ["pending", "contacted", "converted", "rejected"];
+
 export default function ReferralDetailsPage() {
   const router = useRouter();
   const { referralCode } = router.query;
@@ -47,6 +50,52 @@ export default function ReferralDetailsPage() {
 
     fetchData();
   }, [referralCode]);
+
+  const toggleStatus = async (referralId, currentStatus) => {
+    try {
+      // Find the current status index
+      const currentIndex = statusOrder.indexOf(currentStatus);
+      // Calculate next status (cycle back to first if at end)
+      const nextIndex = (currentIndex + 1) % statusOrder.length;
+      const newStatus = statusOrder[nextIndex];
+
+      // Optimistic UI update
+      setReferralData((prev) => ({
+        ...prev,
+        referrals: prev.referrals.map((r) =>
+          r._id === referralId ? { ...r, status: newStatus } : r
+        ),
+      }));
+
+      // API call to update status
+      const res = await fetch(`/api/referrals/${referralCode}/update-status`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          referralId,
+          newStatus,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to update status");
+      }
+
+      // Optional: refresh data to ensure consistency
+      // fetchData();
+    } catch (err) {
+      console.error("Error updating status:", err);
+      // Revert optimistic update if error occurs
+      setReferralData((prev) => ({
+        ...prev,
+        referrals: prev.referrals.map((r) =>
+          r._id === referralId ? { ...r, status: currentStatus } : r
+        ),
+      }));
+    }
+  };
 
   if (loading) {
     return (
@@ -192,13 +241,16 @@ export default function ReferralDetailsPage() {
                           {person.email}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span
+                          <button
+                            onClick={() =>
+                              toggleStatus(person._id, person.status)
+                            }
                             className={`px-2 py-1 text-xs font-semibold rounded-full ${
                               statusColors[person.status]
-                            }`}
+                            } hover:opacity-80 transition-opacity cursor-pointer`}
                           >
                             {person.status}
-                          </span>
+                          </button>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                           {person.date

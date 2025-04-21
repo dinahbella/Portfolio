@@ -89,7 +89,7 @@ export default function ReferredForm() {
                   </p>
                 </div>
                 <button
-                  onClick={() => router.push("/")}
+                  onClick={() => router.push("/home")}
                   className="text-blue-600 dark:text-blue-400 hover:underline flex items-center justify-center gap-1"
                 >
                   Go to homepage <FiArrowRight />
