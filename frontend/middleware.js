@@ -1,18 +1,18 @@
-// middleware.js
 import { NextResponse } from "next/server";
-import { NextRequest } from "next/server";
 
-export function middleware(req) {
-  const session = req.cookies.get("session");
+export function middleware(request) {
+  const session = request.cookies.get("session")?.value;
 
-  if (!session || session !== "valid") {
-    return NextResponse.redirect(new URL("/login", req.url));
+  if (!session || decodeURIComponent(session) !== "valid") {
+    const url = request.nextUrl.clone();
+    url.pathname = "/login";
+    url.search = `redirect=${encodeURIComponent(request.nextUrl.pathname)}`;
+    return NextResponse.redirect(url);
   }
 
   return NextResponse.next();
 }
 
-// Match protected paths
 export const config = {
   matcher: ["/admin/:path*"],
 };

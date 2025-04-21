@@ -79,10 +79,7 @@ export default function SideSheet() {
 
         <div className="flex items-center gap-3">
           <ModeToggle />
-          <Button className="bg-blue-700 hover:bg-blue-900 text-white rounded-lg px-4 py-2 transition-colors duration-200 flex gap-2">
-            <LogOut className="w-4 h-4" />
-            <Logout />
-          </Button>
+          <Logout />
         </div>
       </header>
 
@@ -180,20 +177,6 @@ export default function SideSheet() {
                   activeItem={activeItem}
                   setActiveItem={setActiveItem}
                 />
-                <MenuItem
-                  href="/admin/aiphotos/allaiphotos"
-                  label="All Ai Photos"
-                  icon={<IoImage className="w-5 h-5" />}
-                  activeItem={activeItem}
-                  setActiveItem={setActiveItem}
-                />
-                <MenuItem
-                  href="/admin/aiphotos/addaiphoto"
-                  label="Add Ai Photo"
-                  icon={<CiImageOn className="w-5 h-5" />}
-                  activeItem={activeItem}
-                  setActiveItem={setActiveItem}
-                />
               </MenuSection>
 
               <MenuSection title="Settings">
@@ -204,13 +187,7 @@ export default function SideSheet() {
                   activeItem={activeItem}
                   setActiveItem={setActiveItem}
                 />
-                <MenuItem
-                  href="/admin/settings"
-                  label="Settings"
-                  icon={<Settings2 className="w-5 h-5" />}
-                  activeItem={activeItem}
-                  setActiveItem={setActiveItem}
-                />
+
                 <MenuItem
                   href="/admin/referrall"
                   label="Referrals"

@@ -32,6 +32,13 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Basic client-side validation
+    if (!formData.username.trim() || !formData.password) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -41,17 +48,19 @@ export default function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-        credentials: "include",
+        credentials: "include", // Important for cookies
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.message || "Authentication failed");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Authentication failed");
       }
 
       toast.success("Login successful");
-      router.push("/admin/dashboard");
+
+      // Redirect to admin dashboard or previous page
+      const redirectUrl = router.query.redirect || "/admin/dashboard";
+      router.push(redirectUrl);
     } catch (error) {
       toast.error(error.message || "An error occurred during login");
       console.error("Login error:", error);
@@ -61,7 +70,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen px-4 bg-gray-50 dark:bg-gray-900">
+    <div className="flex justify-center items-center min-h-screen px-4 bg-blue-50 dark:bg-gray-900">
       <Card className="w-full max-w-md shadow-lg rounded-lg">
         <CardHeader>
           <CardTitle className="text-center text-2xl font-semibold">
@@ -83,36 +92,48 @@ export default function Login() {
                 placeholder="Enter your username"
                 required
                 className="dark:bg-gray-800"
+                autoComplete="username"
               />
             </div>
 
-            <div className="space-y-2 relative">
+            <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                value={formData.password}
-                onChange={handleInputChange}
-                placeholder="••••••••"
-                required
-                className="dark:bg-gray-800 pr-10"
-              />
-              <button
-                type="button"
-                className="absolute right-3 top-9 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <EyeOff className="h-5 w-5" />
-                ) : (
-                  <Eye className="h-5 w-5" />
-                )}
-              </button>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  placeholder="••••••••"
+                  required
+                  className="dark:bg-gray-800 pr-10 w-full"
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
             </div>
 
-            <Button type="submit" className="w-full mt-6" disabled={isLoading}>
+            <Button
+              type="submit"
+              className="w-full mt-6 bg-blue-600 hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-500"
+              disabled={isLoading}
+            >
               {isLoading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  Logging in...
+                </>
               ) : (
                 "Login"
               )}
