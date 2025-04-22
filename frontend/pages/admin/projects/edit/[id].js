@@ -154,7 +154,20 @@ export default function EditProject({
   };
 
   const updateImageOrder = (newList) => setImages(newList);
+  const obj = {
+    _id,
+    title,
+    slug,
+    images,
+    file,
+    description,
+    client,
+    projectcategory,
+    tags,
+    status,
+  };
 
+  console.log("EditProject", obj);
   return (
     <>
       <SideSheet />

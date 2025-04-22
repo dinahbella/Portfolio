@@ -4,9 +4,10 @@ export default function handler(req, res) {
   }
 
   const { username, password } = req.body;
-
+  const user = process.env.USERNAME;
+  const pass = process.env.PASSWORD;
   // In production, use proper password hashing and database lookup
-  if (username === "admin" && password === "secret") {
+  if (username === user && password === pass) {
     res.setHeader(
       "Set-Cookie",
       `session=${encodeURIComponent("valid")}; ` +
