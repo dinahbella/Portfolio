@@ -107,14 +107,14 @@ export default function Header() {
             ))}
 
             <div className="flex items-center justify-between mt-4">
-              <Link href="/login">
-                <Button
-                  variant="ghost"
-                  className="text-white hover:bg-white/10 px-6 py-2 rounded-full transition"
+              <Button variant="outline">
+                <Link
+                  href="/login"
+                  className="text-white font-mono hover:bg-white/20 px-6 py-2 rounded-full transition"
                 >
                   Admin
-                </Button>
-              </Link>
+                </Link>
+              </Button>
               <ModeToggle className="text-white" />
             </div>
           </div>

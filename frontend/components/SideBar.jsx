@@ -164,6 +164,22 @@ export default function SideSheet() {
                       setActiveItem={setActiveItem}
                       closeSheet={() => setOpen(false)}
                     />
+                    <MenuItem
+                      href="/admin/aiphotos/allaiphotos"
+                      label="All Ai Photos"
+                      icon={<IoImage className="w-5 h-5" />}
+                      activeItem={activeItem}
+                      setActiveItem={setActiveItem}
+                      closeSheet={() => setOpen(false)}
+                    />
+                    <MenuItem
+                      href="/admin/aiphotos/addaiphoto"
+                      label="Add Ai Photo"
+                      icon={<CiImageOn className="w-5 h-5" />}
+                      activeItem={activeItem}
+                      setActiveItem={setActiveItem}
+                      closeSheet={() => setOpen(false)}
+                    />
                   </MenuSection>
 
                   <MenuSection title="Settings">

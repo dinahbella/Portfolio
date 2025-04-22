@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { BsPostcard } from "react-icons/bs";
 import Spinner from "@/components/Spinner";
 import AddBlog from "@/components/AddBlog";
+import SideSheet from "@/components/SideBar";
 
 export default function EditBlogPage() {
   const router = useRouter();
@@ -40,6 +41,7 @@ export default function EditBlogPage() {
       <Head>
         <title>Update Blog</title>
       </Head>
+      <SideSheet />
       <div className="blogspage">
         <div className="titledashboard flex flex-sb">
           <div>

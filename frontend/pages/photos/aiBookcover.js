@@ -58,7 +58,7 @@ const fadeIn = {
   },
 };
 
-export default function aiBookcover() {
+export default function PhotoGallery() {
   const { alldata = [], loading, error } = useFetchData("/api/aiphoto");
 
   return (
@@ -71,6 +71,7 @@ export default function aiBookcover() {
           content="Explore our stunning book cover design portfolio"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
@@ -89,45 +90,44 @@ export default function aiBookcover() {
               className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-2"
               variants={fadeIn}
             >
-              GALLERY PHOTOS
+              Our Ai Book Cover Portfolio
             </motion.h1>
             <motion.h1
               className="font-bold text-3xl md:text-4xl lg:text-5xl bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text mb-6"
               variants={fadeIn}
             >
-              Inkvision Book Covers
+              Captivating Covers That Sell Books
             </motion.h1>
             <motion.p
               className="text-gray-700 dark:text-gray-300 mb-8 text-lg"
               variants={fadeIn}
             >
-              "Discover our captivating collection of visually striking book
-              covers, uniquely crafted using advanced AI technology."{" "}
+              Your book's cover is its most powerful marketing tool. In today's
+              digital marketplace, readers make split-second decisions based on
+              visual appeal alone. At Inkvision, we create eye-catching,
+              genre-appropriate covers designed specifically to attract your
+              target audience.
             </motion.p>
             <motion.div
               variants={fadeIn}
-              initial="hidden"
-              animate="show"
-              whileHover={{ scale: 1.02 }}
-              className="flex flex-col md:flex-row gap-4"
+              className="flex flex-col md:flex-row gap-4 items-center"
             >
-              <Link href="/photos#photosimages">
+              <Link href="/photos/aiBookcover#aiphotos" passHref legacyBehavior>
                 <Button
                   className="px-8 py-4 text-lg hover:bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 hover:text-white transition-all duration-300"
                   variant="outline"
                 >
-                  VIEW BOOKCOVERS
+                  Featured Ai Cover Designs
                 </Button>
-              </Link>
-
-              <Link href="/photos/aiBookcover">
+              </Link>{" "}
+              {/* <Link href="/photos/aiBookcover" passHref legacyBehavior>
                 <Button
                   className="px-8 py-4 text-lg hover:bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 hover:text-white transition-all duration-300"
                   variant="outline"
                 >
-                  VIEW AI BOOKCOVERS
+                  Ai Cover Designs
                 </Button>
-              </Link>
+              </Link> */}
             </motion.div>
           </motion.div>
 
@@ -144,13 +144,13 @@ export default function aiBookcover() {
                 }`}
                 whileHover={{ scale: 1.03 }}
               >
-                <div className="aspect-[3/4] overflow-hidden">
+                <div className="aspect-[3/4] w-full overflow-hidden">
                   <Image
                     src={photo.src}
                     alt={photo.alt}
                     fill
-                    priority={index < 2} // Prioritize loading first two images
-                    className="object-cover group-hover:grayscale group-hover:brightness-75 transition-all duration-500 ease-in-out"
+                    priority={index < 2}
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 </div>
@@ -183,14 +183,12 @@ export default function aiBookcover() {
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
           className="py-12"
+          id="aiphotos"
         >
           <motion.div variants={fadeIn} className="text-center mb-12">
-            <h3
-              className="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2"
-              id="photosimages"
-            >
+            <h3 className="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">
               <span className="text-blue-500 dark:text-blue-400">01/</span>OUR
-              PORTFOLIO
+              AI PORTFOLIO
             </h3>
             <motion.h2
               className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4"
@@ -200,7 +198,7 @@ export default function aiBookcover() {
             >
               Inkvision Designs Beautiful{" "}
               <span className="text-blue-500 dark:text-blue-400">
-                Book Covers
+                Ai Book Covers
               </span>
             </motion.h2>
             <motion.p
@@ -234,7 +232,7 @@ export default function aiBookcover() {
                   className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
                   whileHover={{ y: -5 }}
                 >
-                  <div className="aspect-[2/3] overflow-hidden">
+                  <div className="aspect-[2/3] w-full overflow-hidden">
                     <Image
                       src={photo.images[0] || "/placeholder.jpg"}
                       alt={photo.title || "Book cover"}
@@ -272,11 +270,32 @@ export default function aiBookcover() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="py-12 text-center"
+          className="py-16 px-4 text-center bg-gray-100 dark:bg-gray-800 rounded-xl mt-16"
         >
-          <h3 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
-            Ready to Transform Your Book Cover?
+          <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
+            Our Cover Design Process
           </h3>
+          <ul className="text-gray-700 dark:text-gray-300 text-lg max-w-3xl mx-auto mb-8 space-y-2">
+            <li className="flex items-center justify-center md:justify-start gap-2">
+              <span className="text-blue-500">📝</span> Consultation: Discuss
+              your vision, target audience, and genre
+            </li>
+            <li className="flex items-center justify-center md:justify-start gap-2">
+              <span className="text-blue-500">🎨</span> Concept Development: Our
+              designers present initial mockups
+            </li>
+            <li className="flex items-center justify-center md:justify-start gap-2">
+              <span className="text-blue-500">✏️</span> Refinement: We
+              collaborate to perfect the chosen design
+            </li>
+            <li className="flex items-center justify-center md:justify-start gap-2">
+              <span className="text-blue-500">📦</span> Finalization:
+              High-resolution assets delivered, ready to publish
+            </li>
+          </ul>
+          <h4 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
+            Ready to give your book the professional cover it deserves?
+          </h4>
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

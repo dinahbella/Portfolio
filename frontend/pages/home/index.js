@@ -114,7 +114,7 @@ export default function Home() {
       <Header />
 
       <Head>
-        <title>Inkvision— Writer + Designer</title>
+        <title>Inkvision— Professional Ghostwriting Team</title>
         <meta
           name="description"
           content="Portfolio of Shella Tams, a dark, mysterious, and immersive storyteller."
@@ -135,7 +135,7 @@ export default function Home() {
             </motion.h3>
 
             <motion.h1
-              className="lg:text-5xl md:text-4xl sm:text-3xl font-extrabold bg-gradient-to-r from-blue-500 via-teal-500 to-indigo-600 text-transparent bg-clip-text"
+              className="lg:text-5xl md:text-4xl text-4xl font-extrabold bg-gradient-to-r from-blue-500 via-teal-500 to-indigo-600 text-transparent bg-clip-text"
               animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
               transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
             >
