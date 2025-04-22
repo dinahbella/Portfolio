@@ -41,10 +41,10 @@ export default function Header() {
         <div className="container mx-auto px-2 py-5 flex items-center justify-between">
           {/* Logo */}
           <Link
-            href="/"
+            href="/home"
             className="text-2xl font-extrabold text-white hover:text-blue-200 transition"
           >
-            Dinah
+            <img src="/logo1.svg" alt="logo" className="h-10 w-30 text-white" />
           </Link>
 
           {/* Desktop Navigation */}

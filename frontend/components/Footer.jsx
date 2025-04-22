@@ -35,7 +35,11 @@ export default function Footer() {
           transition={{ delay: 0.3 }}
           className="text-2xl font-bold tracking-wide"
         >
-          YourLogo
+          <img
+            src="/logo1.svg"
+            alt="logo"
+            className="h-20 w-40 dark:text-white text-gray-900"
+          />
         </motion.h1>
 
         {/* Navigation */}
