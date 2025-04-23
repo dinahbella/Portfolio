@@ -10,10 +10,15 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const featuredPhotos = [
-  { id: 1, src: "/img1.jpg", alt: "Creative photography", category: "Fiction" },
+  {
+    id: 1,
+    src: "/book1.jpg",
+    alt: "Creative photography",
+    category: "Fiction",
+  },
   {
     id: 2,
-    src: "/img2.jpg",
+    src: "/book2.jpg",
     alt: "Portrait photography",
     category: "Biography",
   },
