@@ -36,6 +36,7 @@ import {
 import { Label } from "@/components/ui/label";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { BsInstagram } from "react-icons/bs";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -137,10 +138,18 @@ const Contact = () => {
       href: "https://www.linkedin.com/in/inkvision-agency-875114356?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
     },
     {
-      icon: <FaFacebookSquare className="text-black dark:text-white" />,
+      icon: <FaFacebookSquare className="text-blue" />,
       Label: "Facebook",
       value: "@inkvision",
       href: "https://www.facebook.com/share/1BQW1gQyQW/",
+    },
+    {
+      icon: (
+        <BsInstagram className="text-transparent bg-clip-text bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600" />
+      ),
+      Label: "Instagram",
+      value: "@inkvision",
+      href: "https://www.instagram.com/ink.vision09?igsh=ZGUzMzM3NWJiOQ==",
     },
   ];
 

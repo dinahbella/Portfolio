@@ -36,7 +36,7 @@ export default function Experience() {
       id: 1,
       period: "Support Agent",
       institution: "Yamini",
-      degree: "WhatsApp ",
+      degree: "https://wa.me/2347010142030 ",
     },
     {
       id: 2,
