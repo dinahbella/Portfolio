@@ -241,7 +241,8 @@ export default function PhotoGallery() {
                     <Image
                       src={photo.images[0] || "/placeholder.jpg"}
                       alt={photo.title || "Book cover"}
-                      fill
+                      width={200}
+                      height={300}
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
