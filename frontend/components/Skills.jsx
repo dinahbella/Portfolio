@@ -48,11 +48,10 @@ export default function Skills() {
               Our Skills
             </h1>
           </motion.div>
-          <p className="mt-3 text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            We have strong grammar, vocabulary, and editing skills. Creativity,
-            storytelling, and adaptability are essential for engaging content.
-            Time management, discipline, and idea generation boost productivity.
-            Understanding publishing, marketing, and SEO helps reach a wider
+          <p className="mt-3 text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-3xl mx-auto p-6">
+            We combine strong grammar, creativity, and editing with time
+            management and storytelling to craft engaging content. Our knowledge
+            of publishing, marketing, and SEO ensures it reaches the right
             audience.
           </p>
         </div>
