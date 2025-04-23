@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { FaXTwitter, FaFacebook, FaLinkedin } from "react-icons/fa6";
 import { motion } from "framer-motion";
+import { InkisionLogo } from "./Logo";
 
 export default function Footer() {
   const navLinks = [
@@ -29,18 +30,7 @@ export default function Footer() {
     >
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         {/* Logo */}
-        <motion.h1
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3 }}
-          className="text-2xl font-bold tracking-wide"
-        >
-          <img
-            src="/logo1.svg"
-            alt="logo"
-            className="h-20 w-40 dark:text-white text-gray-900"
-          />
-        </motion.h1>
+        <InkisionLogo className="dark:text-black" />
 
         {/* Navigation */}
         <motion.div
