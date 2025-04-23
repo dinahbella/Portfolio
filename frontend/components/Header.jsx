@@ -8,6 +8,32 @@ import { useRouter } from "next/router";
 import { Button } from "./ui/button";
 import Image from "next/image";
 
+const SvgIcon = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlnsXlink="http://www.w3.org/1999/xlink"
+    xmlnsXodm="http://www.corel.com/coreldraw/odm/2003"
+    xmlSpace="preserve"
+    width="0.411642in"
+    height="0.719429in"
+    viewBox="0 0 31.84 55.65"
+    style={{
+      shapeRendering: "geometricPrecision",
+      textRendering: "geometricPrecision",
+      imageRendering: "optimizeQuality",
+      fillRule: "evenodd",
+      clipRule: "evenodd",
+    }}
+    {...props}
+  >
+    <style>{`.svg-icon { fill: currentColor; }`}</style>
+    <path
+      className="svg-icon"
+      d="M3.98 6.04c0.72,1.27 -1.2,10.78 -1.65,12.83 -3.2,14.63 -4.4,3.67 5.15,22.03 0.97,1.86 1.83,3.42 2.64,5.33 0.38,0.9 0.76,1.77 1.12,2.81l0.83 2.31c0.49,1 0.25,0.56 0.66,1.06 0.07,-4.42 0.63,-18.2 0.01,-21.7 -0.55,-3.11 -1.58,-0.67 -2.18,-3.55 -0.83,-3.99 5.01,-4.62 5.34,-0.89 0.2,2.25 -1.05,2.49 -2.3,3.46l0.7 21.14c0.23,-0.44 0.31,-0.67 0.49,-1.14 2.62,-6.69 3.45,-8.06 7.28,-14.6 0.96,-1.63 4.35,-6.23 4.25,-7.74 -0.01,-0.1 -2.38,-8.71 -2.68,-9.61 -3.42,-1.94 -7.07,-2.7 -10.54,-4.88 -1.81,-1.14 -3.11,-2.12 -4.59,-3.38 -5.8,-4.96 5.1,-7.49 8.36,-7.57 5.5,-0.13 9.35,1.96 12.04,4.88 -0.99,1.09 -3.99,3.28 -5.36,3.57 0.38,-2.18 0.31,-3.77 -0.81,-5.45 -0.76,-1.14 -2.66,-2.1 -4.75,-1.99 -7.76,0.42 -7.12,14.91 5.99,9.69 2.46,-0.98 7.08,-3.73 7.86,-6.22 -2.27,-1.54 -2.49,-2.89 -5.6,-4.49 -6.26,-3.23 -19.04,-2.79 -22.27,4.1z"
+    />
+    <circle className="svg-icon str0" cx="13.73" cy="54.3" r="1.1" />
+  </svg>
+);
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -46,13 +72,7 @@ export default function Header() {
             href="/home"
             className="text-2xl font-extrabold text-white hover:text-blue-200 transition"
           >
-            <Image
-              src="/logo1.svg"
-              alt="logo"
-              width={30}
-              height={10}
-              className="h-10 w-30 text-white"
-            />
+            <SvgIcon className="w-8 h-8 inline-block mr-2" />
           </Link>
 
           {/* Desktop Navigation */}

@@ -11,9 +11,9 @@ import Head from "next/head";
 import { FaFacebook, FaLinkedin } from "react-icons/fa";
 import Link from "next/link";
 import { FaSquareXTwitter } from "react-icons/fa6";
-import { toast } from "sonner";
 import BlogSearch from "@/components/BlogSearch";
 import useFetchData from "@/hooks/useFetchData";
+import { toast } from "react-toastify";
 
 // Animation variants
 const fadeIn = {

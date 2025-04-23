@@ -10,6 +10,9 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import MarkdownEditor from "react-markdown-editor-lite";
+import ReactMarkdown from "react-markdown";
+import "react-markdown-editor-lite/lib/index.css";
 import {
   Select,
   SelectContent,
@@ -174,7 +177,7 @@ export default function AddProject({
       <SideSheet />
       <div className="ml-16 p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">
+          <h2 className="text-2xl font-bold text-blue-700">
             {_id ? "Edit Project" : "Add New Project"}
           </h2>
           <div className="flex items-center gap-2 text-blue-600">
@@ -227,16 +230,34 @@ export default function AddProject({
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <Label htmlFor="description">Description*</Label>
-                  <Textarea
-                    id="description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Project description"
-                    className="min-h-[120px]"
-                    required
-                  />
+                <div className="space-y-2">
+                  <Label className="text-gray-700 font-medium dark:text-gray-300">
+                    Description
+                  </Label>
+                  <div className="rounded-lg overflow-hidden border border-gray-300">
+                    <MarkdownEditor
+                      value={description}
+                      style={{ height: "400px" }}
+                      onChange={({ text }) => setDescription(text)}
+                      renderHTML={(text) => (
+                        <ReactMarkdown>{text}</ReactMarkdown>
+                      )}
+                      config={{
+                        view: {
+                          menu: true,
+                          md: true,
+                          html: true,
+                        },
+                        canView: {
+                          menu: true,
+                          md: true,
+                          html: true,
+                          fullScreen: true,
+                          hideMenu: false,
+                        },
+                      }}
+                    />
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
