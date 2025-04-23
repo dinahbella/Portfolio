@@ -138,7 +138,7 @@ const Contact = () => {
       href: "https://www.linkedin.com/in/inkvision-agency-875114356?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
     },
     {
-      icon: <FaFacebookSquare className="text-blue" />,
+      icon: <FaFacebookSquare className="text-blue-600" />,
       Label: "Facebook",
       value: "@inkvision",
       href: "https://www.facebook.com/share/1BQW1gQyQW/",
