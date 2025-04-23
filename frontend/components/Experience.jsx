@@ -46,14 +46,14 @@ export default function Experience() {
     },
     {
       id: 3,
-      period: "Support Agent",
+      period: "Acquisition Editor",
       institution: "Heppie",
-      degree: "WhatsApp ",
+      degree: "https://wa.link/bzzgxz",
     },
     {
       id: 4,
       period: "Support Agent",
-      institution: "Tatiana",
+      institution: "Twinna",
       degree: "WhatsApp ",
     },
   ];
