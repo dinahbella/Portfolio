@@ -5,34 +5,33 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
 import Spinner from "@/components/Spinner";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt, FaPlus } from "react-icons/fa";
 import { ReactSortable } from "react-sortablejs";
-import { FaPlusSquare } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import { useState } from "react";
 import SideSheet from "@/components/SideBar";
 
-export default function AddPhoto({ id }) {
-  const [images, setImages] = React.useState([]); // For image previews
-  const [uploadedFiles, setUploadedFiles] = React.useState([]); // For file input
-  const [isUploading, setIsUploading] = React.useState(false);
-  const fileInputRef = React.useRef(null); // Ref for the file input
-  const [title, setTitle] = useState("");
+export default function AddPhoto({
+  _id,
+  title: existingTitle,
+  slug: existingSlug,
+  images: existingImages,
+}) {
+  const [title, setTitle] = useState(existingTitle || "");
+  const [slug, setSlug] = useState(existingSlug || "");
+  const [images, setImages] = useState(existingImages || []);
   const [loading, setLoading] = useState(false);
-  const [slug, setSlug] = useState("");
-
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = React.useRef(null);
   const router = useRouter();
-  const [redirect, setRedirect] = React.useState(false); // Tracks if redirect is needed
 
   async function createPhoto(e) {
     e.preventDefault();
@@ -45,16 +44,14 @@ export default function AddPhoto({ id }) {
         images,
       };
 
-      // Check if it's an update or a new project
-      if (id) {
-        await axios.put("/api/photo", { ...data, id });
+      if (_id) {
+        await axios.put("/api/photo", { ...data, _id });
         toast.success("Photo updated successfully");
       } else {
         await axios.post("/api/photo", data);
         toast.success("Photo created successfully");
       }
-
-      setRedirect(true);
+      router.push("/admin/photos/allphotos");
     } catch (error) {
       console.error("Error saving photo:", error);
       toast.error("Failed to save photo");
@@ -63,163 +60,150 @@ export default function AddPhoto({ id }) {
     }
   }
 
-  if (redirect) {
-    router.push("/admin/photos/allphotos");
-    return null;
-  }
+  const handleSlugChange = (ev) => {
+    const inputValue = ev.target.value;
+    const newSlug = inputValue.replace(/\s+/g, "-").toLowerCase();
+    setSlug(newSlug);
+  };
 
-  // Handle image upload
   const handleImageUpload = async (ev) => {
     const files = ev.target?.files;
-    if (files && files.length > 0) {
+    if (files?.length > 0) {
       setIsUploading(true);
 
-      const uploadImageQueue = [];
-      for (const file of files) {
-        const formData = new FormData();
-        formData.append("file", file);
+      try {
+        const uploadPromises = Array.from(files).map((file) => {
+          const formData = new FormData();
+          formData.append("file", file);
+          return axios.post("/api/upload", formData);
+        });
 
-        uploadImageQueue.push(
-          axios.post("/api/upload", formData).then((res) => {
-            setImages((oldImages) => [...oldImages, ...res.data.links]);
-          })
-        );
+        const results = await Promise.all(uploadPromises);
+        const newImages = results.flatMap((res) => res.data.links);
+        setImages((prev) => [...prev, ...newImages]);
+        toast.success(`${files.length} image(s) uploaded successfully`);
+      } catch (error) {
+        console.error("Upload error:", error);
+        toast.error("Failed to upload images");
+      } finally {
+        setIsUploading(false);
       }
-
-      await Promise.all(uploadImageQueue);
-      setIsUploading(false);
-      toast.success("Images uploaded successfully");
-    } else {
-      toast.error("No files selected");
     }
   };
 
-  // Handle image deletion
   const handleDeleteImage = (index) => {
-    // Remove the image from the preview
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-    // Remove the file from the uploadedFiles state
-    setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-    // Update the file input's value
-    if (fileInputRef.current) {
-      const dataTransfer = new DataTransfer();
-      uploadedFiles.forEach((file, i) => {
-        if (i !== index) {
-          dataTransfer.items.add(file);
-        }
-      });
-      fileInputRef.current.files = dataTransfer.files;
-    }
+    setImages((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // Update image order for drag-and-drop
   const updateImageOrder = (newList) => {
     setImages(newList);
   };
 
   return (
-    <div>
+    <div className="min-h-screen">
       <SideSheet />
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 gap-3 sm:gap-0">
-        {/* Title */}
-        <h2 className="text-xl sm:text-2xl text-blue-600 font-semibold">
-          Add Photos
-        </h2>
-
-        {/* Breadcrumb */}
-        <div className="text-blue-600 flex items-center gap-2">
-          <FaPlusSquare className="text-lg sm:text-xl text-blue-600" />
-          <span>/</span>
-          <span>Add Photos</span>
+      <div className="ml-16 p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-800">Add Photos</h2>
+          <div className="flex items-center gap-2 text-blue-600">
+            <span className="text-sm">Photos</span>
+            <span>/</span>
+            <span className="font-medium">Add New</span>
+          </div>
         </div>
-      </div>
-      <div className="flex justify-center p-4 sm:p-6 md:p-8">
-        <Card className="w-full max-w-4xl rounded-2xl shadow-xl p-4 sm:p-6 bg-blue-600/15">
-          <CardHeader>
-            <CardTitle className="text-center text-2xl sm:text-3xl">
-              Add Photo
-            </CardTitle>
-            <CardDescription className="text-center">
-              Create New Photo
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={createPhoto}>
-              <div className="grid w-full items-center gap-4">
-                {/* Title */}
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="title" className="font-bold text-md">
-                    Title
-                  </Label>
+
+        <div className="flex justify-center">
+          <Card className="w-full max-w-3xl shadow-lg">
+            <CardHeader className="border-b">
+              <CardTitle className="text-xl">Photo Details</CardTitle>
+              <CardDescription>
+                {_id ? "Update your photo" : "Add new photo details"}
+              </CardDescription>
+            </CardHeader>
+
+            <CardContent className="pt-6">
+              <form onSubmit={createPhoto} className="space-y-6">
+                <div className="space-y-3">
+                  <Label htmlFor="title">Title*</Label>
                   <Input
                     id="title"
-                    type="text"
-                    placeholder="Name of your project"
-                    className="shadow-lg"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                  />
-                </div>
-
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="slug" className="font-bold text-md">
-                    Slug
-                  </Label>
-                  <Input
-                    id="slug"
-                    type="text"
-                    placeholder="example-of-slug"
-                    className="shadow-lg"
-                    value={slug}
-                    onChange={(e) => setSlug(e.target.value)}
+                    placeholder="Enter photo title"
                     required
                   />
                 </div>
-                {/* Image Upload */}
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="image" className="font-bold text-md">
-                    Image
-                  </Label>
+
+                <div className="space-y-3">
+                  <Label htmlFor="slug">Slug*</Label>
                   <Input
-                    id="image"
-                    placeholder="Upload images"
-                    className="shadow-lg"
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={handleImageUpload}
-                    ref={fileInputRef} // Add ref to the file input
+                    id="slug"
+                    value={slug}
+                    onChange={handleSlugChange}
+                    placeholder="auto-generated-slug"
+                    required
                   />
-                  <div className="w-100 mt-1 flex flex-left">
-                    {isUploading && <Spinner />}
-                  </div>
                 </div>
 
-                {/* Image Previews */}
+                <div className="space-y-3">
+                  <Label>Images</Label>
+                  <div className="flex items-center gap-3">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="gap-2"
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      <FaPlus />
+                      Upload Images
+                    </Button>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={handleImageUpload}
+                      ref={fileInputRef}
+                      className="hidden"
+                    />
+                    {isUploading && (
+                      <div className="flex items-center gap-2 text-sm text-gray-500">
+                        <Spinner size="sm" />
+                        Uploading...
+                      </div>
+                    )}
+                  </div>
+                  {images.length > 0 && (
+                    <p className="text-sm text-gray-500">
+                      {images.length} image{images.length !== 1 ? "s" : ""}{" "}
+                      selected
+                    </p>
+                  )}
+                </div>
+
                 {images.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
+                  <div className="space-y-3">
+                    <Label>Preview</Label>
                     <ReactSortable
                       list={images}
                       setList={updateImageOrder}
-                      animation={200}
-                      className="flex flex-wrap gap-2"
+                      className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3"
                     >
                       {images.map((link, index) => (
                         <div
                           key={index}
-                          className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden shadow-md"
+                          className="relative aspect-square rounded-md overflow-hidden border group"
                         >
                           <img
                             src={link}
-                            alt={`uploaded-${index}`}
+                            alt={`Preview ${index + 1}`}
                             className="w-full h-full object-cover"
                           />
                           <button
                             type="button"
                             onClick={() => handleDeleteImage(index)}
-                            className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                            className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                           >
-                            <FaTrashAlt className="w-4 h-4" />
+                            <FaTrashAlt className="w-3 h-3" />
                           </button>
                         </div>
                       ))}
@@ -227,17 +211,28 @@ export default function AddPhoto({ id }) {
                   </div>
                 )}
 
-                <Button
-                  type="submit"
-                  className="bg-blue-500 mt-2 hover:bg-blue-800 w-full font-medium text-lg p-2"
-                  disabled={loading}
-                >
-                  {loading ? "Saving..." : "Save Photo"}
-                </Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
+                <div className="pt-4">
+                  <Button
+                    type="submit"
+                    className="p-5 bg-gradient-to-r w-full from-blue-600 via-teal-800 to-indigo-800 hover:from-indigo-900 hover:to-blue-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all"
+                    disabled={loading || isUploading}
+                  >
+                    {loading ? (
+                      <div className="flex items-center gap-2">
+                        <Spinner size="sm" />
+                        {_id ? "Updating..." : "Creating..."}
+                      </div>
+                    ) : _id ? (
+                      "Update Photo"
+                    ) : (
+                      "Create Photo"
+                    )}
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

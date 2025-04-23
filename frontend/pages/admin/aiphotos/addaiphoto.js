@@ -16,9 +16,9 @@ import { ReactSortable } from "react-sortablejs";
 import { FaPlusSquare } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import SideSheet from "@/components/SideBar";
+import { toast } from "react-toastify";
 
 export default function AddaiPhoto({ id }) {
   const [images, setImages] = useState([]);

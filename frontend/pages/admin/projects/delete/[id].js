@@ -3,8 +3,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import { BsPostcard } from "react-icons/bs";
-import { toast } from "sonner";
 import Spinner from "@/components/Spinner";
+import { toast } from "react-toastify";
 export default function DeleteProject() {
   const router = useRouter();
   const { id } = router.query;

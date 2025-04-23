@@ -174,7 +174,7 @@ export default function SideSheet() {
                     />
                     <MenuItem
                       href="/admin/aiphotos/addaiphoto"
-                      label="Add Ai Photo"
+                      label="Add ai Photo"
                       icon={<CiImageOn className="w-5 h-5" />}
                       activeItem={activeItem}
                       setActiveItem={setActiveItem}

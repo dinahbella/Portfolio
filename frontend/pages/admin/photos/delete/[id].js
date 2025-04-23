@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import { BsPostcard } from "react-icons/bs";
 import Spinner from "@/components/Spinner";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 export default function DeletePhoto() {
   const router = useRouter();

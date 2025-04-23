@@ -24,9 +24,11 @@ import "react-markdown-editor-lite/lib/index.css";
 import { ReactSortable } from "react-sortablejs";
 import { FaPlus, FaTrashAlt } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import axios from "axios";
 import { useState } from "react";
+import SideSheet from "./SideBar";
+import Image from "next/image";
+import { toast } from "react-toastify";
 
 export default function AddBlog({
   _id,
@@ -108,172 +110,266 @@ export default function AddBlog({
   };
 
   if (redirect) {
-    router.push("/blogs");
+    router.push("/admin/blogs");
     return null;
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 py-10 px-4">
-      <Card className="max-w-5xl mx-auto shadow-xl">
-        <CardHeader className="bg-blue-600 text-white py-6">
-          <CardTitle>{_id ? "Edit Blog" : "Create Blog"}</CardTitle>
-          <CardDescription className="text-blue-100">
-            {_id
-              ? "Update blog information"
-              : "Fill out the form to add a new blog"}
-          </CardDescription>
-        </CardHeader>
-
-        <CardContent className="space-y-6">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
+    <>
+      <SideSheet />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 py-10 px-4">
+        <Card className="max-w-5xl mx-auto shadow-xl overflow-hidden">
+          <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-500 text-white py-6 px-8">
+            <div className="flex items-center justify-between">
               <div>
-                <Label htmlFor="title">Title</Label>
+                <CardTitle className="text-2xl font-bold">
+                  {_id ? "Edit Blog Post" : "Create New Blog Post"}
+                </CardTitle>
+                <CardDescription className="text-blue-100 mt-2">
+                  {_id
+                    ? "Update your blog content and details"
+                    : "Fill in the details to publish a new blog post"}
+                </CardDescription>
+              </div>
+              <Button
+                variant="ghost"
+                className="text-white hover:bg-blue-700/20"
+                onClick={() => router.push("/admin/blogs")}
+              >
+                Back to Blogs
+              </Button>
+            </div>
+          </CardHeader>
+
+          <CardContent className="p-8 space-y-8">
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <div className="space-y-2">
+                <Label
+                  htmlFor="title"
+                  className="text-gray-700 dark:text-gray-300 font-medium"
+                >
+                  Blog Title
+                </Label>
                 <Input
                   id="title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   required
+                  placeholder="Enter blog title"
+                  className="py-3 px-4 shadow-xl border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
-              <div>
-                <Label htmlFor="slug">Slug</Label>
+              <div className="space-y-2">
+                <Label
+                  htmlFor="slug"
+                  className="text-gray-700 dark:text-gray-300 font-medium"
+                >
+                  URL Slug
+                </Label>
                 <Input
                   id="slug"
                   value={slug}
                   onChange={(e) => setSlug(e.target.value)}
                   required
+                  placeholder="e.g., my-awesome-blog"
+                  className="py-3 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
-            </div>
 
-            <div>
-              <Label htmlFor="description">Description</Label>
-              <MarkdownEditor
-                value={description}
-                style={{ height: "300px" }}
-                onChange={({ text }) => setDescription(text)}
-                renderHTML={(text) => <ReactMarkdown>{text}</ReactMarkdown>}
-              />
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <Label>Category</Label>
-                <Select value={blogcategory} onValueChange={setBlogcategory}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Choose a category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Writing Tips">Writing Tips</SelectItem>
-                    <SelectItem value="Book Reviews">Book Reviews</SelectItem>
-                    <SelectItem value="Publishing">Publishing</SelectItem>
-                    <SelectItem value="Writing Prompts">
-                      Writing Prompts
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label>Status</Label>
-                <Select value={status} onValueChange={setStatus}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="draft">Draft</SelectItem>
-                    <SelectItem value="publish">Publish</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <Label>Tags</Label>
-                <Select value={tags} onValueChange={setTags}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Choose tags" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Writing">Writing</SelectItem>
-                    <SelectItem value="ScriptWriting">ScriptWriting</SelectItem>
-                    <SelectItem value="GhostWriting">GhostWriting</SelectItem>
-                    <SelectItem value="StoryWriting">StoryWriting</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label>Upload Images</Label>
-                <div className="flex gap-2 items-center">
-                  <Button variant="outline">
-                    <label className="cursor-pointer">
-                      <input
-                        type="file"
-                        multiple
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        ref={fileInputRef}
-                        className="hidden"
-                      />
-                      Upload
-                    </label>
-                  </Button>
-                  {isUploading && <Spinner />}
+              <div className="space-y-2">
+                <Label className="text-gray-700 font-medium dark:text-gray-300">
+                  Description
+                </Label>
+                <div className="rounded-lg overflow-hidden border border-gray-300">
+                  <MarkdownEditor
+                    value={description}
+                    style={{ height: "400px" }}
+                    onChange={({ text }) => setDescription(text)}
+                    renderHTML={(text) => <ReactMarkdown>{text}</ReactMarkdown>}
+                    config={{
+                      view: {
+                        menu: true,
+                        md: true,
+                        html: true,
+                      },
+                      canView: {
+                        menu: true,
+                        md: true,
+                        html: true,
+                        fullScreen: true,
+                        hideMenu: false,
+                      },
+                    }}
+                  />
                 </div>
               </div>
-            </div>
 
-            {images.length > 0 && (
-              <div className="mt-4">
-                <Label>Reorder Images</Label>
-                <ReactSortable
-                  list={images}
-                  setList={updateImageOrder}
-                  className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2"
-                >
-                  {images.map((link, i) => (
-                    <div
-                      key={i}
-                      className="relative w-full aspect-square rounded-lg overflow-hidden border"
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <Label className="text-gray-700 font-medium dark:text-gray-300">
+                    Category
+                  </Label>
+                  <Select value={blogcategory} onValueChange={setBlogcategory}>
+                    <SelectTrigger className="py-3 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                    <SelectContent className=" shadow-lg rounded-md border border-gray-200">
+                      <SelectItem value="Writing Tips">Writing Tips</SelectItem>
+                      <SelectItem value="Book Reviews">Book Reviews</SelectItem>
+                      <SelectItem value="Publishing">Publishing</SelectItem>
+                      <SelectItem value="Writing Prompts">
+                        Writing Prompts
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-gray-700 font-medium dark:text-gray-300">
+                    Status
+                  </Label>
+                  <Select value={status} onValueChange={setStatus}>
+                    <SelectTrigger className="py-3 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                      <SelectValue placeholder="Select status" />
+                    </SelectTrigger>
+                    <SelectContent className=" shadow-lg rounded-md border border-gray-200">
+                      <SelectItem value="draft">Draft</SelectItem>
+                      <SelectItem value="publish">Publish</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <Label className="text-gray-700 font-medium dark:text-gray-300">
+                    Tags
+                  </Label>
+                  <Select value={tags} onValueChange={setTags}>
+                    <SelectTrigger className="py-3 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                      <SelectValue placeholder="Select tags" />
+                    </SelectTrigger>
+                    <SelectContent className="shadow-lg rounded-md border border-gray-200">
+                      <SelectItem value="Writing">Writing</SelectItem>
+                      <SelectItem value="ScriptWriting">
+                        Script Writing
+                      </SelectItem>
+                      <SelectItem value="GhostWriting">
+                        Ghost Writing
+                      </SelectItem>
+                      <SelectItem value="StoryWriting">
+                        Story Writing
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-gray-700 font-medium dark:text-gray-300">
+                    Featured Images
+                  </Label>
+                  <div className="flex gap-3 items-center">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="border-blue-500 text-blue-600 hover:bg-blue-50 hover:text-blue-700"
                     >
-                      <img
-                        src={link}
-                        alt="preview"
-                        className="w-full h-full object-cover"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteImage(i)}
-                        className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1"
-                      >
-                        <FaTrashAlt size={12} />
-                      </button>
-                    </div>
-                  ))}
-                </ReactSortable>
-              </div>
-            )}
-
-            <Button
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
-              disabled={loading}
-            >
-              {loading ? (
-                <div className="flex items-center gap-2">
-                  <Spinner size="sm" />
-                  {_id ? "Updating..." : "Creating..."}
+                      <label className="cursor-pointer flex items-center gap-2">
+                        <input
+                          type="file"
+                          multiple
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                          ref={fileInputRef}
+                          className="hidden"
+                        />
+                        <FaPlus className="text-sm" />
+                        Upload Images
+                      </label>
+                    </Button>
+                    {isUploading && (
+                      <div className="flex items-center gap-2 text-gray-500">
+                        <Spinner size="sm" />
+                        <span>Uploading...</span>
+                      </div>
+                    )}
+                  </div>
+                  {images.length > 0 && (
+                    <p className="text-sm text-gray-500 mt-1">
+                      {images.length} image{images.length !== 1 ? "s" : ""}{" "}
+                      uploaded
+                    </p>
+                  )}
                 </div>
-              ) : (
-                <>{_id ? "Update Blog" : "Create Blog"}</>
+              </div>
+
+              {images.length > 0 && (
+                <div className="space-y-2">
+                  <Label className="text-gray-700 font-medium">
+                    Image Gallery
+                  </Label>
+                  <p className="text-sm text-gray-500 mb-3">
+                    Drag to reorder images (first image will be featured)
+                  </p>
+                  <ReactSortable
+                    list={images}
+                    setList={updateImageOrder}
+                    className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
+                  >
+                    {images.map((link, i) => (
+                      <div
+                        key={i}
+                        className="relative group rounded-lg overflow-hidden border border-gray-200 hover:shadow-md transition-shadow"
+                      >
+                        <div className="relative w-full aspect-video rounded-lg overflow-hidden">
+                          <Image
+                            src={link}
+                            alt="preview"
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                          />
+                        </div>
+                        <div className="absolute inset-0  group-hover:bg-opacity-20 transition-all duration-200" />
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteImage(i)}
+                          className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-600"
+                          title="Remove image"
+                        >
+                          <FaTrashAlt size={14} />
+                        </button>
+                        {i === 0 && (
+                          <span className="absolute top-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded">
+                            Featured
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                  </ReactSortable>
+                </div>
               )}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+
+              <div className="pt-4 border-t border-gray-200 flex justify-end">
+                <Button
+                  type="submit"
+                  className="p-5 bg-gradient-to-r w-full from-blue-600 via-teal-800 to-indigo-800 hover:from-indigo-900 hover:to-blue-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <div className="flex items-center gap-2">
+                      <Spinner size="sm" />
+                      {_id ? "Saving Changes..." : "Creating Blog..."}
+                    </div>
+                  ) : (
+                    <>{_id ? "Update Blog Post" : "Publish Blog Post"}</>
+                  )}
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </>
   );
 }
