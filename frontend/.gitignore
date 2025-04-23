@@ -43,5 +43,3 @@ package.json
 *.tsbuildinfo
 next-env.d.ts
 
-pages/api/login.js
-pages/api
