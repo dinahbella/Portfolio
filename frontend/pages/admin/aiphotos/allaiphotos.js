@@ -162,7 +162,7 @@ export default function PhotoGallery() {
                     </h3>
                     {searchQuery && (
                       <p className="text-gray-500 dark:text-gray-400 mt-2">
-                        No results for "{searchQuery}"
+                        No results for &quot;{searchQuery}&quot;
                       </p>
                     )}
                   </div>

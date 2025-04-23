@@ -14,7 +14,7 @@ export default function Writer() {
           you deserve.
         </p>
         <Link href="https://surveyheart.com/form/6808a8249626186679d72dbc">
-          <div className="inline-block px-6 py-3 text-lg font-semibold text-white bg-blue-600 rounded-full shadow-md hover:bg-blue-700 transition-colors duration-300">
+          <div className="inline-block text-center px-6 py-3 text-lg font-semibold text-white bg-blue-600 rounded-full shadow-md hover:bg-blue-700 transition-colors duration-300">
             Apply to be a Writer
           </div>
         </Link>
