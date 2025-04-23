@@ -8,15 +8,15 @@ import { useRouter } from "next/router";
 import { Button } from "./ui/button";
 import Image from "next/image";
 
-const SvgIcon = (props) => (
+const InkisionLogo = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
     xmlnsXodm="http://www.corel.com/coreldraw/odm/2003"
     xmlSpace="preserve"
-    width="0.411642in"
-    height="0.719429in"
-    viewBox="0 0 31.84 55.65"
+    width="1.32in"
+    height="0.419429in"
+    version="1.1"
     style={{
       shapeRendering: "geometricPrecision",
       textRendering: "geometricPrecision",
@@ -24,14 +24,67 @@ const SvgIcon = (props) => (
       fillRule: "evenodd",
       clipRule: "evenodd",
     }}
-    {...props}
+    viewBox="0 0 2520.01 719.43"
   >
-    <style>{`.svg-icon { fill: currentColor; }`}</style>
-    <path
-      className="svg-icon"
-      d="M3.98 6.04c0.72,1.27 -1.2,10.78 -1.65,12.83 -3.2,14.63 -4.4,3.67 5.15,22.03 0.97,1.86 1.83,3.42 2.64,5.33 0.38,0.9 0.76,1.77 1.12,2.81l0.83 2.31c0.49,1 0.25,0.56 0.66,1.06 0.07,-4.42 0.63,-18.2 0.01,-21.7 -0.55,-3.11 -1.58,-0.67 -2.18,-3.55 -0.83,-3.99 5.01,-4.62 5.34,-0.89 0.2,2.25 -1.05,2.49 -2.3,3.46l0.7 21.14c0.23,-0.44 0.31,-0.67 0.49,-1.14 2.62,-6.69 3.45,-8.06 7.28,-14.6 0.96,-1.63 4.35,-6.23 4.25,-7.74 -0.01,-0.1 -2.38,-8.71 -2.68,-9.61 -3.42,-1.94 -7.07,-2.7 -10.54,-4.88 -1.81,-1.14 -3.11,-2.12 -4.59,-3.38 -5.8,-4.96 5.1,-7.49 8.36,-7.57 5.5,-0.13 9.35,1.96 12.04,4.88 -0.99,1.09 -3.99,3.28 -5.36,3.57 0.38,-2.18 0.31,-3.77 -0.81,-5.45 -0.76,-1.14 -2.66,-2.1 -4.75,-1.99 -7.76,0.42 -7.12,14.91 5.99,9.69 2.46,-0.98 7.08,-3.73 7.86,-6.22 -2.27,-1.54 -2.49,-2.89 -5.6,-4.49 -6.26,-3.23 -19.04,-2.79 -22.27,4.1z"
-    />
-    <circle className="svg-icon str0" cx="13.73" cy="54.3" r="1.1" />
+    <defs>
+      <style>
+        {`
+          @font-face {
+            font-family: "Arial";
+            font-variant: normal;
+            font-style: normal;
+            font-weight: normal;
+            src: url("#FontID0") format(svg);
+          }
+          .str0 {
+            stroke: black;
+            stroke-width: 6.67;
+            stroke-miterlimit: 2.61313;
+          }
+          .fil0 {
+            fill: white;
+          }
+          .fnt0 {
+            font-weight: normal;
+            font-size: 649.9px;
+            font-family: 'Arial';
+          }
+        `}
+      </style>
+    </defs>
+    <g id="Layer_x0020_1">
+      <text x="-60.44" y="643.71" className="fil0 fnt0">
+        I
+      </text>
+      <text x="120.13" y="643.71" className="fil0 fnt0">
+        n
+      </text>
+      <text x="481.58" y="643.71" className="fil0 fnt0">
+        k
+      </text>
+      <text x="1228.32" y="643.71" className="fil0 fnt0">
+        i
+      </text>
+      <text x="1372.71" y="643.71" className="fil0 fnt0">
+        s
+      </text>
+      <text x="1697.66" y="643.71" className="fil0 fnt0">
+        i
+      </text>
+      <text x="1842.05" y="643.71" className="fil0 fnt0">
+        o
+      </text>
+      <text x="2203.5" y="643.71" className="fil0 fnt0">
+        n
+      </text>
+      <g id="_1727037583904">
+        <path
+          className="fil0"
+          d="M887.45 78.02c9.35,16.39 -15.56,139.37 -21.35,165.84 -41.38,189.09 -56.91,47.42 66.61,284.75 12.54,24.1 23.68,44.21 34.1,68.84 4.91,11.64 9.77,22.92 14.54,36.37l10.77 29.91c6.35,12.91 3.23,7.23 8.49,13.74 0.94,-57.15 8.13,-235.31 0.14,-280.5 -7.13,-40.2 -20.47,-8.71 -28.19,-45.91 -10.71,-51.61 64.74,-59.76 69,-11.56 2.57,29.09 -13.58,32.17 -29.71,44.72l9.01 273.33c2.96,-5.74 3.96,-8.65 6.33,-14.7 33.83,-86.48 44.56,-104.25 94.17,-188.74 12.36,-21.05 56.25,-80.58 54.97,-100 -0.08,-1.29 -30.8,-112.57 -34.65,-124.25 -44.17,-25.13 -91.45,-34.89 -136.21,-63.14 -23.37,-14.75 -40.25,-27.44 -59.31,-43.73 -74.95,-64.08 65.9,-96.81 108.11,-97.81 71.07,-1.69 120.84,25.4 155.65,63.13 -12.76,14.15 -51.53,42.43 -69.33,46.11 4.92,-28.2 4.05,-48.8 -10.42,-70.49 -9.85,-14.78 -34.35,-27.15 -61.44,-25.68 -100.26,5.47 -92.07,192.73 77.37,125.33 31.74,-12.63 91.51,-48.26 101.58,-80.42 -29.37,-19.96 -32.19,-37.36 -72.37,-58.1 -80.86,-41.72 -246.12,-36.05 -287.85,52.96z"
+        />
+        <circle className="fil0 str0" cx="1013.45" cy="701.93" r="14.17" />
+      </g>
+    </g>
   </svg>
 );
 
@@ -72,7 +125,7 @@ export default function Header() {
             href="/home"
             className="text-2xl font-extrabold text-white hover:text-blue-200 transition"
           >
-            <SvgIcon className="w-8 h-8 inline-block mr-2" />
+            <InkisionLogo />
           </Link>
 
           {/* Desktop Navigation */}

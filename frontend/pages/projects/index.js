@@ -5,7 +5,6 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import { FreeMode } from "swiper/modules";
 import Head from "next/head";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/Spinner";
 import useFetchData from "@/hooks/useFetchData";
@@ -41,8 +40,7 @@ const tagColors = [
 
 export default function Blogs() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage] = useState(7);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [perPage] = useState(9); // Changed to 9 for 3x3 grid
   const { alldata = [], loading } = useFetchData("/api/projects");
 
   const paginate = (pageNumber) => {
@@ -50,14 +48,9 @@ export default function Blogs() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const filteredBlogs = alldata.filter((project) => {
-    if (searchQuery.trim() === "") return true;
-    return project.title.toLowerCase().includes(searchQuery.toLowerCase());
-  });
-
   const indexOfFirstBlog = (currentPage - 1) * perPage;
   const indexOfLastBlog = currentPage * perPage;
-  const currentBlogs = filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog);
+  const currentBlogs = alldata.slice(indexOfFirstBlog, indexOfLastBlog);
   const publishedData = alldata.filter(
     (project) => project.status === "publish"
   );
@@ -78,24 +71,16 @@ export default function Blogs() {
     .map(([tag]) => tag);
 
   const pageNumbers = [];
-  const totalPages = Math.ceil(filteredBlogs.length / perPage);
+  const totalPages = Math.ceil(publishedData.length / perPage);
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setCurrentPage(1);
-  };
-
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       <Head>
-        <title>Blogs</title>
-        <meta
-          name="description"
-          content="Explore our collection of writing tips, content strategies, and industry insights"
-        />
+        <title>Projects</title>
+        <meta name="description" content="Explore our collection of projects" />
       </Head>
       <Header />
       <main className="container mx-auto px-4 py-8 md:py-12 lg:py-16">
@@ -104,165 +89,26 @@ export default function Blogs() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="max-w-3xl mx-auto mb-12"
+            className="max-w-3xl mx-auto mb-12 text-center"
           >
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-              Welcome to{" "}
+              Our{" "}
               <span className="font-bold bg-gradient-to-r from-blue-500 via-teal-600 to-indigo-800 text-transparent bg-clip-text">
-                Inkvision Projects!
+                Projects
               </span>
             </h1>
 
             <p className="text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed mb-8">
-              This area covers a wide range of topics, from practical writing
-              tips and grammar guides to advanced content marketing strategies
-              and SEO best practices.
+              Explore our portfolio of completed projects across various
+              categories and technologies.
             </p>
-
-            <div className="w-full mb-8">
-              <form onSubmit={handleSearch} className="flex items-center">
-                <div className="relative flex-grow max-w-lg mr-4">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg
-                      className="h-5 w-5 text-gray-400 dark:text-gray-500"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                  <Input
-                    type="text"
-                    placeholder="Search here..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="block w-full pl-10 pr-4 py-2 rounded-2xl border-blue-600 shadow-lg dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-colors duration-200"
-                  />
-                  <Button
-                    type="submit"
-                    className="absolute right-0 inset-y-0 px-4 text-white bg-gradient-to-tr from-blue-500 via-teal-600 to-indigo-800 hover:bg-blue-700 dark:hover:bg-blue-800 rounded-r-2xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-                  >
-                    Search
-                  </Button>
-                </div>
-              </form>
-            </div>
           </motion.div>
 
           <div className="shadow-lg mt-4 mb-8">
             <hr className="border-gray-200 dark:border-gray-700" />
           </div>
 
-          {/* Featured Posts Slider */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="mb-16"
-          >
-            <h2 className="font-bold text-2xl dark:text-gray-200 mb-6">
-              Featured Posts
-            </h2>
-            <Swiper
-              slidesPerView={"auto"}
-              freeMode={true}
-              spaceBetween={24}
-              modules={[FreeMode]}
-              className="featured-swiper"
-              breakpoints={{
-                320: { slidesPerView: 1.2, spaceBetween: 16 },
-                480: { slidesPerView: 1.5, spaceBetween: 16 },
-                640: { slidesPerView: 2.2, spaceBetween: 20 },
-                768: { slidesPerView: 2.5, spaceBetween: 24 },
-                1024: { slidesPerView: 3.5, spaceBetween: 24 },
-                1280: { slidesPerView: 4, spaceBetween: 24 },
-              }}
-            >
-              {loading ? (
-                <Spinner />
-              ) : (
-                sliderPubData.map((project, index) => (
-                  <SwiperSlide
-                    key={project._id}
-                    className="!w-[280px] sm:!w-[300px]"
-                  >
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="w-full h-full flex flex-col group border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
-                    >
-                      <Link
-                        href={`/projects/${project.slug}`}
-                        className="relative block aspect-[4/3]"
-                      >
-                        <Image
-                          src={project.images[0]}
-                          alt={project.title}
-                          fill
-                          className="object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                        {/* Category Badge - Bottom Left */}
-                        {project.projectcategory?.length > 0 && (
-                          <div className="absolute bottom-3 left-3 z-10">
-                            <div className="flex flex-wrap gap-2">
-                              {project.projectcategory
-                                .slice(0, 2)
-                                .map((cat, index) => (
-                                  <Link
-                                    key={index}
-                                    href={`/project/category/${cat}`}
-                                    className={`px-3 py-1 text-xs font-medium rounded-full ${
-                                      tagColors[index % tagColors.length]
-                                    } backdrop-blur-sm hover:scale-105 transition-transform shadow-sm`}
-                                  >
-                                    {cat}
-                                  </Link>
-                                ))}
-                            </div>
-                          </div>
-                        )}
-                      </Link>
-
-                      <div className="p-4 flex-grow flex flex-col">
-                        <h2 className="text-lg font-semibold text-gray-900 dark:text-white line-clamp-2 mb-2">
-                          <Link
-                            href={`/project/${project.slug}`}
-                            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                          >
-                            {project.title}
-                          </Link>
-                        </h2>
-
-                        <div className="mt-auto flex items-center space-x-2">
-                          <div className="relative w-8 h-8 rounded-full overflow-hidden border border-gray-200 dark:border-gray-700">
-                            <Image
-                              src="/pp.jpg"
-                              alt="Author"
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                          <span className="text-sm text-gray-600 dark:text-gray-400">
-                            By Inkvision
-                          </span>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </SwiperSlide>
-                ))
-              )}
-            </Swiper>
-          </motion.div>
-
-          {/* Latest Blog Posts */}
+          {/* Projects Grid */}
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -270,10 +116,6 @@ export default function Blogs() {
             transition={{ duration: 0.5 }}
             className="mt-8"
           >
-            <h2 className="font-bold text-2xl dark:text-gray-200 mb-6">
-              Latest Projects
-            </h2>
-
             {loading ? (
               <Spinner />
             ) : publishedData.length > 0 ? (
@@ -281,83 +123,62 @@ export default function Blogs() {
                 variants={containerVariants}
                 initial="hidden"
                 animate="show"
-                className="grid gap-8"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               >
                 {currentBlogs.map((project, index) => (
-                  <motion.article
+                  <motion.div
                     key={project._id}
                     variants={itemVariants}
-                    className="border-b pb-8 border-gray-200 dark:border-gray-700 last:border-0"
+                    className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700"
                   >
-                    <div className="flex flex-col md:flex-row gap-6">
-                      <Link
-                        href={`/projects/${project.slug}`}
-                        className="md:w-1/3 lg:w-1/4 flex-shrink-0"
-                      >
-                        <motion.div
-                          whileHover={{ scale: 1.02 }}
-                          title={project.title}
-                          className="relative aspect-video rounded-lg overflow-hidden shadow-sm"
-                        >
-                          <Image
-                            src={project.images[0]}
-                            alt={project.title}
-                            fill
-                            className="object-cover"
-                          />
-                        </motion.div>
-                      </Link>
-                      <div className="md:flex-grow">
+                    <Link href={`/projects/${project.slug}`}>
+                      <div className="relative aspect-video w-full">
+                        <Image
+                          src={project.images[0]}
+                          alt={project.title}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="p-6">
                         <div className="flex flex-wrap gap-2 mb-3">
                           {project.projectcategory
-                            ?.slice(0, 3)
+                            ?.slice(0, 2)
                             .map((cat, index) => (
-                              <Link
+                              <span
                                 key={index}
-                                href={`/project/category/${cat}`}
-                                className={`px-3 py-1 text-xs font-medium rounded-full ${
+                                className={`px-2 py-1 text-xs font-medium rounded-full ${
                                   tagColors[index % tagColors.length]
-                                } hover:scale-105 transition-transform shadow-sm`}
+                                }`}
                               >
                                 {cat}
-                              </Link>
+                              </span>
                             ))}
                         </div>
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                          <Link
-                            href={`/projects/${project.slug}`}
-                            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                          >
-                            {project.title}
-                          </Link>
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">
+                          {project.title}
                         </h3>
-                        <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                        <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">
                           {project.excerpt ||
-                            project.description?.substring(0, 180)}
+                            project.description?.substring(0, 150)}
                           ...
                         </p>
-                        <div className="flex items-center space-x-3">
-                          <div className="relative w-8 h-8 rounded-full overflow-hidden border border-gray-200 dark:border-gray-700">
-                            <Image
-                              src="/pp.jpg"
-                              alt="Author"
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                          <span className="text-sm text-gray-600 dark:text-gray-400">
-                            By Inkvision •{" "}
+                        <div className="flex items-center justify-between mt-4">
+                          <span className="text-sm text-gray-500 dark:text-gray-400">
                             {new Date(project.createdAt).toLocaleDateString()}
                           </span>
+                          <Button variant="outline" className="text-sm">
+                            View Project
+                          </Button>
                         </div>
                       </div>
-                    </div>
-                  </motion.article>
+                    </Link>
+                  </motion.div>
                 ))}
               </motion.div>
             ) : (
               <p className="text-gray-600 dark:text-gray-400 text-center py-12">
-                No project posts found.
+                No projects found.
               </p>
             )}
           </motion.div>
@@ -369,7 +190,7 @@ export default function Blogs() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="flex justify-center mt-8"
+              className="flex justify-center mt-12"
             >
               <nav className="flex items-center gap-2">
                 <motion.button
@@ -423,10 +244,10 @@ export default function Blogs() {
             transition={{ duration: 0.5 }}
             className="mt-8"
           >
-            <h2 className="font-bold text-2xl dark:text-gray-200 mb-6">
-              Popular Tags
+            <h2 className="font-bold text-2xl dark:text-gray-200 mb-6 text-center">
+              Project Categories
             </h2>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 justify-center">
               {allTags.slice(0, 15).map((tag, index) => (
                 <motion.div
                   key={index}
