@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import React from "react";
-import { FaXTwitter, FaFacebook, FaLinkedin } from "react-icons/fa6";
+import { FaFacebook, FaLinkedin } from "react-icons/fa6";
+import { BsInstagram } from "react-icons/bs";
+
 import { motion } from "framer-motion";
 import { InkisionLogo } from "./Logo";
 import { InkisionLogo1 } from "./Logo2";
@@ -64,7 +66,7 @@ export default function Footer() {
           transition={{ delay: 0.3 }}
         >
           {[
-            { Icon: FaXTwitter, label: "Twitter" },
+            { Icon: BsInstagram, label: "Instagram" },
             { Icon: FaFacebook, label: "Facebook" },
             { Icon: FaLinkedin, label: "LinkedIn" },
           ].map(({ Icon, label }, idx) => (

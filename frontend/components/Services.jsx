@@ -16,7 +16,7 @@ export default function Services() {
           </h1>
           <div className="w-full p-2">
             {/* Description Section */}
-            <p className="text-sm font-normal font-mono text-center p-10 text-wrap">
+            <p className="text-sm font-normal font-mono text-center py-10 text-wrap">
               We turn your ideas into captivating fiction for Webnovels and
               Amazon. Our team crafts stories that hook readers and keep them
               coming back.
