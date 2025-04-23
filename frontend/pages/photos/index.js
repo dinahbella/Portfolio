@@ -234,24 +234,25 @@ export default function PhotoGallery() {
                 <motion.div
                   key={photo._id}
                   variants={itemVariants}
-                  className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-                  whileHover={{ y: -5 }}
+                  className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-all duration-300 max-w-[180px] sm:max-w-[200px] md:max-w-[220px]"
+                  whileHover={{ y: -4 }}
                 >
                   <div className="aspect-[2/3] w-full overflow-hidden">
                     <Image
                       src={photo.images[0] || "/placeholder.jpg"}
                       alt={photo.title || "Book cover"}
-                      width={200}
-                      height={300}
+                      width={220}
+                      height={330}
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
                     <motion.h3
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
-                      className="text-white text-xl font-bold mb-1"
+                      className="text-white text-base font-semibold mb-1"
                     >
                       {photo.title || "Untitled"}
                     </motion.h3>
@@ -259,7 +260,7 @@ export default function PhotoGallery() {
                       initial={{ opacity: 0 }}
                       whileInView={{ opacity: 1 }}
                       transition={{ delay: 0.1 }}
-                      className="text-blue-300 text-sm"
+                      className="text-blue-300 text-xs"
                     >
                       by Inkvision
                     </motion.p>
