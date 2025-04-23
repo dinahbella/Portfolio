@@ -13,14 +13,14 @@ const testimonials = [
   {
     name: "Jane Smith",
     feedback:
-      "A fantastic experience! I’ve gained so many new skills and the support team is always there to help.",
+      "The firm is top-notch! Their writing is engaging, well-researched, and tailored to each client's needs. I've seen firsthand their dedication to delivering exceptional content. Highly recommended!",
     avatar: "https://i.pravatar.cc/100?img=2",
     rating: 4,
   },
   {
-    name: "Alex Johnson",
+    name: "Favour Isaac",
     feedback:
-      "The courses are well structured and very easy to follow. Highly recommend to anyone looking to level up.",
+      "This exceptional firm delivers tailored, well-researched content with creativity and attention to detail. They've helped me secure contracts on various platforms while teaching me valuable writing skills. I'm grateful for our partnership and highly recommend their services.",
     avatar: "https://i.pravatar.cc/100?img=3",
     rating: 5,
   },

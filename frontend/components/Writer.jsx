@@ -23,17 +23,17 @@ export default function Writer() {
     {
       icon: <PenTool className="w-6 h-6" />,
       title: "Creative Freedom",
-      description: "Express your unique voice and style",
+      description: "Express your unique voice and style for diverse clients",
     },
     {
       icon: <Users className="w-6 h-6" />,
-      title: "Growing Audience",
-      description: "Reach thousands of engaged readers",
+      title: "Growing Client Base",
+      description: "Connect with numerous potential clients ",
     },
     {
       icon: <BarChart2 className="w-6 h-6" />,
       title: "Performance Insights",
-      description: "Track your article performance",
+      description: "Track your client satisfaction and project outcomes",
     },
   ];
 
