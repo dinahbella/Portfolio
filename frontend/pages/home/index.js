@@ -16,6 +16,7 @@ import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Strength from "@/components/Strength";
+import Writer from "@/components/Writer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -200,6 +201,7 @@ export default function Home() {
         <Experience />
         <Skills />
         <Strength />
+        <Writer />
         <Testimonials />
         <Footer />
       </div>

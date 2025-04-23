@@ -5,6 +5,7 @@ import React from "react";
 import { FaXTwitter, FaFacebook, FaLinkedin } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { InkisionLogo } from "./Logo";
+import { InkisionLogo1 } from "./Logo2";
 
 export default function Footer() {
   const navLinks = [
@@ -30,7 +31,7 @@ export default function Footer() {
     >
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         {/* Logo */}
-        <InkisionLogo className="dark:text-black" />
+        <InkisionLogo1 />
 
         {/* Navigation */}
         <motion.div
