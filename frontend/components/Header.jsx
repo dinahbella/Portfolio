@@ -6,6 +6,8 @@ import { HiMenuAlt3 } from "react-icons/hi";
 import { ModeToggle } from "./Mode";
 import { useRouter } from "next/router";
 import { Button } from "./ui/button";
+import Image from "next/image";
+
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -44,7 +46,13 @@ export default function Header() {
             href="/home"
             className="text-2xl font-extrabold text-white hover:text-blue-200 transition"
           >
-            <img src="/logo1.svg" alt="logo" className="h-10 w-30 text-white" />
+            <Image
+              src="/logo1.svg"
+              alt="logo"
+              width={30}
+              height={10}
+              className="h-10 w-30 text-white"
+            />
           </Link>
 
           {/* Desktop Navigation */}

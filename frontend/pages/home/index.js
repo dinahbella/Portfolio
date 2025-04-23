@@ -142,7 +142,7 @@ export default function Home() {
               Professional Ghostwriting Team
             </motion.h1>
 
-            <motion.p className="text-base leading-relaxed text-gray-600 dark:text-gray-300">
+            <motion.div className="text-base leading-relaxed text-gray-600 dark:text-gray-300">
               We're a team of experienced writers passionate about bringing your
               stories to life.
               <br />
@@ -165,7 +165,7 @@ export default function Home() {
               Whether you're looking to launch a new series or expand your
               existing catalog, <strong>Inkvision</strong> delivers quality
               content that resonates with online readers.
-            </motion.p>
+            </motion.div>
           </motion.div>
 
           <motion.div
