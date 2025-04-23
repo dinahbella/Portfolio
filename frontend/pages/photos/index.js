@@ -24,7 +24,7 @@ const featuredPhotos = [
   },
   {
     id: 3,
-    src: "/book3.jpg",
+    src: "/book3.png",
     alt: "Landscape photography",
     category: "Fantasy",
   },
