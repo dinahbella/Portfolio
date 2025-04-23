@@ -36,25 +36,25 @@ export default function Experience() {
       id: 1,
       period: "Support Agent",
       institution: "Yamini",
-      degree: "WhatsApp | Facebook",
+      degree: "WhatsApp ",
     },
     {
       id: 2,
       period: "Support Agent",
-      institution: "Jane",
-      degree: "WhatsApp | Facebook",
+      institution: " Jane",
+      degree: "https://wa.me/2349070629472",
     },
     {
       id: 3,
       period: "Support Agent",
       institution: "Heppie",
-      degree: "WhatsApp | Facebook",
+      degree: "WhatsApp ",
     },
     {
       id: 4,
       period: "Support Agent",
       institution: "Tatiana",
-      degree: "WhatsApp | Facebook",
+      degree: "WhatsApp ",
     },
   ];
 
@@ -135,7 +135,18 @@ export default function Experience() {
                     {item.institution}
                   </h1>
                   <p className="text-gray-700 dark:text-gray-300">
-                    {item.degree}
+                    {item.degree.startsWith("http") ? (
+                      <a
+                        href={item.degree}
+                        className="text-blue-600 underline hover:text-blue-800"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {item.degree}
+                      </a>
+                    ) : (
+                      item.degree
+                    )}
                   </p>
                 </div>
               </motion.div>
