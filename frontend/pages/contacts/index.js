@@ -14,6 +14,7 @@ import {
 } from "react-icons/md";
 import { GrLinkedin } from "react-icons/gr";
 import { GiWorld } from "react-icons/gi";
+import { FaFacebookSquare } from "react-icons/fa";
 
 // import { GrLinkedin, GiWorld } from "react-icons/gr";
 import {
@@ -120,26 +121,26 @@ const Contact = () => {
     {
       icon: <FaPhone className="text-blue-500" />,
       Label: "Phone",
-      value: "+1 (555) 123-4567",
-      href: "tel:+15551234567",
+      value: "+27746751812",
+      href: "tel:+27746751812",
     },
     {
       icon: <MdEmail className="text-red-500" />,
       Label: "Email",
-      value: "contact@inkvision.com",
-      href: "mailto:contact@inkvision.com",
+      value: "inkvisionagency@gmail.com",
+      href: "mailto:inkvisionagency@gmail.com",
     },
     {
       icon: <GrLinkedin className="text-blue-600" />,
       Label: "LinkedIn",
       value: "inkvision",
-      href: "https://linkedin.com/company/inkvision",
+      href: "https://www.linkedin.com/in/inkvision-agency-875114356?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
     },
     {
-      icon: <FaXTwitter className="text-black dark:text-white" />,
-      Label: "Twitter",
+      icon: <FaFacebookSquare className="text-black dark:text-white" />,
+      Label: "Facebook",
       value: "@inkvision",
-      href: "https://twitter.com/inkvision",
+      href: "https://www.facebook.com/share/1BQW1gQyQW/",
     },
   ];
 
