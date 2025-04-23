@@ -143,8 +143,8 @@ export default function Home() {
             </motion.h1>
 
             <motion.div className="text-base leading-relaxed text-gray-600 dark:text-gray-300">
-              We're a team of experienced writers passionate about bringing your
-              stories to life.
+              We&apos;re a team of experienced writers passionate about bringing
+              your stories to life.
               <br />
               <br />
               At <strong>Inkvision</strong>, we specialize in creating engaging
@@ -158,11 +158,11 @@ export default function Home() {
               </ul>
               <br />
               Our writers work closely with you to transform your ideas into
-              polished, professional stories that capture readers' attention and
-              keep them coming back for more.
+              polished, professional stories that capture readers&apos;
+              attention and keep them coming back for more.
               <br />
               <br />
-              Whether you're looking to launch a new series or expand your
+              Whether you&apos;re looking to launch a new series or expand your
               existing catalog, <strong>Inkvision</strong> delivers quality
               content that resonates with online readers.
             </motion.div>

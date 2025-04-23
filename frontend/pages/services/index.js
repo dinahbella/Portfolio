@@ -273,8 +273,8 @@ export default function Services() {
               Ready to bring your story to life?
             </h3>
             <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
-              Let's discuss how our ghostwriting team can turn your vision into
-              reality.
+              Let&apos;s discuss how our ghostwriting team can turn your vision
+              into reality.
             </p>
             <Link href={"/contacts"}>
               <motion.button

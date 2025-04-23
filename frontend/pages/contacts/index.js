@@ -169,7 +169,7 @@ const Contact = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-              Let's{" "}
+              Let&apos;s{" "}
               <span className="text-blue-600 dark:text-blue-400">Create</span>{" "}
               Something Amazing
             </motion.h1>
@@ -208,8 +208,8 @@ const Contact = () => {
                 </h2>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
                   Thinking about a new project, a problem to solve, or just want
-                  to connect? We love questions and feedback - and we're always
-                  happy to help.
+                  to connect? We love questions and feedback - and we&apos;re
+                  always happy to help.
                 </p>
 
                 <div className="space-y-4">

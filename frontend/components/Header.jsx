@@ -14,7 +14,7 @@ const InkisionLogo = () => (
     xmlnsXlink="http://www.w3.org/1999/xlink"
     xmlnsXodm="http://www.corel.com/coreldraw/odm/2003"
     xmlSpace="preserve"
-    width="1.32in"
+    width="1.42in"
     height="0.419429in"
     version="1.1"
     style={{

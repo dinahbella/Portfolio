@@ -18,7 +18,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import SideSheet from "@/components/SideBar";
-
+import Image from "next/image";
 export default function AddPhoto({
   _id,
   title: existingTitle,
@@ -193,9 +193,10 @@ export default function AddPhoto({
                           key={index}
                           className="relative aspect-square rounded-md overflow-hidden border group"
                         >
-                          <img
+                          <Image
                             src={link}
                             alt={`Preview ${index + 1}`}
+                            fill
                             className="w-full h-full object-cover"
                           />
                           <button

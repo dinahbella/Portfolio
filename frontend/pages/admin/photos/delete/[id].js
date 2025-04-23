@@ -119,7 +119,7 @@ export default function DeletePhoto() {
               </svg>
               <h2 className="mt-6 text-2xl font-bold ">Are you sure?</h2>
               <p className="mt-4 ">
-                You're about to permanently delete "
+                You&apos;re about to permanently delete "
                 <span className="font-semibold">{PhotoInfo.title}</span>". This
                 action cannot be undone.
               </p>

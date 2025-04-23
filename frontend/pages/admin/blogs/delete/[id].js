@@ -10,6 +10,7 @@ export default function DeleteBlog() {
   const router = useRouter();
   const { id } = router.query;
   const [BlogInfo, setBlogInfo] = useState(null);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -119,7 +120,7 @@ export default function DeleteBlog() {
               </svg>
               <h2 className="mt-6 text-2xl font-bold ">Are you sure?</h2>
               <p className="mt-4 ">
-                You're about to permanently delete "
+                You&apos;re about to permanently delete "
                 <span className="font-semibold">{BlogInfo.title}</span>". This
                 action cannot be undone.
               </p>

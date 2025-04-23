@@ -133,7 +133,7 @@ export default function AdminDashboard() {
               Welcome back, <span className="text-blue-600">Admin</span> 👋
             </h1>
             <p className="text-gray-500 mt-1">
-              Here's what's happening with your content today
+              Here&apos;s what&apos;s happening with your content today
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -162,7 +162,7 @@ export default function AdminDashboard() {
               ? stats.photos.total
               : stats.contacts.total;
 
-          // For demo purposes - in real app you'd compare with previous month's data
+          // For demo purposes - in real app you&apos;d compare with previous month&apos;s data
           const prevMonthValue = Math.max(
             1,
             currentValue - Math.floor(Math.random() * 10)

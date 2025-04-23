@@ -102,11 +102,11 @@ export default function PhotoGallery() {
               className="text-gray-700 dark:text-gray-300 mb-8 text-lg"
               variants={fadeIn}
             >
-              Your book's cover is its most powerful marketing tool. In today's
-              digital marketplace, readers make split-second decisions based on
-              visual appeal alone. At Inkvision, we create eye-catching,
-              genre-appropriate covers designed specifically to attract your
-              target audience.
+              Your book&apos;s cover is its most powerful marketing tool. In
+              today&apos;s digital marketplace, readers make split-second
+              decisions based on visual appeal alone. At Inkvision, we create
+              eye-catching, genre-appropriate covers designed specifically to
+              attract your target audience.
             </motion.p>
             <motion.div
               variants={fadeIn}

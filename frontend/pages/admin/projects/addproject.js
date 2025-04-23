@@ -30,7 +30,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SideSheet from "@/components/SideBar";
 import { toast } from "react-toastify";
-
+import Image from "next/image";
 export default function AddProject({
   _id,
   title: existingTitle = "",
@@ -422,9 +422,10 @@ export default function AddProject({
                           key={index}
                           className="relative aspect-square rounded-lg overflow-hidden border group"
                         >
-                          <img
+                          <Image
                             src={link}
                             alt={`Preview ${index + 1}`}
+                            fill
                             className="w-full h-full object-cover"
                           />
                           <button

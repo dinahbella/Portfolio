@@ -19,7 +19,7 @@ export default function Services() {
             <p className="text-sm font-normal font-mono text-center p-2 text-wrap">
               We transform your ideas into captivating stories ready for
               webnovels and Amazon publishing platforms. Our team excels in
-              creating engaging fiction that readers can't put down. Every
+              creating engaging fiction that readers can&apos;t put down. Every
               project receives our dedicated attention, ensuring quality
               storytelling that captivates your target audience and keeps them
               coming back for more.

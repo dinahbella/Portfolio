@@ -123,12 +123,13 @@ export default function ReferredForm() {
                   Thank you!
                 </h2>
                 <p className="text-gray-600 dark:text-gray-300">
-                  You've been successfully referred by{" "}
+                  You&apos;ve been successfully referred by{" "}
                   <span className="font-semibold text-blue-600 dark:text-blue-400">
                     {referrerCode}
                   </span>
-                  . You'll be redirected shortly.
+                  . You&apos;ll be redirected shortly.
                 </p>
+
                 <div className="pt-4">
                   <div className="h-1 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                     <motion.div
@@ -153,7 +154,7 @@ export default function ReferredForm() {
                   Complete Your Referral
                 </h2>
                 <p className="text-center text-gray-600 dark:text-gray-400 mb-5">
-                  You're being referred by a friend! Please fill in your
+                  You&apos;re being referred by a friend! Please fill in your
                   details.
                 </p>
 

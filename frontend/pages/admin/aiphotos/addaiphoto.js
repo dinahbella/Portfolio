@@ -19,6 +19,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import SideSheet from "@/components/SideBar";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 export default function AddaiPhoto({ id }) {
   const [images, setImages] = useState([]);
@@ -66,7 +67,7 @@ export default function AddaiPhoto({ id }) {
         images,
       };
 
-      // Check if it's an update or a new project
+      // Check if it&apos;s an update or a new project
       if (id) {
         await axios.put("/api/aiphoto", { ...data, id });
         toast.success("Photo updated successfully");
@@ -244,9 +245,10 @@ export default function AddaiPhoto({ id }) {
                           key={index}
                           className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden shadow-md"
                         >
-                          <img
+                          <Image
                             src={link}
                             alt={`uploaded-${index}`}
+                            fill
                             className="w-full h-full object-cover"
                           />
                           <button

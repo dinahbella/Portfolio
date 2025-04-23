@@ -63,6 +63,7 @@
     "react-sortablejs": "^6.1.4",
     "react-toastify": "^11.0.5",
     "recharts": "^2.15.1",
+    "remark-gfm": "^4.0.1",
     "sonner": "^2.0.1",
     "sortablejs": "^1.15.6",
     "swiper": "^11.2.6",
