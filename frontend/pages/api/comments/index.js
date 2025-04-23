@@ -1,6 +1,6 @@
 import connectDB from "@/lib/mongodb";
+import { Blog } from "@/models/Blogs";
 import { Comment } from "@/models/Comment";
-import { Blog } from "@/models/Blog";
 
 export default async function handler(req, res) {
   await connectDB();
