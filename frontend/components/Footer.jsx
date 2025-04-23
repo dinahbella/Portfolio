@@ -89,7 +89,7 @@ export default function Footer() {
 
       {/* Copyright */}
       <div className="text-center text-xs text-gray-400 dark:text-gray-700 mt-8 font-semibold">
-        © {new Date().getFullYear()} YourCompany. All rights reserved.
+        © {new Date().getFullYear()} Inkvision. All rights reserved.
       </div>
     </motion.footer>
   );
