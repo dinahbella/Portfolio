@@ -28,10 +28,7 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <div
-      id="testimonials"
-      className="py-16 px-4 bg-gray-50 dark:bg-gray-900 transition-colors duration-500"
-    >
+    <div id="testimonials" className="py-16 px-4transition-colors duration-500">
       <div className="max-w-6xl mx-auto text-center">
         <h2 className="text-3xl font-bold mb-12 text-gray-900 dark:text-white">
           What Our Users Say

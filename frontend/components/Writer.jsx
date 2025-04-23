@@ -41,7 +41,7 @@ export default function Writer() {
     <section className="relative py-20 px-4 overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden -z-10">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-gray-900/90 dark:to-gray-800/90" />
+        <div className="absolute top-0 left-0 w-full h-full  " />
         <div className="absolute top-0 left-0 w-full h-full opacity-10 dark:opacity-5 bg-[url('/pattern.svg')] bg-repeat" />
       </div>
 
@@ -56,7 +56,7 @@ export default function Writer() {
           {/* Left Content */}
           <motion.div
             variants={itemVariants}
-            className="w-full lg:w-1/2 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg p-8 sm:p-10 rounded-3xl shadow-xl border border-gray-200/70 dark:border-gray-700/50"
+            className="w-full lg:w-1/2 backdrop-blur-lg p-8 sm:p-10 rounded-3xl shadow-xl border border-gray-200/70 dark:border-gray-700/50"
           >
             <motion.div
               variants={itemVariants}
