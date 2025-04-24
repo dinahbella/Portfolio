@@ -6,7 +6,6 @@ import { FaFacebook, FaLinkedin } from "react-icons/fa6";
 import { BsInstagram } from "react-icons/bs";
 
 import { motion } from "framer-motion";
-import { InkisionLogo } from "./Logo";
 import { InkisionLogo1 } from "./Logo2";
 
 export default function Footer() {

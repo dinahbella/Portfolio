@@ -52,9 +52,9 @@ export default function Experience() {
     },
     {
       id: 4,
-      period: "Support Agent",
-      institution: "Twinna",
-      degree: "WhatsApp ",
+      period: "Acquisition Editor",
+      institution: "Avia",
+      degree: "https://wa.me/+2349029079262",
     },
   ];
 
