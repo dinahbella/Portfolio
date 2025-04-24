@@ -3,10 +3,10 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
 import { HiMenuAlt3 } from "react-icons/hi";
-import { ModeToggle } from "./Mode";
 import { useRouter } from "next/router";
 import { Button } from "./ui/button";
 import { InkisionLogo } from "./Logo";
+import { ModeToggle } from "./Mode";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -74,8 +74,7 @@ export default function Header() {
                 Admin
               </Button>
             </Link>
-
-            <ModeToggle className="hidden md:block text-white" />
+            <ModeToggle className="hidden md:inline-block" />
 
             {/* Mobile Menu Button */}
             <button
