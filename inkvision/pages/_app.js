@@ -1,8 +1,8 @@
 import "@/styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import { ThemeProvider } from "../../components/Provider";
-import BackToTopButton from "../../components/Top";
+import BackToTopButton from "@/components/Top";
+import { ThemeProvider } from "@/components/Provider";
 
 export default function App({ Component, pageProps }) {
   return (

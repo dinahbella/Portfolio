@@ -4,17 +4,17 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { GrLinkNext } from "react-icons/gr";
-import Services from "../../../components/Services";
-import Experience from "../../../components/Experience";
-import Skills from "../../../components/Skills";
-import Spinner from "@../../..//components/Spinner";
-import Testimonials from "../../..//components/Testimonials";
-import Footer from "../../..//components/Footer";
-import Header from "../../..//components/Header";
-import Strength from "../../..//components/Strength";
-import Writer from "../../..//components/Writer";
+import Experience from "@/components/Experience";
+import Skills from "@/components/Skills";
+import Spinner from "@/components/Spinner";
+import Testimonials from "@/components/Testimonials";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import Strength from "@/components/Strength";
+import Writer from "@/components/Writer";
 import { Poppins } from "next/font/google";
-import Num from "../../../components/Num";
+import Num from "@/components/Num";
+import Services from "@/components/Services";
 
 const poppins = Poppins({
   variable: "--font-poppins",
