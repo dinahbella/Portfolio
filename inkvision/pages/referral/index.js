@@ -107,7 +107,7 @@ export default function CreateReferrer() {
             className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700"
           >
             {/* Decorative header */}
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-center">
+            <div className="bg-gradient-to-r from-indigo-800 via-teal-700 to-blue-900 p-4 text-center">
               <motion.h1
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -217,7 +217,7 @@ export default function CreateReferrer() {
                   className={`w-full py-3 px-4 rounded-lg font-medium text-white transition-all duration-200 shadow-md ${
                     loading
                       ? "bg-blue-400 cursor-not-allowed"
-                      : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                      : "bg-gradient-to-r from-indigo-800 via-teal-700 to-blue-900 hover:from-blue-700 hover:to-purple-700"
                   }`}
                 >
                   {loading ? (

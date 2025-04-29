@@ -61,7 +61,7 @@ export default function ReferredForm() {
         className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl overflow-hidden w-full max-w-md"
       >
         {/* Decorative header */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-center">
+        <div className="bg-gradient-to-r from-indigo-800 via-teal-700 to-blue-900 p-4 text-center">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
