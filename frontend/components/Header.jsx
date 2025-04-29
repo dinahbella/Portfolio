@@ -74,7 +74,7 @@ export default function Header() {
                 Admin
               </Button>
             </Link>
-            <ModeToggle className="hidden md:inline-block" />
+            {/* <ModeToggle className="hidden md:inline-block" /> */}
 
             {/* Mobile Menu Button */}
             <button
@@ -114,7 +114,6 @@ export default function Header() {
                   Admin
                 </Button>
               </Link>
-              <ModeToggle className="text-white" />
             </div>
           </div>
         )}
