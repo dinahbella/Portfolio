@@ -47,7 +47,7 @@ export default function AddProject({
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = React.useRef(null);
   const [title, setTitle] = useState(existingTitle);
-  const [file, setFile] = useState(existingFile);
+  // const [file, setFile] = useState(existingFile);
   const [slug, setSlug] = useState(existingSlug);
   const [images, setImages] = useState(existingImages);
   const [description, setDescription] = useState(existingDescription);
@@ -69,7 +69,7 @@ export default function AddProject({
           setSlug(data.slug);
           setDescription(data.description);
           setImages(data.images || []);
-          setFile(data.file || "");
+          // setFile(data.file || "");
           setClient(data.client || "");
           setProjectcategory(data.projectcategory || "");
           setTags(data.tags || "");
@@ -93,7 +93,7 @@ export default function AddProject({
         slug,
         description,
         images,
-        file,
+        // file,
         client,
         projectcategory,
         tags,
@@ -135,26 +135,6 @@ export default function AddProject({
       } catch (error) {
         console.error("Upload error:", error);
         toast.error("Failed to upload images");
-      } finally {
-        setIsUploading(false);
-      }
-    }
-  };
-
-  const handleFileUpload = async (ev) => {
-    const file = ev.target?.files?.[0];
-    if (file) {
-      setIsUploading(true);
-      const formData = new FormData();
-      formData.append("file", file);
-
-      try {
-        const { data } = await axios.post("/api/upload2", formData);
-        setFile(data.links[0]?.url || "");
-        toast.success("File uploaded successfully");
-      } catch (error) {
-        console.error("Error uploading file:", error);
-        toast.error("Failed to upload file");
       } finally {
         setIsUploading(false);
       }
@@ -364,47 +344,6 @@ export default function AddProject({
                         {images.length} image{images.length !== 1 ? "s" : ""}{" "}
                         selected
                       </p>
-                    )}
-                  </div>
-
-                  <div className="space-y-3">
-                    <Label>Project File</Label>
-                    <div className="flex items-center gap-3">
-                      <label className="cursor-pointer">
-                        <Button variant="outline" className="gap-2" asChild>
-                          <div>
-                            <FaPlus />
-                            Upload File
-                          </div>
-                        </Button>
-                        <input
-                          type="file"
-                          className="hidden"
-                          onChange={handleFileUpload}
-                        />
-                      </label>
-                      {isUploading && (
-                        <div className="flex items-center gap-2 text-sm text-gray-500">
-                          <Spinner size="sm" />
-                          Uploading...
-                        </div>
-                      )}
-                    </div>
-                    {file && (
-                      <div className="mt-2 p-3 bg-gray-100 rounded-lg">
-                        <p className="text-sm text-gray-700">
-                          Current file:{" "}
-                          <a
-                            href={fileUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline"
-                            download
-                          >
-                            {fileName}
-                          </a>
-                        </p>
-                      </div>
                     )}
                   </div>
                 </div>

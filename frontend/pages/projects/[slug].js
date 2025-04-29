@@ -6,7 +6,6 @@ import React from "react";
 import { Badge } from "@/components/ui/badge";
 import {
   CalendarDays,
-  Download,
   FileText,
   User,
   Layers,
@@ -148,34 +147,6 @@ export default function ProjectSlug() {
                       <FileText className="h-5 w-5 mr-2" />
                       Project Documents
                     </h2>
-
-                    <div className="flex flex-col space-y-4">
-                      <div className="flex items-center justify-between bg-white dark:bg-gray-700/50 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
-                        <div className="flex items-center space-x-3">
-                          <div className="bg-blue-100 dark:bg-blue-900/50 p-2 rounded-lg">
-                            <Download className="h-5 w-5 text-blue-600 dark:text-blue-300" />
-                          </div>
-                          <div>
-                            <p className="text-sm font-medium truncate max-w-[180px]">
-                              {project.file.split("/").pop()}
-                            </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">
-                              PDF Document
-                            </p>
-                          </div>
-                        </div>
-                        <Button asChild size="sm" className="shrink-0">
-                          <a
-                            href={project.file}
-                            download
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            Download
-                          </a>
-                        </Button>
-                      </div>
-                    </div>
                   </div>
                 )}
 
