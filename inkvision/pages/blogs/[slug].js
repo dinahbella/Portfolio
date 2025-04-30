@@ -591,7 +591,7 @@ export default function BlogPage() {
                 variants={slideUp}
                 className="text-xl text-gray-600 dark:text-gray-300 mb-6"
               >
-                <div className="prose dark:prose-invert max-w-none">
+                <div className="prose dark:prose-invert max-w-none text-md">
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     rehypePlugins={[rehypeHighlight]}
