@@ -61,7 +61,7 @@ export default function Testimonials() {
                 ))}
               </div>
               <p className="text-gray-700 dark:text-gray-300 italic mb-4">
-                "{t.feedback}"
+                &quot;{t.feedback}&quot;
               </p>
               <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
                 {t.name}
