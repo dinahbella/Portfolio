@@ -52,23 +52,35 @@ export default function AddBlog({
   const [redirect, setRedirect] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = React.useRef(null);
+  const uploadImageQueue = [];
 
   const handleImageUpload = async (ev) => {
     const files = ev.target?.files;
-    if (files?.length) {
-      setIsUploading(true);
-      const uploads = Array.from(files).map((file) => {
-        const formData = new FormData();
-        formData.append("file", file);
-        return axios
-          .post("/api/upload", formData)
-          .then((res) => res.data.links);
+    if (!files?.length) {
+      toast.error("No files selected");
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      const uploadPromises = Array.from(files).map(async (file) => {
+        const data = new FormData();
+        data.append("file", file);
+        const res = await axios.post("/api/upload", data);
+        return res.data.links;
       });
 
-      const results = await Promise.all(uploads);
-      setImages((prev) => [...prev, ...results.flat()]);
-      setIsUploading(false);
+      const results = await Promise.all(uploadPromises);
+      const allLinks = results.flat();
+
+      setImages((prev) => [...prev, ...allLinks]);
       toast.success("Images uploaded successfully");
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      toast.error("An error occurred during upload");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -82,7 +94,7 @@ export default function AddBlog({
     e.preventDefault();
     setLoading(true);
 
-    const payload = {
+    const data = {
       title,
       slug,
       description,
@@ -94,10 +106,10 @@ export default function AddBlog({
 
     try {
       if (_id) {
-        await axios.put("/api/blogs", { ...payload, _id });
+        await axios.put("/api/blogs", { ...data, _id });
         toast.success("Blog updated successfully");
       } else {
-        await axios.post("/api/blogs", payload);
+        await axios.post("/api/blogs", data);
         toast.success("Blog created successfully");
       }
 
@@ -113,7 +125,11 @@ export default function AddBlog({
     router.push("/admin/blogs");
     return null;
   }
-
+  const handleSlugChange = (ev) => {
+    const inputValue = ev.target.value;
+    const newSlug = inputValue.replace(/\s+/g, "-");
+    setSlug(newSlug);
+  };
   return (
     <>
       <SideSheet />
@@ -169,7 +185,7 @@ export default function AddBlog({
                 <Input
                   id="slug"
                   value={slug}
-                  onChange={(e) => setSlug(e.target.value)}
+                  onChange={handleSlugChange}
                   required
                   placeholder="e.g., my-awesome-blog"
                   className="py-3 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"

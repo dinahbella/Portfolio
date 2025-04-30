@@ -1,87 +1,125 @@
 import connectDB from "@/lib/mongodb";
 import { Photo } from "@/models/Photo";
+import { v2 as cloudinary } from "cloudinary";
 
-export default async function handle(req, res) {
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_KEY,
+  api_secret: process.env.CLOUD_SECRET,
+});
+
+const extractPublicId = (url) => {
+  try {
+    const parts = url.split("/");
+    const fileWithExtension = parts[parts.length - 1];
+    const publicId = fileWithExtension.split(".")[0];
+    const folder = parts[parts.length - 2];
+    return `${folder}/${publicId}`;
+  } catch {
+    return null;
+  }
+};
+
+export default async function handler(req, res) {
   await connectDB();
 
-  const { method } = req;
+  const { method, query, body } = req;
 
   try {
     switch (method) {
-      case "POST": {
-        const { title, slug, images } = req.body;
+      // ========== GET ==========
+      case "GET": {
+        const { id, slug } = query;
 
-        // Validate required fields
+        if (id) {
+          const photo = await Photo.findById(id);
+          if (!photo) {
+            return res.status(404).json({ message: "Photo not found" });
+          }
+          return res.json(photo);
+        }
+
+        if (slug) {
+          const photos = await Photo.find({ slug }).sort({ createdAt: -1 });
+          return res.json(photos);
+        }
+
+        const photos = await Photo.find().sort({ createdAt: -1 });
+        return res.json(photos);
+      }
+
+      // ========== POST ==========
+      case "POST": {
+        const { title, slug, images } = body;
+
         if (!title || !images) {
           return res
             .status(400)
             .json({ error: "Missing required fields: title and images" });
         }
 
-        // Create a new photo
-        const photoDoc = await Photo.create({ title, images });
-        return res.status(201).json(photoDoc);
+        const newPhoto = await Photo.create({ title, slug, images });
+        return res.status(201).json(newPhoto);
       }
 
-      case "GET": {
-        if (req.query?.id) {
-          // Fetch a single photo by ID
-          const photo = await Photo.findById(req.query.id);
-          if (!photo) {
-            return res.status(404).json({ error: "photo not found" });
-          }
-          return res.json(photo);
-        } else {
-          // Fetch all photos, sorted by newest first
-          const photos = await Photo.find().sort({ createdAt: -1 });
-          return res.json(photos);
-        }
-      }
-
+      // ========== PUT ==========
       case "PUT": {
-        const { _id, title, slug, images } = req.body;
+        const { _id, title, slug, images } = body;
 
-        // Validate required fields
-        if (!_id || !title || !images || !slug) {
+        if (!_id || !title || !images) {
           return res
             .status(400)
             .json({ error: "Missing required fields: _id, title, and images" });
         }
 
-        // Update the photo
-        const updatedphoto = await Photo.findByIdAndUpdate(
+        const updatedPhoto = await Photo.findByIdAndUpdate(
           _id,
-          { title, images },
-          { new: true } // Return the updated document
+          { title, slug, images },
+          { new: true }
         );
 
-        if (!updatedphoto) {
-          return res.status(404).json({ error: "photo not found" });
+        if (!updatedPhoto) {
+          return res.status(404).json({ error: "Photo not found" });
         }
 
-        return res.json(updatedphoto);
+        return res.json(updatedPhoto);
       }
 
+      // ========== DELETE ==========
       case "DELETE": {
-        if (req.query?.id) {
-          // Delete the photo
-          const deletedphoto = await Photo.findByIdAndDelete(req.query.id);
-          if (!deletedphoto) {
-            return res.status(404).json({ error: "photo not found" });
-          }
-          return res.json({ success: true });
-        } else {
-          return res.status(400).json({ error: "Missing photo ID" });
+        const { id } = query;
+
+        if (!id) {
+          return res.status(400).json({ error: "Photo ID is required" });
         }
+
+        const photo = await Photo.findById(id);
+        if (!photo) {
+          return res.status(404).json({ error: "Photo not found" });
+        }
+
+        // Delete Cloudinary images
+        for (const imgUrl of photo.images || []) {
+          const publicId = extractPublicId(imgUrl);
+          if (publicId) {
+            await cloudinary.uploader.destroy(publicId);
+          }
+        }
+
+        await photo.deleteOne();
+
+        return res
+          .status(200)
+          .json({ success: true, message: "Photo deleted successfully" });
       }
 
-      default: {
-        // Handle unsupported methods
-        return res.status(405).json({ error: "Method not allowed" });
-      }
+      // ========== METHOD NOT ALLOWED ==========
+      default:
+        res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
+        return res.status(405).json({ error: `Method ${method} not allowed` });
     }
   } catch (error) {
-    console.error("Error in API route:", error);
+    console.error("Photo API Error:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
 }

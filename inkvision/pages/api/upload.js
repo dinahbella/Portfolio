@@ -25,7 +25,7 @@ export default async function handle(req, res) {
   for (const file of files.file) {
     const result = await cloudinary.v2.uploader.upload(file.path, {
       folder: "Inkvision",
-      public_id: `project_${Date.now()}`,
+      public_id: `file${Date.now()}`,
       resource_type: "auto",
     });
     links.push(result.secure_url);
@@ -33,7 +33,8 @@ export default async function handle(req, res) {
 
   return res.status(200).json({ links });
 }
-
 export const config = {
-  api: { bodyParser: false }, // disables Next.js body parser so multiparty works
+  api: {
+    bodyParser: false,
+  },
 };

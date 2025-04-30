@@ -109,6 +109,11 @@ export default function AddProject({
       setLoading(false);
     }
   }
+  const handleSlugChange = (ev) => {
+    const inputValue = ev.target.value;
+    const newSlug = inputValue.replace(/\s+/g, "-");
+    setSlug(newSlug);
+  };
 
   const handleImageUpload = async (ev) => {
     const files = ev.target?.files;
@@ -207,11 +212,7 @@ export default function AddProject({
                     <Input
                       id="slug"
                       value={slug}
-                      onChange={(e) =>
-                        setSlug(
-                          e.target.value.replace(/\s+/g, "-").toLowerCase()
-                        )
-                      }
+                      onChange={handleSlugChange}
                       placeholder="project-slug"
                       required
                     />
