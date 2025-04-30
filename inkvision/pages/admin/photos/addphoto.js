@@ -104,7 +104,7 @@ export default function AddPhoto({
       <SideSheet />
       <div className="ml-16 p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Add Photos</h2>
+          <h2 className="text-2xl font-bold text-blue-600">Add Photos</h2>
           <div className="flex items-center gap-2 text-blue-600">
             <span className="text-sm">Photos</span>
             <span>/</span>
@@ -112,13 +112,28 @@ export default function AddPhoto({
           </div>
         </div>
 
-        <div className="flex justify-center">
-          <Card className="w-full max-w-3xl shadow-lg">
-            <CardHeader className="border-b">
-              <CardTitle className="text-xl">Photo Details</CardTitle>
-              <CardDescription>
-                {_id ? "Update your photo" : "Add new photo details"}
-              </CardDescription>
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 py-10 px-4">
+          <Card className="w-full max-w-4xl shadow-lg">
+            <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-500 text-white py-6 px-8">
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-2xl font-bold">
+                    {_id ? "Edit Photo Post" : "Add New Photo "}
+                  </CardTitle>
+                  <CardDescription className="text-blue-100 mt-2">
+                    {_id
+                      ? "Update your book covers "
+                      : "Fill in the details to publish a new bookcover "}
+                  </CardDescription>
+                </div>
+                <Button
+                  variant="ghost"
+                  className="text-white hover:bg-blue-700/20"
+                  onClick={() => router.push("/admin/photos/allphotos")}
+                >
+                  Back to Photos
+                </Button>
+              </div>
             </CardHeader>
 
             <CardContent className="pt-6">

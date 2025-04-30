@@ -213,7 +213,7 @@ export default function AddBlog({
                     <SelectTrigger className="py-3 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                       <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
-                    <SelectContent className=" shadow-lg rounded-md border border-gray-200">
+                    <SelectContent className="bg-white dark:bg-gray-800 text-black dark:text-white">
                       <SelectItem value="Writing Tips">Writing Tips</SelectItem>
                       <SelectItem value="Book Reviews">Book Reviews</SelectItem>
                       <SelectItem value="Publishing">Publishing</SelectItem>
@@ -232,7 +232,7 @@ export default function AddBlog({
                     <SelectTrigger className="py-3 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
-                    <SelectContent className=" shadow-lg rounded-md border border-gray-200">
+                    <SelectContent className="bg-white dark:bg-gray-800 text-black dark:text-white">
                       <SelectItem value="draft">Draft</SelectItem>
                       <SelectItem value="publish">Publish</SelectItem>
                     </SelectContent>
@@ -249,7 +249,7 @@ export default function AddBlog({
                     <SelectTrigger className="py-3 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                       <SelectValue placeholder="Select tags" />
                     </SelectTrigger>
-                    <SelectContent className="shadow-lg rounded-md border border-gray-200">
+                    <SelectContent className="bg-white dark:bg-gray-800 text-black dark:text-white">
                       <SelectItem value="Writing">Writing</SelectItem>
                       <SelectItem value="ScriptWriting">
                         Script Writing

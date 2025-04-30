@@ -1,6 +1,7 @@
 import connectDB from "@/lib/mongodb";
 import cloudinary from "cloudinary";
 import multiparty from "multiparty";
+
 cloudinary.v2.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_KEY,
@@ -9,25 +10,30 @@ cloudinary.v2.config({
 
 export default async function handle(req, res) {
   await connectDB();
+
   const form = new multiparty.Form();
+
   const { fields, files } = await new Promise((resolve, reject) => {
     form.parse(req, (err, fields, files) => {
       if (err) reject(err);
       resolve({ fields, files });
     });
   });
+
   const links = [];
+
   for (const file of files.file) {
     const result = await cloudinary.v2.uploader.upload(file.path, {
       folder: "Inkvision",
-      public_id: `file_${Date.now()}`,
+      public_id: `project_${Date.now()}`,
       resource_type: "auto",
     });
-    const link = result.secure_url;
-    links.push(link);
+    links.push(result.secure_url);
   }
-  return res.json({ links });
+
+  return res.status(200).json({ links });
 }
+
 export const config = {
-  api: { bodyParser: false },
+  api: { bodyParser: false }, // disables Next.js body parser so multiparty works
 };

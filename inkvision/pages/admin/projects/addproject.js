@@ -20,14 +20,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import Spinner from "@/components/Spinner";
 import { FaTrashAlt, FaPlus } from "react-icons/fa";
 import { ReactSortable } from "react-sortablejs";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import SideSheet from "@/components/SideBar";
 import { toast } from "react-toastify";
 import Image from "next/image";
@@ -63,6 +61,7 @@ export default function AddProject({
       const fetchProject = async () => {
         try {
           const { data } = await axios.get(`/api/projects?id=${_id}`);
+          const imageLinks = response.data.links;
           setTitle(data.title);
           setSlug(data.slug);
           setDescription(data.description);
@@ -89,7 +88,7 @@ export default function AddProject({
         title,
         slug,
         description,
-        images,
+        images: imageLinks,
         client,
         projectcategory,
         tags,
@@ -145,9 +144,6 @@ export default function AddProject({
     setImages(newList);
   };
 
-  const fileUrl = typeof file === "string" ? file : file?.url;
-  const fileName = fileUrl?.split("/").pop();
-
   return (
     <div className="min-h-screen">
       <SideSheet />
@@ -163,17 +159,28 @@ export default function AddProject({
           </div>
         </div>
 
-        <div className="flex justify-center">
+        <div className="min-h-screen border-none bg-gradient-to-br from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 py-10 px-4">
           <Card className="w-full max-w-4xl shadow-lg">
-            <CardHeader className="border-b">
-              <CardTitle className="text-xl">
-                {_id ? "Edit Project Details" : "Project Information"}
-              </CardTitle>
-              <CardDescription>
-                {_id
-                  ? "Update your project details"
-                  : "Fill in the project information"}
-              </CardDescription>
+            <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-500 text-white py-6 px-8">
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-2xl font-bold">
+                    {_id ? "Edit Project Post" : "Create New Project "}
+                  </CardTitle>
+                  <CardDescription className="text-blue-100 mt-2">
+                    {_id
+                      ? "Update your blog project"
+                      : "Fill in the details to publish a new project "}
+                  </CardDescription>
+                </div>
+                <Button
+                  variant="ghost"
+                  className="text-white hover:bg-blue-700/20"
+                  onClick={() => router.push("/admin/projects/allprojects")}
+                >
+                  Back to Projects
+                </Button>
+              </div>
             </CardHeader>
 
             <CardContent className="pt-6">
@@ -255,7 +262,7 @@ export default function AddProject({
                       <SelectTrigger>
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-white dark:bg-gray-800 text-black dark:text-white">
                         <SelectItem value="Writing Tips">
                           Writing Tips
                         </SelectItem>
@@ -278,7 +285,7 @@ export default function AddProject({
                       <SelectTrigger>
                         <SelectValue placeholder="Select tags" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-white dark:bg-gray-800 text-black dark:text-white">
                         <SelectItem value="ScriptWriting">
                           Script Writing
                         </SelectItem>
@@ -299,7 +306,7 @@ export default function AddProject({
                       <SelectTrigger>
                         <SelectValue placeholder="Select status" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-white dark:bg-gray-800 text-black dark:text-white">
                         <SelectItem value="draft">Draft</SelectItem>
                         <SelectItem value="publish">Publish</SelectItem>
                       </SelectContent>
