@@ -328,13 +328,14 @@ export default function AddBlog({
                     Drag to reorder images (first image will be featured)
                   </p>
                   <ReactSortable
-                    list={images}
+                    list={Array.isArray(images) ? images : []}
                     setList={updateImageOrder}
+                    animation={200}
                     className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
                   >
-                    {images.map((link, i) => (
+                    {images.map((link, index) => (
                       <div
-                        key={i}
+                        key={link}
                         className="relative group rounded-lg overflow-hidden border border-gray-200 hover:shadow-md transition-shadow"
                       >
                         <div className="relative w-full aspect-video rounded-lg overflow-hidden">
@@ -349,17 +350,12 @@ export default function AddBlog({
                         <div className="absolute inset-0  group-hover:bg-opacity-20 transition-all duration-200" />
                         <button
                           type="button"
-                          onClick={() => handleDeleteImage(i)}
+                          onClick={() => handleDeleteImage(index)}
                           className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-600"
                           title="Remove image"
                         >
                           <FaTrashAlt size={14} />
                         </button>
-                        {i === 0 && (
-                          <span className="absolute top-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded">
-                            Featured
-                          </span>
-                        )}
                       </div>
                     ))}
                   </ReactSortable>
