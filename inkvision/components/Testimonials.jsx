@@ -6,7 +6,7 @@ const testimonials = [
   {
     name: "John Doe",
     feedback:
-      "This platform has completely changed how I learn. The instructors are amazing and the content is top-notch!",
+      "The firm is exceptional! Their writing is captivating, tailored, and always well-researched. I landed my first exclusive contract thanks to their support and guidance. Their dedication, creativity, and professionalism are unmatched. I'm truly grateful and excited for what's ahead",
     avatar: "https://i.pravatar.cc/100?img=1",
     rating: 5,
   },

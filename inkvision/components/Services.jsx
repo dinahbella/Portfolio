@@ -9,12 +9,12 @@ export default function Services() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.5, ease: "easeIn" }}
-          className="space-y-6"
+          className=""
         >
           <h1 className="text-3xl mt-5 text-center font-bold bg-gradient-to-br  from-blue-500 via-teal-600 to-indigo-800 text-transparent hover:scale-x-115 duration-500 bg-clip-text">
             Our Quality Services{" "}
           </h1>
-          <div className="w-full p-2">
+          <div className="w-full ">
             {/* Description Section */}
             <p className="text-sm font-normal font-mono text-center py-10 text-wrap">
               We turn your ideas into captivating fiction for Webnovels and
@@ -24,7 +24,7 @@ export default function Services() {
           </div>
         </motion.div>
       </div>
-      <div className="mb-4">
+      <div className="">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 20 }}

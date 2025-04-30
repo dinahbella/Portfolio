@@ -14,6 +14,11 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import BlogSearch from "@/components/BlogSearch";
 import useFetchData from "@/hooks/useFetchData";
 import { toast } from "react-toastify";
+import Header from "@/components/Header";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/github-dark.css";
 
 // Animation variants
 const fadeIn = {
@@ -455,6 +460,7 @@ export default function BlogPage() {
           <meta property="og:image" content={blogData.blog.images[0]} />
         )}
       </Head>
+      <Header />
 
       <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20 grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Content - takes 2 columns on lg screens */}
@@ -585,7 +591,14 @@ export default function BlogPage() {
                 variants={slideUp}
                 className="text-xl text-gray-600 dark:text-gray-300 mb-6"
               >
-                {blogData.blog.description}
+                <div className="prose dark:prose-invert max-w-none">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeHighlight]}
+                  >
+                    {blogData.blog.description}
+                  </ReactMarkdown>
+                </div>
               </motion.p>
             </motion.article>
 
@@ -815,9 +828,13 @@ export default function BlogPage() {
 
                   {/* Blog Content */}
                   <div className="flex-1">
-                    <h4 className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                    <h4
+                      className="text-sm font-medium text-gray-900 dark:text-white truncate max-w-xs"
+                      title={blog.title} // optional: show full title on hover
+                    >
                       {blog.title}
                     </h4>
+
                     <p className="text-xs text-gray-500 dark:text-gray-400">
                       {new Date(blog.createdAt).toLocaleDateString("en-US", {
                         month: "long",
@@ -857,11 +874,8 @@ export default function BlogPage() {
                 ).length;
 
                 return (
-                  <Link
+                  <div
                     key={index}
-                    href={`/blogs/category/${category}`
-                      .toLowerCase()
-                      .replace(/\s+/g, "-")}
                     className="flex justify-between items-center px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
                   >
                     <span>{category}</span>
@@ -871,7 +885,7 @@ export default function BlogPage() {
                           .length
                       }{" "}
                     </span>
-                  </Link>
+                  </div>
                 );
               })}
             </div>
