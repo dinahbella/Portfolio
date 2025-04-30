@@ -125,14 +125,6 @@ export default function PhotoGallery() {
                   Featured Cover Designs
                 </Button>
               </Link>{" "}
-              <Link href="/photos/aiBookcover" passHref legacyBehavior>
-                <Button
-                  className="px-8 py-4 text-lg hover:bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800 hover:text-white transition-all duration-300"
-                  variant="outline"
-                >
-                  Ai Cover Designs
-                </Button>
-              </Link>
             </motion.div>
           </motion.div>
 
