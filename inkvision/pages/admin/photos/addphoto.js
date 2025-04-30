@@ -25,6 +25,7 @@ export default function AddPhoto({
   slug: existingSlug,
   images: existingImages,
 }) {
+  const [uploadedFiles, setUploadedFiles] = useState([]); // For file input
   const [title, setTitle] = useState(existingTitle || "");
   const [slug, setSlug] = useState(existingSlug || "");
   const [images, setImages] = useState(existingImages || []);
@@ -70,29 +71,60 @@ export default function AddPhoto({
     const files = ev.target?.files;
     if (files?.length > 0) {
       setIsUploading(true);
+      setUploadedFiles(Array.from(files)); // Store the files
 
       try {
-        const uploadPromises = Array.from(files).map((file) => {
+        const uploadImageQueue = [];
+        const newImages = [];
+
+        for (const file of files) {
           const formData = new FormData();
           formData.append("file", file);
-          return axios.post("/api/upload", formData);
-        });
 
-        const results = await Promise.all(uploadPromises);
-        const newImages = results.flatMap((res) => res.data.links);
+          const uploadPromise = axios
+            .post("/api/upload", formData)
+            .then((res) => {
+              newImages.push(...res.data.links);
+            })
+            .catch((err) => {
+              console.error("Upload failed for file:", file.name, err);
+              toast.error(`Failed to upload ${file.name}`);
+            });
+
+          uploadImageQueue.push(uploadPromise);
+        }
+
+        await Promise.all(uploadImageQueue);
         setImages((prev) => [...prev, ...newImages]);
-        toast.success(`${files.length} image(s) uploaded successfully`);
+        toast.success("Images uploaded successfully");
       } catch (error) {
-        console.error("Upload error:", error);
-        toast.error("Failed to upload images");
+        console.error("Error uploading images:", error);
+        toast.error("Some images failed to upload");
       } finally {
         setIsUploading(false);
       }
+    } else {
+      toast.error("No files selected");
     }
   };
 
   const handleDeleteImage = (index) => {
     setImages((prev) => prev.filter((_, i) => i !== index));
+    setUploadedFiles((prev) => {
+      const newFiles = [...prev];
+      newFiles.splice(index, 1);
+      return newFiles;
+    });
+
+    if (fileInputRef.current) {
+      const dataTransfer = new DataTransfer();
+      uploadedFiles.forEach((file, i) => {
+        if (i !== index) {
+          dataTransfer.items.add(file);
+        }
+      });
+      fileInputRef.current.files = dataTransfer.files;
+    }
   };
 
   const updateImageOrder = (newList) => {
@@ -203,26 +235,28 @@ export default function AddPhoto({
                       setList={updateImageOrder}
                       className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3"
                     >
-                      {images.map((link, index) => (
-                        <div
-                          key={index}
-                          className="relative aspect-square rounded-md overflow-hidden border group"
-                        >
-                          <Image
-                            src={link}
-                            alt={`Preview ${index + 1}`}
-                            fill
-                            className="w-full h-full object-cover"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => handleDeleteImage(index)}
-                            className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      {images.map((link, index) =>
+                        link ? (
+                          <div
+                            key={index}
+                            className="relative aspect-square rounded-lg overflow-hidden border group"
                           >
-                            <FaTrashAlt className="w-3 h-3" />
-                          </button>
-                        </div>
-                      ))}
+                            <Image
+                              src={link}
+                              alt={`Preview ${index + 1}`}
+                              fill
+                              className="w-full h-full object-cover"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteImage(index)}
+                              className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <FaTrashAlt className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ) : null
+                      )}
                     </ReactSortable>
                   </div>
                 )}

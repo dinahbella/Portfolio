@@ -61,7 +61,6 @@ export default function AddProject({
       const fetchProject = async () => {
         try {
           const { data } = await axios.get(`/api/projects?id=${_id}`);
-          const imageLinks = response.data.links;
           setTitle(data.title);
           setSlug(data.slug);
           setDescription(data.description);
@@ -82,13 +81,12 @@ export default function AddProject({
   async function createProject(e) {
     e.preventDefault();
     setLoading(true);
-
     try {
       const data = {
         title,
         slug,
         description,
-        images: imageLinks,
+        images,
         client,
         projectcategory,
         tags,
@@ -102,6 +100,7 @@ export default function AddProject({
         await axios.post("/api/projects", data);
         toast.success("Project created successfully");
       }
+      console.log("Data", data);
       router.push("/admin/projects/allprojects");
     } catch (error) {
       console.error("Error saving project:", error);
@@ -120,13 +119,16 @@ export default function AddProject({
         const uploadPromises = Array.from(files).map((file) => {
           const formData = new FormData();
           formData.append("file", file);
+          console.log(file);
           return axios.post("/api/upload", formData);
         });
 
         const results = await Promise.all(uploadPromises);
         const newImages = results.flatMap((res) => res.data.links);
         setImages((prev) => [...prev, ...newImages]);
+        console.log(files);
         toast.success(`${files.length} image(s) uploaded successfully`);
+        console.log(files);
       } catch (error) {
         console.error("Upload error:", error);
         toast.error("Failed to upload images");
@@ -144,6 +146,9 @@ export default function AddProject({
     setImages(newList);
   };
 
+  // const fileUrl = typeof file === "string" ? file : file?.url;
+  // const fileName = fileUrl?.split("/").pop();
+
   return (
     <div className="min-h-screen">
       <SideSheet />
@@ -159,18 +164,18 @@ export default function AddProject({
           </div>
         </div>
 
-        <div className="min-h-screen border-none bg-gradient-to-br from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 py-10 px-4">
+        <div className="flex justify-center">
           <Card className="w-full max-w-4xl shadow-lg">
             <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-500 text-white py-6 px-8">
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle className="text-2xl font-bold">
-                    {_id ? "Edit Project Post" : "Create New Project "}
+                    {_id ? "Edit Project Post" : "Create New Project Post"}
                   </CardTitle>
                   <CardDescription className="text-blue-100 mt-2">
                     {_id
-                      ? "Update your blog project"
-                      : "Fill in the details to publish a new project "}
+                      ? "Update your blog content and details"
+                      : "Fill in the details to publish a new blog post"}
                   </CardDescription>
                 </div>
                 <Button
