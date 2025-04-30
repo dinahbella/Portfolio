@@ -36,7 +36,6 @@ export default function AddProject({
   title: existingTitle = "",
   slug: existingSlug = "",
   images: existingImages = [],
-  file: existingFile = "",
   description: existingDescription = "",
   client: existingClient = "",
   projectcategory: existingProjectcategory = "",
@@ -47,7 +46,6 @@ export default function AddProject({
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = React.useRef(null);
   const [title, setTitle] = useState(existingTitle);
-  // const [file, setFile] = useState(existingFile);
   const [slug, setSlug] = useState(existingSlug);
   const [images, setImages] = useState(existingImages);
   const [description, setDescription] = useState(existingDescription);
@@ -69,7 +67,6 @@ export default function AddProject({
           setSlug(data.slug);
           setDescription(data.description);
           setImages(data.images || []);
-          // setFile(data.file || "");
           setClient(data.client || "");
           setProjectcategory(data.projectcategory || "");
           setTags(data.tags || "");
@@ -93,7 +90,6 @@ export default function AddProject({
         slug,
         description,
         images,
-        // file,
         client,
         projectcategory,
         tags,

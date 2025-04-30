@@ -191,7 +191,7 @@ export default function SideSheet() {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* <ModeToggle /> */}
+          <ModeToggle />
           <Logout />
         </div>
       </header>
