@@ -1,12 +1,5 @@
 import connectDB from "@/lib/mongodb";
 import Project from "@/models/Projects";
-import { v2 as cloudinary } from "cloudinary";
-
-cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.CLOUD_KEY,
-  api_secret: process.env.CLOUD_SECRET,
-});
 
 export default async function handler(req, res) {
   await connectDB();
@@ -19,18 +12,6 @@ export default async function handler(req, res) {
       .trim()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)+/g, "");
-
-  const extractPublicId = (url) => {
-    try {
-      const parts = url.split("/");
-      const fileWithExtension = parts[parts.length - 1];
-      const publicId = fileWithExtension.split(".")[0]; // remove extension
-      const folder = parts[parts.length - 2]; // optional: assumes you store in folders
-      return `${folder}/${publicId}`;
-    } catch {
-      return null;
-    }
-  };
 
   try {
     switch (method) {

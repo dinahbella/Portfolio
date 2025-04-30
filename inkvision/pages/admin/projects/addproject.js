@@ -114,32 +114,33 @@ export default function AddProject({
     const newSlug = inputValue.replace(/\s+/g, "-");
     setSlug(newSlug);
   };
-
   const handleImageUpload = async (ev) => {
     const files = ev.target?.files;
-    if (files?.length > 0) {
-      setIsUploading(true);
+    if (!files?.length) {
+      toast.error("No files selected");
+      return;
+    }
 
-      try {
-        const uploadPromises = Array.from(files).map((file) => {
-          const formData = new FormData();
-          formData.append("file", file);
-          console.log(file);
-          return axios.post("/api/upload", formData);
-        });
+    setIsUploading(true);
 
-        const results = await Promise.all(uploadPromises);
-        const newImages = results.flatMap((res) => res.data.links);
-        setImages((prev) => [...prev, ...newImages]);
-        console.log(files);
-        toast.success(`${files.length} image(s) uploaded successfully`);
-        console.log(files);
-      } catch (error) {
-        console.error("Upload error:", error);
-        toast.error("Failed to upload images");
-      } finally {
-        setIsUploading(false);
-      }
+    try {
+      const uploadPromises = Array.from(files).map(async (file) => {
+        const data = new FormData();
+        data.append("file", file);
+        const res = await axios.post("/api/upload", data);
+        return res.data.links;
+      });
+
+      const results = await Promise.all(uploadPromises);
+      const allLinks = results.flat();
+
+      setImages((prev) => [...prev, ...allLinks]);
+      toast.success("Images uploaded successfully");
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      toast.error("An error occurred during upload");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -150,10 +151,6 @@ export default function AddProject({
   const updateImageOrder = (newList) => {
     setImages(newList);
   };
-
-  // const fileUrl = typeof file === "string" ? file : file?.url;
-  // const fileName = fileUrl?.split("/").pop();
-
   return (
     <div className="min-h-screen">
       <SideSheet />
@@ -370,11 +367,17 @@ export default function AddProject({
                           key={index}
                           className="relative aspect-square rounded-lg overflow-hidden border group"
                         >
+                          {/* Add unoptimized prop if using external URLs */}
                           <Image
                             src={link}
                             alt={`Preview ${index + 1}`}
                             fill
-                            className="w-full h-full object-cover"
+                            className="object-cover"
+                            unoptimized={true} // Important for Cloudinary URLs
+                            onError={(e) => {
+                              console.error("Image failed to load:", link);
+                              e.currentTarget.src = "/placeholder.jpg";
+                            }}
                           />
                           <button
                             type="button"
