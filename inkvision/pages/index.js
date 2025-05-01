@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/router";
 import { FiUser, FiMail, FiArrowRight } from "react-icons/fi";
 import { FaGift } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function ReferredForm() {
   const router = useRouter();
@@ -44,6 +45,7 @@ export default function ReferredForm() {
         body: JSON.stringify({ ...form, referredBy: referrerCode }),
       });
       if (!res.ok) throw new Error("Submission failed");
+      toast.error("Email has already been referrred");
       setSubmitted(true);
     } catch (err) {
       setError(err.message || "Submission failed. Please try again.");
