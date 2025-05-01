@@ -12,20 +12,20 @@ import Footer from "@/components/Footer";
 const featuredPhotos = [
   {
     id: 1,
-    src: "/book1.jpg",
-    alt: "Creative photography",
+    src: "/book4.jpg",
+    alt: "Fantasy Romance ",
     category: "Fiction",
   },
   {
     id: 2,
     src: "/book2.jpg",
-    alt: "Portrait photography",
+    alt: "Contemporary Romance",
     category: "Biography",
   },
   {
     id: 3,
     src: "/book3.png",
-    alt: "Landscape photography",
+    alt: "Sweet Romance ",
     category: "Fantasy",
   },
 ];

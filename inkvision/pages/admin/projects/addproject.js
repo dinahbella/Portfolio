@@ -261,19 +261,37 @@ export default function AddProject({
                       value={projectcategory}
                       onValueChange={setProjectcategory}
                     >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select category" />
+                      <SelectTrigger className="py-3 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <SelectValue placeholder="Select a category" />
                       </SelectTrigger>
                       <SelectContent className="bg-white dark:bg-gray-800 text-black dark:text-white">
-                        <SelectItem value="Writing Tips">
-                          Writing Tips
+                        <SelectItem value="RomanceSeries">
+                          RomanceSeries
                         </SelectItem>
-                        <SelectItem value="Book Reviews">
-                          Book Reviews
+                        <SelectItem value="RomanceShortStories">
+                          RomanceShortStories
                         </SelectItem>
-                        <SelectItem value="Publishing">Publishing</SelectItem>
-                        <SelectItem value="Writing Prompts">
-                          Writing Prompts
+                        <SelectItem value="RomanceNovellas">
+                          RomanceNovellas
+                        </SelectItem>
+                        <SelectItem value="CharacterDevelopment">
+                          CharacterDevelopment
+                        </SelectItem>
+                        <SelectItem value="PlotDevelopment">
+                          PlotDevelopment
+                        </SelectItem>
+                        <SelectItem value="RomanceEditing">
+                          RomanceEditing
+                        </SelectItem>
+                        <SelectItem value="Revisions">Revisions</SelectItem>
+                        <SelectItem value="BlurbWriting">
+                          BlurbWriting
+                        </SelectItem>
+                        <SelectItem value="SynopsisWriting">
+                          SynopsisWriting
+                        </SelectItem>
+                        <SelectItem value="RomanceBlogPosts">
+                          RomanceBlogPosts
                         </SelectItem>
                       </SelectContent>
                     </Select>
@@ -284,20 +302,84 @@ export default function AddProject({
                   <div className="space-y-3">
                     <Label>Tags</Label>
                     <Select value={tags} onValueChange={setTags}>
-                      <SelectTrigger>
+                      <SelectTrigger className="py-3 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         <SelectValue placeholder="Select tags" />
                       </SelectTrigger>
                       <SelectContent className="bg-white dark:bg-gray-800 text-black dark:text-white">
-                        <SelectItem value="ScriptWriting">
-                          Script Writing
+                        <SelectItem value="ContemporaryRomance">
+                          ContemporaryRomance
                         </SelectItem>
-                        <SelectItem value="GhostWriting">
-                          Ghost Writing
+                        <SelectItem value="HistoricalRomance">
+                          HistoricalRomance
                         </SelectItem>
-                        <SelectItem value="StoryWriting">
-                          Story Writing
+                        <SelectItem value="ParanormalRomance">
+                          ParanormalRomance
                         </SelectItem>
-                        <SelectItem value="Writing">Writing</SelectItem>
+                        <SelectItem value="RegencyRomance">
+                          RegencyRomance
+                        </SelectItem>
+                        <SelectItem value="EroticRomance">
+                          EroticRomance
+                        </SelectItem>
+                        <SelectItem value="StorSweetRomancey">
+                          SweetRomance
+                        </SelectItem>
+                        <SelectItem value="LGBTQRomance">
+                          LGBTQRomance
+                        </SelectItem>
+                        <SelectItem value="WesternRomance">
+                          WesternRomance
+                        </SelectItem>
+                        <SelectItem value="FantasyRomance">
+                          FantasyRomance
+                        </SelectItem>
+                        <SelectItem value="SciFiRomance">
+                          SciFiRomance
+                        </SelectItem>
+                        <SelectItem value="HolidayRomance">
+                          HolidayRomance
+                        </SelectItem>
+                        <SelectItem value="SecondChanceRomance">
+                          SecondChanceRomance
+                        </SelectItem>
+                        <SelectItem value="YoungAdultRomance">
+                          YoungAdultRomance
+                        </SelectItem>
+                        <SelectItem value="SweetClean">SweetClean</SelectItem>
+                        <SelectItem value="Mild">Mild</SelectItem>
+                        <SelectItem value="Steamy">Steamy</SelectItem>
+                        <SelectItem value="Explicit">Explicit</SelectItem>
+                        <SelectItem value="ClosedDoor">ClosedDoor</SelectItem>
+                        <SelectItem value="OpenDoor">OpenDoor</SelectItem>
+                        <SelectItem value="HEA">HEA</SelectItem>
+                        <SelectItem value="SeriesPlanning">
+                          SeriesPlanning
+                        </SelectItem>
+                        <SelectItem value="CharacterProfiles">
+                          CharacterProfiles
+                        </SelectItem>
+                        <SelectItem value="MarketTrendAnalysis">
+                          MarketTrendAnalysis
+                        </SelectItem>
+                        <SelectItem value="TropeExpertise">
+                          TropeExpertise
+                        </SelectItem>
+                        <SelectItem value="PenNameDevelopment">
+                          PenNameDevelopment
+                        </SelectItem>
+                        <SelectItem value="FastTurnaround">
+                          FastTurnaround
+                        </SelectItem>
+                        <SelectItem value="ConfidentialityGuaranteed">
+                          ConfidentialityGuaranteed
+                        </SelectItem>
+                        <SelectItem value="Keywords">Keywords</SelectItem>
+                        <SelectItem value="MultipleRevisions">
+                          MultipleRevisions
+                        </SelectItem>
+                        <SelectItem value="CoverConsultation">
+                          CoverConsultation
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
