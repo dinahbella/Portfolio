@@ -4,17 +4,17 @@ import { Star } from "lucide-react";
 
 const testimonials = [
   {
-    name: "John Doe",
+    name: "Mosope",
     feedback:
       "The firm is exceptional! Their writing is captivating, tailored, and always well-researched. I landed my first exclusive contract thanks to their support and guidance. Their dedication, creativity, and professionalism are unmatched. I'm truly grateful and excited for what's ahead",
-    avatar: "https://i.pravatar.cc/100?img=1",
+    avatar: "/test.jpg",
     rating: 5,
   },
   {
-    name: "Jane Smith",
+    name: "Esther Ekanem",
     feedback:
-      "The firm is top-notch! Their writing is engaging, well-researched, and tailored to each client's needs. I've seen firsthand their dedication to delivering exceptional content. Highly recommended!",
-    avatar: "https://i.pravatar.cc/100?img=2",
+      "I can’t express enough how InkVison has been so impactful and diligent towards the delivery of their services!I wholeheartedly recommend InkVison if you may need ghostwriting service.Thank you, InkVision  ",
+    avatar: "/ester.jpg",
     rating: 4,
   },
   {

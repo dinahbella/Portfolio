@@ -429,36 +429,6 @@ const Contact = () => {
                 </div>
 
                 {/* Budget Range */}
-                <div className="space-y-2 mt-4">
-                  <Label htmlFor="price">Budget Range</Label>
-                  <div className="relative">
-                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none">
-                      <FaMoneyBillWave />
-                    </div>
-                    <Select
-                      value={formData.price}
-                      onValueChange={(value) =>
-                        handleChange({ target: { name: "price", value } })
-                      }
-                    >
-                      <SelectTrigger className="w-full pl-10">
-                        <SelectValue placeholder="Select budget range" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="$500 - $1,000">
-                          $500 - $1,000
-                        </SelectItem>
-                        <SelectItem value="$1,000 - $5,000">
-                          $1,000 - $5,000
-                        </SelectItem>
-                        <SelectItem value="$5,000 - $10,000">
-                          $5,000 - $10,000
-                        </SelectItem>
-                        <SelectItem value="$10,000+">$10,000+</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
 
                 <div>
                   <Label
