@@ -111,7 +111,11 @@ export default function PhotoGallery() {
               today&apos;s digital marketplace, readers make split-second
               decisions based on visual appeal alone. At Inkvision, we create
               eye-catching, genre-appropriate covers designed specifically to
-              attract your target audience.
+              attract your target audience. We offer both traditionally designed
+              and AI-generated covers, all crafted to professional standards.
+              While reader preferences vary, both approaches deliver excellent
+              results across genres. Every cover we create is designed with one
+              goal: helping your book stand out and sell.
             </motion.p>
             <motion.div
               variants={fadeIn}
