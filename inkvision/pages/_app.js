@@ -13,10 +13,6 @@ export default function App({ Component, pageProps }) {
       disableTransitionOnChange
     >
       <div className="flex flex-col min-h-screen">
-        <div className="flex flex-col bg-purple-700 text-white text-center py-4">
-          Close Your eyes. This website is still under construction. Please
-          check back later.
-        </div>
         <main className="flex-grow">
           <ToastContainer
             position="top-right"
@@ -34,10 +30,6 @@ export default function App({ Component, pageProps }) {
         </main>
 
         <BackToTopButton />
-        <div className="flex flex-col bg-purple-700 text-white text-center py-4">
-          Close Your eyes. This website is still under construction. Please
-          check back later.
-        </div>
       </div>
     </ThemeProvider>
   );
