@@ -285,7 +285,8 @@ export default function AddBlog({
                     <SelectTrigger className="py-3 px-4 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                       <SelectValue placeholder="Select tags" />
                     </SelectTrigger>
-                    <SelectContent className="bg-white dark:bg-gray-800 text-black dark:text-white">
+
+                    <SelectContent className="bg-white dark:bg-gray-800 text-black dark:text-white max-h-60 overflow-y-auto">
                       <SelectItem value="ContemporaryRomance">
                         ContemporaryRomance
                       </SelectItem>
@@ -301,9 +302,7 @@ export default function AddBlog({
                       <SelectItem value="EroticRomance">
                         EroticRomance
                       </SelectItem>
-                      <SelectItem value="StorSweetRomancey">
-                        SweetRomance
-                      </SelectItem>
+                      <SelectItem value="SweetRomance">SweetRomance</SelectItem>
                       <SelectItem value="LGBTQRomance">LGBTQRomance</SelectItem>
                       <SelectItem value="WesternRomance">
                         WesternRomance
