@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <link rel="icon" href="/logo1.svg" type="image/png" />
+        <link rel="icon" href="/Inkvision2.svg" type="image/png" />
       </Head>
       <body className="antialiased">
         <Main />
