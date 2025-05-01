@@ -11,11 +11,11 @@ import { InkisionLogo1 } from "./Logo2";
 export default function Footer() {
   const navLinks = [
     { href: "/services", label: "Services" },
-    { href: "#works", label: "Works" },
-    { href: "/resume", label: "Resume" },
+    { href: "/projects", label: "Works" },
+    // { href: "/resume", label: "Resume" },
     { href: "#testimonials", label: "Testimonials" },
     { href: "#skills", label: "Skills" },
-    { href: "/contact", label: "Contact" },
+    { href: "/contacts", label: "Contact" },
   ];
 
   const linkVariants = {
@@ -49,7 +49,7 @@ export default function Footer() {
             <motion.div key={item.href} variants={linkVariants}>
               <Link
                 href={item.href}
-                className="relative text-gray-300 dark:text-gray-800 hover:text-blue-500 transition-all duration-300 before:absolute before:bottom-0 before:left-0 before:h-[2px] before:w-0 before:bg-blue-500 before:transition-all hover:before:w-full"
+                className="relative text-md text-gray-300 dark:text-gray-800 hover:text-blue-500 transition-all duration-300 before:absolute before:bottom-0 before:left-0 before:h-[2px] before:w-0 before:bg-blue-500 before:transition-all hover:before:w-full"
               >
                 {item.label}
               </Link>
