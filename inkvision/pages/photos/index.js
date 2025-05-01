@@ -12,7 +12,7 @@ import Footer from "@/components/Footer";
 const featuredPhotos = [
   {
     id: 1,
-    src: "/book4.jpg",
+    src: "/book.jpg",
     alt: "Fantasy Romance ",
     category: "Fiction",
   },
