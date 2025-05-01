@@ -143,7 +143,6 @@ export default function AddProject({
       setIsUploading(false);
     }
   };
-
   const handleDeleteImage = (index) => {
     setImages((prev) => prev.filter((_, i) => i !== index));
   };
@@ -355,43 +354,47 @@ export default function AddProject({
                 </div>
 
                 {images.length > 0 && (
-                  <div className="space-y-3">
-                    <Label>Image Preview (Drag to reorder)</Label>
+                  <div className="space-y-2">
+                    <Label className="text-gray-700 font-medium">
+                      Image Gallery
+                    </Label>
+                    <p className="text-sm text-gray-500 mb-3">
+                      Drag to reorder images (first image will be featured)
+                    </p>
                     <ReactSortable
-                      list={images}
+                      list={Array.isArray(images) ? images : []}
                       setList={updateImageOrder}
-                      className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"
+                      animation={200}
+                      className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
                     >
                       {images.map((link, index) => (
                         <div
-                          key={index}
-                          className="relative aspect-square rounded-lg overflow-hidden border group"
+                          key={link}
+                          className="relative group rounded-lg overflow-hidden border border-gray-200 hover:shadow-md transition-shadow"
                         >
-                          {/* Add unoptimized prop if using external URLs */}
-                          <Image
-                            src={link}
-                            alt={`Preview ${index + 1}`}
-                            fill
-                            className="object-cover"
-                            unoptimized={true} // Important for Cloudinary URLs
-                            onError={(e) => {
-                              console.error("Image failed to load:", link);
-                              e.currentTarget.src = "/placeholder.jpg";
-                            }}
-                          />
+                          <div className="relative w-full aspect-video rounded-lg overflow-hidden">
+                            <Image
+                              src={link}
+                              alt="preview"
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 768px) 100vw, 33vw"
+                            />
+                          </div>
+                          <div className="absolute inset-0  group-hover:bg-opacity-20 transition-all duration-200" />
                           <button
                             type="button"
                             onClick={() => handleDeleteImage(index)}
-                            className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-600"
+                            title="Remove image"
                           >
-                            <FaTrashAlt className="w-3 h-3" />
+                            <FaTrashAlt size={14} />
                           </button>
                         </div>
                       ))}
                     </ReactSortable>
                   </div>
                 )}
-
                 <div className="pt-4">
                   <Button
                     type="submit"
