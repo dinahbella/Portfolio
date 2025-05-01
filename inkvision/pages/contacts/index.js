@@ -144,9 +144,7 @@ const Contact = () => {
       href: "https://www.facebook.com/share/1BQW1gQyQW/",
     },
     {
-      icon: (
-        <BsInstagram className="text-transparent bg-clip-text bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600" />
-      ),
+      icon: <BsInstagram className="text-blue-600" />,
       Label: "Instagram",
       value: "@inkvision",
       href: "https://www.instagram.com/ink.vision09?igsh=ZGUzMzM3NWJiOQ==",
