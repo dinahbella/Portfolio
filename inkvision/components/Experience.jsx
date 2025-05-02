@@ -47,8 +47,8 @@ export default function Experience() {
     {
       id: 3,
       period: "Acquisition Editor",
-      institution: "Heppie",
-      degree: "https://wa.link/bzzgxz",
+      institution: "Twinna",
+      degree: "https://wa.me/2349042712835",
     },
     {
       id: 4,
