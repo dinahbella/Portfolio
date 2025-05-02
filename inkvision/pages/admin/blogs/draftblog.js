@@ -147,7 +147,7 @@ export default function DraftblogsGallery() {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
-                            <Link href={`/blogs/edit/${blog._id}`}>
+                            <Link href={`/admin/blogs/edit/${blog._id}`}>
                               <Button
                                 size="sm"
                                 className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white"
@@ -162,7 +162,7 @@ export default function DraftblogsGallery() {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
-                            <Link href={`/blogs/delete/${blog._id}`}>
+                            <Link href={`/admin/blogs/delete/${blog._id}`}>
                               <Button
                                 size="sm"
                                 variant="destructive"

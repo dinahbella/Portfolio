@@ -147,7 +147,7 @@ export default function DraftProjectsGallery() {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
-                            <Link href={`/projects/edit/${project._id}`}>
+                            <Link href={`/admin/projects/edit/${project._id}`}>
                               <Button
                                 size="sm"
                                 className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white"
@@ -162,7 +162,9 @@ export default function DraftProjectsGallery() {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
-                            <Link href={`/projects/delete/${project._id}`}>
+                            <Link
+                              href={`/admin/projects/delete/${project._id}`}
+                            >
                               <Button
                                 size="sm"
                                 variant="destructive"
