@@ -1,9 +1,16 @@
 import connectDB from "@/lib/mongodb";
 import Project from "@/models/Projects";
+import { v2 as cloudinary } from "cloudinary";
+
+// Cloudinary config (make sure your env variables are set)
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_KEY,
+  api_secret: process.env.CLOUD_SECRET,
+});
 
 export default async function handler(req, res) {
   await connectDB();
-
   const { method, query, body } = req;
 
   const generateSlug = (str) =>
@@ -13,11 +20,23 @@ export default async function handler(req, res) {
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)+/g, "");
 
+  const extractPublicId = (url) => {
+    if (!url || typeof url !== "string") return null;
+    try {
+      const parts = url.split("/");
+      const fileWithExt = parts.pop();
+      const folder = parts.pop();
+      return `${folder}/${fileWithExt.split(".")[0]}`;
+    } catch {
+      return null;
+    }
+  };
+
   try {
     switch (method) {
-      // ====== GET ======
+      // === GET ===
       case "GET": {
-        if (query?.id) {
+        if (query.id) {
           const project = await Project.findById(query.id);
           if (!project)
             return res.status(404).json({ error: "Project not found" });
@@ -28,7 +47,7 @@ export default async function handler(req, res) {
         return res.status(200).json(projects);
       }
 
-      // ====== POST ======
+      // === POST ===
       case "POST": {
         const {
           title,
@@ -41,7 +60,7 @@ export default async function handler(req, res) {
           status = "draft",
         } = body;
 
-        if (!title || !description || !projectcategory) {
+        if (!title || !description || projectcategory.length === 0) {
           return res
             .status(400)
             .json({ error: "Title, description, and category are required" });
@@ -63,7 +82,7 @@ export default async function handler(req, res) {
         return res.status(201).json(newProject);
       }
 
-      // ====== PUT ======
+      // === PUT ===
       case "PUT": {
         const {
           _id,
@@ -77,11 +96,12 @@ export default async function handler(req, res) {
           status = "draft",
         } = body;
 
-        if (!_id || !title || !description || !projectcategory) {
+        if (!_id || !title || !description || projectcategory.length === 0) {
           return res
             .status(400)
             .json({ error: "Missing required fields for update" });
         }
+
         const updated = await Project.findByIdAndUpdate(
           _id,
           {
@@ -106,8 +126,7 @@ export default async function handler(req, res) {
         return res.status(200).json(updated);
       }
 
-      // ====== DELETE (with Cloudinary cleanup) ======
-
+      // === DELETE ===
       case "DELETE": {
         const { id } = query;
 
@@ -116,51 +135,43 @@ export default async function handler(req, res) {
         }
 
         const project = await Project.findById(id);
-        if (!project) {
+        if (!project)
           return res.status(404).json({ error: "Project not found" });
-        }
 
+        // Cleanup images
         try {
-          // Delete images from Cloudinary
           if (Array.isArray(project.images)) {
             for (const url of project.images) {
-              const publicId = extractPublicId(url); // Make sure this is defined
-              if (publicId) {
-                await cloudinary.uploader.destroy(publicId);
-              }
+              const publicId = extractPublicId(url);
+              if (publicId) await cloudinary.uploader.destroy(publicId);
             }
           }
 
-          // Optional file delete
           if (project.file) {
             const publicId = extractPublicId(project.file);
-            if (publicId) {
-              await cloudinary.uploader.destroy(publicId);
-            }
+            if (publicId) await cloudinary.uploader.destroy(publicId);
           }
-
-          await project.deleteOne();
-
-          return res
-            .status(200)
-            .json({ success: true, message: "Project deleted successfully" });
-        } catch (error) {
-          console.error("Delete error:", error);
-          return res.status(500).json({
-            error: "Failed to delete project",
-            details:
-              process.env.NODE_ENV === "development"
-                ? error.message
-                : undefined,
-          });
+        } catch (err) {
+          console.warn("Image cleanup failed:", err.message);
         }
+
+        await project.deleteOne();
+        return res
+          .status(200)
+          .json({ success: true, message: "Project deleted successfully" });
       }
+
+      // === Method Not Allowed ===
       default:
         res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
         return res.status(405).json({ error: `Method ${method} not allowed` });
     }
   } catch (error) {
-    console.error("Photo API Error:", error);
-    return res.status(500).json({ error: "Internal server error" });
+    console.error("API Error:", error);
+    return res.status(500).json({
+      error: "Internal server error",
+      details:
+        process.env.NODE_ENV === "development" ? error.message : undefined,
+    });
   }
 }
