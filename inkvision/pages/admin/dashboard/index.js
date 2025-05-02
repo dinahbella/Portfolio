@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { Sparkline } from "@/components/Spark";
 import { FiTrendingDown } from "react-icons/fi";
 import SideSheet from "@/components/SideBar";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -280,9 +281,11 @@ export default function AdminDashboard() {
         <div className=" p-6 rounded-2xl shadow-sm border ">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold ">Recent Blog Posts</h2>
-            <button className="text-sm text-blue-600 hover:text-blue-800 transition-colors">
-              View All →
-            </button>
+            <Link href="/admin/blogs">
+              <button className="text-sm text-blue-600 hover:text-blue-800 transition-colors">
+                View All →
+              </button>
+            </Link>
           </div>
           <TableDe items={stats.blogs.recent} type="Blog" />
         </div>
@@ -290,9 +293,11 @@ export default function AdminDashboard() {
         <div className=" p-6 rounded-2xl shadow-sm border ">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold ">Active Projects</h2>
-            <button className="text-sm text-blue-600 hover:text-blue-800 transition-colors">
-              View All →
-            </button>
+            <Link href="/admin/projects/allprojects">
+              <button className="text-sm text-blue-600 hover:text-blue-800 transition-colors">
+                View All →
+              </button>
+            </Link>
           </div>
           <TableDe items={stats.projects.recent} type="Project" />
         </div>
