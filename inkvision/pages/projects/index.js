@@ -257,8 +257,8 @@ export default function Blogs() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
                 >
-                  <Link
-                    href={`/projects/category/${tag}`}
+                  <p
+                    q1q
                     className={`px-4 py-2 rounded-full ${
                       tagColors[index % tagColors.length]
                     } hover:shadow-md transition-all text-sm font-medium flex items-center gap-1`}
@@ -267,7 +267,7 @@ export default function Blogs() {
                     <span className="text-xs opacity-80">
                       ({tagCounts[tag]})
                     </span>
-                  </Link>
+                  </p>
                 </motion.div>
               ))}
             </div>
