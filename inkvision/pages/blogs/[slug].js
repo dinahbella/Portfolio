@@ -587,19 +587,14 @@ export default function BlogPage() {
                 {blogData.blog.title}
               </motion.h1>
 
-              <motion.p
-                variants={slideUp}
-                className="text-xl text-gray-600 dark:text-gray-300 mb-6"
-              >
-                <div className="prose dark:prose-invert max-w-none text-md">
-                  <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    rehypePlugins={[rehypeHighlight]}
-                  >
-                    {blogData.blog.description}
-                  </ReactMarkdown>
-                </div>
-              </motion.p>
+              <div className="prose dark:prose-invert max-w-none">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeHighlight]}
+                >
+                  {blogData.blog.description || "*No content available.*"}
+                </ReactMarkdown>
+              </div>
             </motion.article>
 
             {/* Blog Content */}

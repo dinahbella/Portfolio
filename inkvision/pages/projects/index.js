@@ -38,7 +38,7 @@ const tagColors = [
   "bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-100",
 ];
 
-export default function Blogs() {
+export default function Projects() {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(9); // Changed to 9 for 3x3 grid
   const { alldata = [], loading } = useFetchData("/api/projects");
