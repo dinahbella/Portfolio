@@ -217,7 +217,7 @@ export default function ProjectSlug() {
                 {project.tags.map((tag, idx) => (
                   <Link
                     key={idx}
-                    href={`/project/tag/${tag
+                    href={`/projects/tag/${tag
                       .toLowerCase()
                       .replace(/\s+/g, "-")}`}
                     className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900 rounded-full text-blue-800 dark:text-blue-100"
