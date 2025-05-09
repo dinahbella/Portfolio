@@ -215,15 +215,12 @@ export default function ProjectSlug() {
               </h2>
               <div className="flex flex-wrap gap-2">
                 {project.tags.map((tag, idx) => (
-                  <Link
+                  <p
                     key={idx}
-                    href={`/projects/tag/${tag
-                      .toLowerCase()
-                      .replace(/\s+/g, "-")}`}
                     className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900 rounded-full text-blue-800 dark:text-blue-100"
                   >
                     #{tag}
-                  </Link>
+                  </p>
                 ))}
               </div>
             </section>
