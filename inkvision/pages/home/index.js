@@ -110,10 +110,10 @@ export default function Home() {
       <Header />
 
       <Head>
-        <title>Inkvision— Professional Ghostwriting Team</title>
+        <title>Inkvision—Professional Ghostwriting Team</title>
         <meta
           name="description"
-          content="Portfolio of Shella Tams, a dark, mysterious, and immersive storyteller."
+          content="Discover Inkvision, a premier ghostwriting company, crafting immersive, powerful narratives for authors, brands, and visionaries who seek to captivate with words."
         />
       </Head>
 
