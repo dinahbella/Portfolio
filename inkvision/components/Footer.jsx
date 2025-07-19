@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import React from "react";
-import { FaFacebook, FaLinkedin } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
+import { FaFacebook, FaLinkedin, FaArrowRight } from "react-icons/fa6";
 import { BsInstagram } from "react-icons/bs";
-
 import { motion } from "framer-motion";
 import { InkisionLogo1 } from "./Logo2";
 
 export default function Footer() {
+  const router = useRouter();
+
   const navLinks = [
     { href: "/services", label: "Services" },
     { href: "/projects", label: "Works" },
@@ -34,16 +36,12 @@ export default function Footer() {
         {/* Logo */}
         <InkisionLogo1 />
 
-        {/* Navigation */}
+        {/* Navigation Links */}
         <motion.div
           className="flex flex-wrap justify-center gap-5 text-sm font-medium"
           initial="hidden"
           animate="visible"
-          variants={{
-            visible: {
-              transition: { staggerChildren: 0.05 },
-            },
-          }}
+          variants={{ visible: { transition: { staggerChildren: 0.05 } } }}
         >
           {navLinks.map((item) => (
             <motion.div key={item.href} variants={linkVariants}>
@@ -57,7 +55,15 @@ export default function Footer() {
           ))}
         </motion.div>
 
-        {/* Social Media */}
+        {/* Contact Shortcut Button */}
+        <button
+          onClick={() => router.push("/contacts")}
+          className="p-2 rounded-full bg-white dark:bg-gray-800 shadow-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+        >
+          <FaArrowRight />
+        </button>
+
+        {/* Social Media Links */}
         <motion.ul
           className="flex gap-5"
           initial={{ opacity: 0, x: 20 }}
