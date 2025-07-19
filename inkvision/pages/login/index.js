@@ -93,13 +93,13 @@ export default function Login() {
                 onChange={handleInputChange}
                 placeholder="Enter your username"
                 required
-                className="bg-gray-200 text-white"
+                className="bg-gray-200 text-black"
                 autoComplete="username"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-black">
+              <Label htmlFor="password" className="text-white">
                 Password
               </Label>
               <div className="relative">
