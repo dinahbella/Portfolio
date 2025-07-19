@@ -29,12 +29,6 @@ export default function Experience() {
       company: "Inkvision",
       role: "We have a history of successful publications and reader engagement.",
     },
-    {
-      id: 5,
-      period: "Language  Versatility",
-      company: "Multiple Languages",
-      role: "Our writers are fluent in Filipino, Hindi, Spanish, and French to serve diverse reader communities.",
-    },
   ];
 
   const assistanceItems = [
@@ -49,12 +43,6 @@ export default function Experience() {
       period: "Support Agent",
       institution: " Jane",
       degree: "https://wa.me/2349070629472",
-    },
-    {
-      id: 3,
-      period: "Acquisition Editor",
-      institution: "Twinna",
-      degree: "https://wa.me/2349042712835",
     },
     {
       id: 4,
