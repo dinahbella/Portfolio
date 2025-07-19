@@ -55,17 +55,6 @@ export default function Footer() {
           ))}
         </motion.div>
 
-        {/* Contact Button (Mobile Only) */}
-        <motion.button
-          onClick={() => router.push("/contacts")}
-          className="p-2 rounded-full bg-white dark:bg-gray-800 shadow-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors md:hidden"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          aria-label="Go to Contact Page"
-        >
-          <FaArrowRight />
-        </motion.button>
-
         {/* Social Media Links */}
         <motion.ul
           className="flex gap-5"
