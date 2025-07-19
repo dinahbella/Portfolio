@@ -93,13 +93,13 @@ export default function Login() {
                 onChange={handleInputChange}
                 placeholder="Enter your username"
                 required
-                className="bg-gray-800 text-white"
+                className="bg-gray-200 text-white"
                 autoComplete="username"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-white">
+              <Label htmlFor="password" className="text-black">
                 Password
               </Label>
               <div className="relative">
@@ -110,7 +110,7 @@ export default function Login() {
                   onChange={handleInputChange}
                   placeholder="••••••••"
                   required
-                  className="bg-gray-800 pr-10 w-full text-white"
+                  className="bg-gray-200 pr-10 w-full text-black"
                   autoComplete="current-password"
                 />
                 <button
