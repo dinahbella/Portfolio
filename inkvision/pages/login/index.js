@@ -71,7 +71,7 @@ export default function Login() {
 
   return (
     <div className="flex justify-center items-center min-h-screen px-4 bg-blue-50 dark:bg-gray-900">
-      <Card className="w-full max-w-md shadow-lg rounded-lg">
+      <Card className="w-full max-w-md shadow-lg rounded-lg border-4 p-1 bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800">
         <CardHeader>
           <CardTitle className="text-center text-2xl font-semibold">
             Admin Login
