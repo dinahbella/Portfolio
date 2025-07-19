@@ -76,7 +76,7 @@ export default function Login() {
           <CardTitle className="text-center text-2xl text-white font-semibold">
             Admin Login
           </CardTitle>
-          <CardDescription className="text-center">
+          <CardDescription className="text-center text-white">
             Enter your credentials to access the admin panel
           </CardDescription>
         </CardHeader>
