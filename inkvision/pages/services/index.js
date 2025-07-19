@@ -13,7 +13,7 @@ import { BsGraphUp, BsChatSquareQuote } from "react-icons/bs";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-
+import { useRouter } from "next/router";
 const services = [
   {
     id: 1,
@@ -114,6 +114,7 @@ const services = [
 ];
 
 export default function Services() {
+  const router = useRouter();
   return (
     <>
       <Header />
@@ -252,7 +253,10 @@ export default function Services() {
                       <FaQuoteLeft className="text-gray-300 dark:text-gray-600 mr-2 mt-1 flex-shrink-0" />
                       {service.description}
                     </p>
-                    <button className="p-2 rounded-full bg-white dark:bg-gray-800 shadow-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    <button
+                      onClick={() => router.push("/contacts")}
+                      className="p-2 rounded-full bg-white dark:bg-gray-800 shadow-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    >
                       <FaArrowRight />
                     </button>
                   </div>
