@@ -73,7 +73,7 @@ export default function Login() {
     <div className="flex justify-center items-center min-h-screen px-4 bg-gradient-to-br from-blue-500 via-teal-600 to-indigo-800">
       <Card className="w-full max-w-md shadow-lg rounded-lg">
         <CardHeader>
-          <CardTitle className="text-center text-2xl font-semibold">
+          <CardTitle className="text-center text-2xl text-white font-semibold">
             Admin Login
           </CardTitle>
           <CardDescription className="text-center">
@@ -91,7 +91,7 @@ export default function Login() {
                 onChange={handleInputChange}
                 placeholder="Enter your username"
                 required
-                className="dark:bg-gray-800"
+                className="bg-gray-800 text-white"
                 autoComplete="username"
               />
             </div>
@@ -106,7 +106,7 @@ export default function Login() {
                   onChange={handleInputChange}
                   placeholder="••••••••"
                   required
-                  className="dark:bg-gray-800 pr-10 w-full"
+                  className="bg-gray-800 pr-10 w-full text-white"
                   autoComplete="current-password"
                 />
                 <button
@@ -126,7 +126,7 @@ export default function Login() {
 
             <Button
               type="submit"
-              className="w-full mt-6 bg-blue-600 hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-500"
+              className="w-full text-white mt-6 bg-blue-600 hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-500"
               disabled={isLoading}
             >
               {isLoading ? (
